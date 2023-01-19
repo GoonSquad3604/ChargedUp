@@ -20,7 +20,8 @@ import frc.robot.utilities.swerve.SwerveUtils.Conversions;
 /** Add your docs here. */
 public class GoonSwerveModule {
 
-    public int moduleNumber;
+    public int moduleNum;
+    public String name; // example: frontleft
     private Rotation2d angleOffset;
     private Rotation2d lastAngle;
 
@@ -30,8 +31,9 @@ public class GoonSwerveModule {
 
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
-    public GoonSwerveModule(SwerveModuleConstants swerveModuleConstants){
-
+    public GoonSwerveModule(int modNum, String moduleName, SwerveModuleConstants swerveModuleConstants){
+        moduleNum = modNum;
+        name = moduleName;
         angleOffset = swerveModuleConstants.angleOffset;
         angleEncoder = new WPI_CANCoder(swerveModuleConstants.cancoderID);
         driveMotor = new WPI_TalonFX(swerveModuleConstants.driveMotorID);
