@@ -33,14 +33,13 @@ public class SwerveDrive extends SubsystemBase {
     m_Pigeon.configFactoryDefault();
     zeroGyro();
 
-    swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
-
     swerveMods = new GoonSwerveModule[] {
       new GoonSwerveModule(0, "FrontLeft", Constants.Swerve.FrontLeft.constants),
       new GoonSwerveModule(1, "FrontRight", Constants.Swerve.FrontRight.constants),
       new GoonSwerveModule(2, "BackLeft", Constants.Swerve.BackLeft.constants),
       new GoonSwerveModule(3, "BackRight", Constants.Swerve.BackRight.constants)
     };
+    swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
 
   }
 
@@ -120,8 +119,8 @@ public void setModuleStates(SwerveModuleState[] desiredStates) {
 
   @Override
   public void periodic() {
-    // for(GoonSwerveModule mod : swerveMods){
-    //   SmartDashboard.putNumber(mod.name + " Angle", 0)
-    // }
+    for(GoonSwerveModule mod : swerveMods){
+      SmartDashboard.putNumber(mod.name + " Angle", mod.getState().angle.getDegrees());
+    }
   }
 }

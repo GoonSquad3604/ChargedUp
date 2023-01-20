@@ -113,7 +113,7 @@ public final class Falcon500SteerControllerFactoryBuilder {
                 motorConfiguration.supplyCurrLimit.enable = true;
             }
 
-            TalonFX motor = new TalonFX(steerConfiguration.getMotorPort());
+            TalonFX motor = new TalonFX(steerConfiguration.getMotorPort(), "drivetrain");
             motor.configAllSettings(motorConfiguration, CAN_TIMEOUT_MS);
 
             if (hasVoltageCompensation()) {

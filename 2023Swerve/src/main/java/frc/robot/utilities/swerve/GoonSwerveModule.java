@@ -35,9 +35,9 @@ public class GoonSwerveModule {
         moduleNum = modNum;
         name = moduleName;
         angleOffset = swerveModuleConstants.angleOffset;
-        angleEncoder = new WPI_CANCoder(swerveModuleConstants.cancoderID);
-        driveMotor = new WPI_TalonFX(swerveModuleConstants.driveMotorID);
-        angleMotor = new WPI_TalonFX(swerveModuleConstants.angleMotorID);
+        angleEncoder = new WPI_CANCoder(swerveModuleConstants.cancoderID, "drivetrain");
+        driveMotor = new WPI_TalonFX(swerveModuleConstants.driveMotorID, "drivetrain");
+        angleMotor = new WPI_TalonFX(swerveModuleConstants.angleMotorID, "drivetrain");
 
         configAngleEncoder();
         configAngleMotor();
