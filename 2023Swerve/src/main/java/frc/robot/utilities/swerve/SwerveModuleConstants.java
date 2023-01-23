@@ -2,6 +2,12 @@ package frc.robot.utilities.swerve;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
+
+/*
+ * Keeps track of the constants for a single module. will be used in the main constants file. 
+ * 
+ * 
+ */
 public class SwerveModuleConstants {
     public final int driveMotorID;
     public final int angleMotorID;

@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveDefaultDrive;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -31,13 +33,18 @@ public class RobotContainer {
 
     
     s_SwerveDrive.setDefaultCommand(
-            new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), () -> false));
+            new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX()));
 
     configureBindings();
   }
 
   
-  private void configureBindings() {}
+  private void configureBindings() {
+    JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
+
+    driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
