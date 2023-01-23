@@ -74,9 +74,17 @@ public class GoonSwerveModule {
 
 
     private Rotation2d getAngle(){
+        return Rotation2d.fromDegrees(Conversions.falconToDegrees(angleMotor.getSelectedSensorPosition(), Constants.Swerve.angleGearRatio));
+    }
+
+    public Rotation2d getCanCoder(){
         return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
     }
 
+    public void resetToAbsolute(){
+        double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), Constants.Swerve.angleGearRatio);
+        angleMotor.setSelectedSensorPosition(absolutePosition);
+    }
 
     private void configAngleEncoder(){        
         angleEncoder.configFactoryDefault();
@@ -89,7 +97,7 @@ public class GoonSwerveModule {
         angleMotor.configAllSettings(Robot.ctreConfigs.swerveAngleFXConfig);
         angleMotor.setInverted(Constants.Swerve.angleMotorInvert);
         angleMotor.setNeutralMode(Constants.Swerve.angleNeutralMode);
-        //resetToAbsolute();
+        resetToAbsolute();
     }
 
     private void configDriveMotor(){        

@@ -120,7 +120,7 @@ public void setModuleStates(SwerveModuleState[] desiredStates) {
   @Override
   public void periodic() {
     for(GoonSwerveModule mod : swerveMods){
-      SmartDashboard.putNumber(mod.name + " Angle", mod.getState().angle.getDegrees());
+      SmartDashboard.putNumber(mod.name + " Can Coder Angle", mod.getCanCoder().getDegrees());
     }
   }
 }
