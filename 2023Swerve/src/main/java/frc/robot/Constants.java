@@ -36,13 +36,20 @@ public final class Constants {
 
         public static final int pigeonID = 25;
         
-                /* Swerve Kinematics 
-         * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
+        /* Swerve Kinematics 
+        * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
+
+        public static final Translation2d frontLeftLocation = new Translation2d(wheelBase / 2.0, trackWidth / 2.0);
+        public static final Translation2d frontRightLocation = new Translation2d(wheelBase / 2.0, trackWidth / 2.0);
+        public static final Translation2d backLeftLocation = new Translation2d(wheelBase / 2.0, trackWidth / 2.0);
+        public static final Translation2d backRightLocation = new Translation2d(wheelBase / 2.0, trackWidth / 2.0);
+
+
          public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
-            new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+            frontLeftLocation,
+            frontRightLocation,
+            backLeftLocation,
+            backRightLocation);
 
         //Swerve Moudle constants
 

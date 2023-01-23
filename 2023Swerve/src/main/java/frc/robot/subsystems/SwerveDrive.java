@@ -50,8 +50,9 @@ public class SwerveDrive extends SubsystemBase {
     return _instance;
   }
 
-  public void drive(Translation2d translation, double rotation, boolean isOpenLoop) {
-    SwerveModuleState[] swerveModuleStates =
+  //frontleftRotation is used to changed the center of rotation to the frontleft module instead.
+  public void drive(Translation2d translation, double rotation, boolean isOpenLoop, boolean frontleftRotation) {
+    SwerveModuleState[] swerveModuleStates = !frontleftRotation ?
         Constants.Swerve.swerveKinematics.toSwerveModuleStates(
             ChassisSpeeds.fromFieldRelativeSpeeds(
                                 translation.getX(), 
@@ -59,22 +60,30 @@ public class SwerveDrive extends SubsystemBase {
                                 rotation, 
                                 getGyroAngle()
                               )
+                            ) :
+                            Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+            ChassisSpeeds.fromFieldRelativeSpeeds(
+                                translation.getX(), 
+                                translation.getY(), 
+                                rotation, 
+                                getGyroAngle()
+                              ), Constants.Swerve.frontLeftLocation
                             );
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
     for(GoonSwerveModule mod : swerveMods){
         mod.setDesiredState(swerveModuleStates[mod.moduleNum], isOpenLoop);
     }
-}    
+  }    
 
-/* Used by SwerveControllerCommand in Auto */
-public void setModuleStates(SwerveModuleState[] desiredStates) {
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
-    
-    for(GoonSwerveModule mod : swerveMods){
-        mod.setDesiredState(desiredStates[mod.moduleNum], false);
-    }
-}
+  /* Used by SwerveControllerCommand in Auto */
+  public void setModuleStates(SwerveModuleState[] desiredStates) {
+      SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
+      
+      for(GoonSwerveModule mod : swerveMods){
+          mod.setDesiredState(desiredStates[mod.moduleNum], false);
+      }
+  }
 
   public SwerveModulePosition[] getModulePositions(){
     SwerveModulePosition[] positions = new SwerveModulePosition[4];

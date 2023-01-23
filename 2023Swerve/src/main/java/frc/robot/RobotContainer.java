@@ -22,7 +22,9 @@ import frc.robot.subsystems.SwerveDrive;
 public class RobotContainer {
   //Declare controllers
   private XboxController driver = new XboxController(0);
-
+  
+  //Declare Certain Buttons
+  private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
@@ -32,9 +34,10 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    
+
+    //Set Defualt Commands
     s_SwerveDrive.setDefaultCommand(
-            new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX()));
+            new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber));
 
     configureBindings();
   }

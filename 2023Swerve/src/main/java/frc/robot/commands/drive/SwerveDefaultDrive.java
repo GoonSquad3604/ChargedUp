@@ -21,16 +21,16 @@ public class SwerveDefaultDrive extends CommandBase {
   private DoubleSupplier xSupplier;
   private DoubleSupplier ySupplier;
   private DoubleSupplier rotSupplier;
-  private BooleanSupplier robotCentricSupplier;
+  private BooleanSupplier rotLocatSupplier;
 
-  public SwerveDefaultDrive(DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier rotSupplier) {
+  public SwerveDefaultDrive(DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier rotSupplier, BooleanSupplier rotLocSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Swerve = SwerveDrive.getInstance();
 
     this.xSupplier = xSupplier;
     this.ySupplier = ySupplier;
     this.rotSupplier = rotSupplier;
-    this.robotCentricSupplier = robotCentricSupplier; 
+    this.rotLocatSupplier = rotLocSupplier;
 
     addRequirements(s_Swerve);
 
@@ -50,7 +50,8 @@ public class SwerveDefaultDrive extends CommandBase {
     s_Swerve.drive(
         new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
         rotationVal * Constants.Swerve.maxAngularVelocity,  
-        true
+        true,
+        rotLocatSupplier.getAsBoolean()
     );
   }
 
