@@ -25,6 +25,7 @@ public final class Constants {
 
     public static final class General{
         public static final double deadband = .1; //drive stick deadband
+        public static final String CANIVORE_CANBUS = "drivetrain";
     }
 
     public static final class Swerve{
