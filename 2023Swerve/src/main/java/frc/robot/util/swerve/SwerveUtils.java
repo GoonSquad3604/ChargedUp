@@ -1,4 +1,4 @@
-package frc.robot.utilities.swerve;
+package frc.robot.util.swerve;
 
 public class SwerveUtils {
     

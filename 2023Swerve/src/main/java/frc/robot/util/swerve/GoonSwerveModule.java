@@ -1,6 +1,6 @@
 //Repurposing of code from team 364
 
-package frc.robot.utilities.swerve;
+package frc.robot.util.swerve;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -15,7 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.utilities.swerve.SwerveUtils.Conversions;
+import frc.robot.util.swerve.SwerveUtils.Conversions;
 
 /** Add your docs here. */
 public class GoonSwerveModule {

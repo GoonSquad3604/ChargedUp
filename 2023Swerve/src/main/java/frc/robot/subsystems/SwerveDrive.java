@@ -17,7 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.utilities.swerve.GoonSwerveModule;
+import frc.robot.util.swerve.GoonSwerveModule;
 
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
