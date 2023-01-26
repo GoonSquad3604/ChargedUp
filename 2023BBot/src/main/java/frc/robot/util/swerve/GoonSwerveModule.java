@@ -73,7 +73,7 @@ public class GoonSwerveModule {
 
     private void setAngle(SwerveModuleState desiredState){
         Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 1%. Prevents Jittering.
-        //Rotation2d angle = desiredState.angle;
+        
         angleMotor.set(ControlMode.Position, Conversions.degreesToFalcon(angle.getDegrees(), Constants.Swerve.angleGearRatio));
         lastAngle = angle;
     }
@@ -100,7 +100,7 @@ public class GoonSwerveModule {
     private void configAngleEncoder(){        
         angleEncoder.configFactoryDefault();
         angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
-        // angleEncoder.configMagnetOffset(angleOffset.getDegrees());
+        
         angleEncoder.configMagnetOffset(0);
     }
 

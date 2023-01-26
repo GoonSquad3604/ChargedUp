@@ -45,9 +45,8 @@ public class SwerveDrive extends SubsystemBase {
       new GoonSwerveModule(3, "BackRight", Constants.Swerve.BackRight.constants)
     };
 
-    Timer.delay(2);
+    Timer.delay(1);
     resetModulesToAbsolute();
-    Timer.delay(2);
     swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
 
   }

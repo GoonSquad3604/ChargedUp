@@ -47,11 +47,7 @@ public class RobotContainer {
   
   private void configureBindings() {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
-    JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
-    JoystickButton driverX = new JoystickButton(driver, XboxController.Button.kX.value);
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
-    driverA.onTrue(new InstantCommand(() -> s_SwerveDrive.resetModulesToAbsolute()));
-    //driverX.whileTrue(new InstantCommand(() -> s_SwerveDrive.setAll25(), s_SwerveDrive));
   }
 
   /**
