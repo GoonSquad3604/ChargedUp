@@ -5,6 +5,7 @@
 package frc.robot.commands.autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.util.auton.AutonUtils;
 import frc.robot.util.auton.GoonAutonCommand;
 import frc.robot.util.auton.Trajectories;
 
@@ -16,7 +17,9 @@ public class ExampleAuton extends GoonAutonCommand {
   public ExampleAuton() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    super.addCommands(null);
+    super.addCommands(
+      AutonUtils.getSwerveControllerCommand(Trajectories.exampleTrajectory())
+    );
 
 
     super.setInitialPose(Trajectories.exampleTrajectory());
