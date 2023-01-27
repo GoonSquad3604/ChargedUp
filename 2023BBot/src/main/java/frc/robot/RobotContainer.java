@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.arm.ArmDefaultCommand;
 import frc.robot.commands.autons.ExampleAuton;
 import frc.robot.commands.drive.SwerveDefaultDrive;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.SwerveDrive;
 
 /**
@@ -21,12 +23,14 @@ import frc.robot.subsystems.SwerveDrive;
 public class RobotContainer {
   //Declare controllers
   private XboxController driver = new XboxController(0);
+  private XboxController operator = new XboxController(1);
   
   //Declare Certain Buttons
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
+  private Arm s_Arm = Arm.getInstance();
 
 
 
@@ -38,6 +42,8 @@ public class RobotContainer {
     s_SwerveDrive.setDefaultCommand(
             new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber));
 
+    s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operator.getLeftY(), () -> operator.getRightY()));
+
     configureBindings();
 
     s_SwerveDrive.resetModulesToAbsolute();
@@ -47,6 +53,9 @@ public class RobotContainer {
   
   private void configureBindings() {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
+
+    
+
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
   }
 
