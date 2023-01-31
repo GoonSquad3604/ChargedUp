@@ -151,6 +151,11 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int shoulderID = 69;
         public static final int elbowID = 420;
+
+        // Arm lengths
+        public static final int bottomArmLength = 5; // 5 is temporary
+        public static final int topArmLength = 5; // 5 is temporary
+
         
     }
 
@@ -168,5 +173,9 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static final class LEDConstants {
+        public static final int led1 = 69420;
     }
 }
