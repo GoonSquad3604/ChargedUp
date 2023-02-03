@@ -31,8 +31,8 @@ public final class Constants {
     public static final class Swerve{
 
         // /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(25); //TODO: Match this to robot
-        public static final double wheelBase = Units.inchesToMeters(23.25); //TODO: Math this to robot
+        public static final double trackWidth = Units.inchesToMeters(23); //TODO: Match this to robot
+        public static final double wheelBase = Units.inchesToMeters(23); //TODO: Math this to robot
 
         public static final int pigeonID = 25;
         
@@ -56,7 +56,7 @@ public final class Constants {
         public static final double angleGearRatio = ((150.0 / 7.0) / 1.0);
         public static final double driveGearRatio = (6.75 / 1.0); //MK4 L2 gearing
 
-        public static final boolean driveMotorInvert = false;
+        public static final boolean driveMotorInvert = true;
         public static final boolean angleMotorInvert = true;
         public static final boolean canCoderInvert = false;
 
@@ -111,7 +111,7 @@ public final class Constants {
             public static final int driveMotorID = 12;
             public static final int angleMotorID = 14;
             public static final int canCoderID = 20;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(19.6);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.16);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -121,7 +121,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 21;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(139.21);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(138.33);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -131,7 +131,7 @@ public final class Constants {
             public static final int driveMotorID = 13;
             public static final int angleMotorID = 15;
             public static final int canCoderID = 22;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(163.3);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(163.03);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -141,7 +141,7 @@ public final class Constants {
             public static final int driveMotorID = 40;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 23;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(118.56);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(116.01);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -160,7 +160,7 @@ public final class Constants {
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 4;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
@@ -176,6 +176,6 @@ public final class Constants {
     }
 
     public static final class LEDConstants {
-        public static final int led1 = 69420;
+        public static final int led1 = 0;
     }
 }

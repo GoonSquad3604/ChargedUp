@@ -144,7 +144,7 @@ public class SwerveDrive extends SubsystemBase {
       SmartDashboard.putNumber(mod.name + " talon angle", mod.getAngle().getDegrees());
       SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
     }
-
+    swerveDriveOdometry.update(getGyroAngle(), getModulePositions());
     printclicks();
 
     SmartDashboard.putNumber("gyro angle", getGyroAngle().getDegrees());

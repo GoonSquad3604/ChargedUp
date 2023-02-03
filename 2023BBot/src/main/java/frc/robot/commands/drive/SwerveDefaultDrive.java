@@ -42,9 +42,9 @@ public class SwerveDefaultDrive extends CommandBase {
   @Override
   public void execute() {
 
-    double translationVal = MathUtil.applyDeadband(xSupplier.getAsDouble()*-1, Constants.General.deadband);
-    double strafeVal = MathUtil.applyDeadband(ySupplier.getAsDouble()*-1, Constants.General.deadband);
-    double rotationVal = MathUtil.applyDeadband(rotSupplier.getAsDouble()*-1, Constants.General.deadband);
+    double translationVal = MathUtil.applyDeadband(xSupplier.getAsDouble(), Constants.General.deadband);
+    double strafeVal = MathUtil.applyDeadband(ySupplier.getAsDouble(), Constants.General.deadband);
+    double rotationVal = MathUtil.applyDeadband(rotSupplier.getAsDouble(), Constants.General.deadband);
 
     /* Drive */
     s_Swerve.drive(

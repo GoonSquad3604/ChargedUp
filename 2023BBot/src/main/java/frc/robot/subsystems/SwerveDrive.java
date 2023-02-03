@@ -4,11 +4,9 @@
 
 package frc.robot.subsystems;
 
-import java.sql.Time;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.hal.HAL.SimPeriodicAfterCallback;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,9 +30,11 @@ public class SwerveDrive extends SubsystemBase {
   public SwerveDriveOdometry swerveDriveOdometry;
   private GoonSwerveModule[] swerveMods; 
   private PigeonIMU m_Pigeon;
+  private Field2d m_Field2d;
+
 
   public SwerveDrive() {
-
+    m_Field2d = new Field2d();
     m_Pigeon = new PigeonIMU(Constants.Swerve.pigeonID);
     m_Pigeon.configFactoryDefault();
     zeroGyro();
@@ -48,7 +49,8 @@ public class SwerveDrive extends SubsystemBase {
     Timer.delay(1);
     resetModulesToAbsolute();
     swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
-
+    
+    
   }
 
   public static final SwerveDrive getInstance() {
@@ -99,6 +101,7 @@ public class SwerveDrive extends SubsystemBase {
     
     for(GoonSwerveModule mod : swerveMods){
         positions[mod.moduleNum] = mod.getPosition();
+        //System.out.println(mod.getPosition().distanceMeters);
         
     }
     return positions;
@@ -145,9 +148,13 @@ public class SwerveDrive extends SubsystemBase {
       SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
     }
 
-    printclicks();
+    swerveDriveOdometry.update(getGyroAngle(), getModulePositions());
 
+    printclicks();
+    m_Field2d.setRobotPose(swerveDriveOdometry.getPoseMeters());
     SmartDashboard.putNumber("gyro angle", getGyroAngle().getDegrees());
+
+    SmartDashboard.putString("pose", swerveDriveOdometry.getPoseMeters().toString());
   }
 
   public void setAll25() {

@@ -38,7 +38,7 @@ public class AutonUtils {
             new PIDController(Constants.AutoConstants.kPYController, 0, 0), 
             new PIDController(Constants.AutoConstants.kPThetaController, 0, 0),
             SwerveDrive.getInstance()::setModuleStates, 
-            false,
+            true,
             SwerveDrive.getInstance());
     }
 }

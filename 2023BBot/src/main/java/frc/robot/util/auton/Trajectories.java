@@ -8,9 +8,9 @@ import frc.robot.Constants;
 /*Returns each trajectory used in auton */
 public final class Trajectories {
     
-    public static PathPlannerTrajectory exampleTrajectory() {
+    public static PathPlannerTrajectory testTrajectory() {
         return PathPlanner.loadPath(
-                "examplepath",
+                "testpath",
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }

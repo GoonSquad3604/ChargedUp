@@ -1,0 +1,24 @@
+{
+  "NetworkTables": {
+    "retained": {
+      "LiveWindow": {
+        "open": true
+      }
+    },
+    "transitory": {
+      "FMSInfo": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "3604"
+  }
+}
