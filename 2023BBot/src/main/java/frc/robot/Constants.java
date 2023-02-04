@@ -60,7 +60,7 @@ public final class Constants {
         public static final boolean angleMotorInvert = true;
         public static final boolean canCoderInvert = false;
 
-        public static final double wheelCircumference = Units.inchesToMeters(4.0);
+        public static final double wheelCircumference = Units.inchesToMeters(11.0);
 
         //Angle Motor PID
         public static final double angleKP = 0.3;

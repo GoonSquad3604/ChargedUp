@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.hal.HAL.SimPeriodicAfterCallback;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -49,7 +50,7 @@ public class SwerveDrive extends SubsystemBase {
     Timer.delay(1);
     resetModulesToAbsolute();
     swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
-    
+    SmartDashboard.putData(m_Field2d);
     
   }
 
