@@ -11,6 +11,7 @@ import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
@@ -19,8 +20,11 @@ public class Arm extends SubsystemBase {
 
   private CANSparkMax shoulder;
   private CANSparkMax elbow;
+  private Encoder shoulderEncoder;
+  private Encoder elbowEncoder;
+
   private static Arm _instance;
-  private SparkMaxAlternateEncoder encoder;
+  //private SparkMaxAlternateEncoder encoder;
   
   /** Creates a new Arm. */
   public Arm() {
@@ -29,18 +33,21 @@ public class Arm extends SubsystemBase {
     //encoder = elbow.getAlternateEncoder(, 0);
   }
 
-  public static double[] getArmAngles(int height, int distance) {
-
-    // Angle for elbow
-    double elbowAngle = Math.acos((Math.pow(distance, 2) + Math.pow(height, 2) - Math.pow(Constants.ArmConstants.bottomArmLength, 2) - Math.pow(Constants.ArmConstants.topArmLength, 2))/2.0*Constants.ArmConstants.bottomArmLength*Constants.ArmConstants.topArmLength)
-    / 2.0*Constants.ArmConstants.bottomArmLength*Constants.ArmConstants.topArmLength;
-    // Angle for shoulder
-    double shoulderAngle = (Math.atan(height/distance)) + Math.atan((Constants.ArmConstants.topArmLength*Math.sin(elbowAngle))/(Constants.ArmConstants.bottomArmLength + Constants.ArmConstants.topArmLength*Math.cos(elbowAngle)));
-
-    double angles[] = {shoulderAngle, elbowAngle};
+  public static double[] getAngle(double x, double y) {
+    final double a = Constants.ArmConstants.bottomArmLength;
+    final double b = Constants.ArmConstants.topArmLength;
+    double elbow = Math.acos((Math.pow(x, 2) + Math.pow(y,2)-Math.pow(a, 2) - Math.pow(b, 2))/(2*a*b) );
+    double shoulder = Math.atan(y/x) + Math.atan((b*Math.sin(elbow))/(a + b*Math.cos(elbow)));
+   
+    double angles[] = {Math.toDegrees(elbow), Math.toDegrees(shoulder)};
     return angles;
-  }
+}
 
+public static void main(String[] args) {
+    double wantedAngle[] = getAngle(2,2);
+    System.out.println(wantedAngle[1]);
+    System.out.println(wantedAngle[0]);
+}
   public static final Arm getInstance() {
     if (_instance == null) {
       _instance = new Arm();
@@ -54,6 +61,18 @@ public class Arm extends SubsystemBase {
   }
   public void setElbow(double power) {
     elbow.set(power);
+  }
+
+  public void stopShoulder() {
+    shoulder.set(0);
+  }
+
+  public void stopElbow() {
+    elbow.set(0);
+  }
+
+  public void elbowEncoder() {
+    elbow.get();
   }
 
   @Override

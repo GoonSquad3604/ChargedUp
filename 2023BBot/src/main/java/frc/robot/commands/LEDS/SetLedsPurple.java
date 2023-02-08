@@ -14,7 +14,6 @@ public class SetLedsPurple extends InstantCommand {
 
   public SetLedsPurple(LED led) {
     m_led = led;
-
   }
 
   // Called when the command is initially scheduled.
