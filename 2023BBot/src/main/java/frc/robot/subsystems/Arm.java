@@ -66,6 +66,7 @@ public static void main(String[] args) {
   public void stopShoulder() {
     shoulder.set(0);
   }
+//69 hahahaha
 
   public void stopElbow() {
     elbow.set(0);

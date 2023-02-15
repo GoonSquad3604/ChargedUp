@@ -4,6 +4,7 @@
 
 package frc.robot.commands.autons;
 
+import frc.robot.commands.drive.Stop;
 import frc.robot.util.auton.AutonUtils;
 import frc.robot.util.auton.GoonAutonCommand;
 import frc.robot.util.auton.Trajectories;
@@ -16,6 +17,7 @@ public class TestAuton extends GoonAutonCommand{
       AutonUtils.getSwerveControllerCommand(Trajectories.testTrajectory())
   );
     super.setInitialPose(Trajectories.testTrajectory());
+    new Stop();
   }
 }
 

@@ -17,12 +17,15 @@ import frc.robot.commands.LEDS.SetLedsWhite;
 import frc.robot.commands.LEDS.SetLedsYellow;
 import frc.robot.commands.arm.ArmDefaultCommand;
 import frc.robot.commands.autons.TestAuton;
+import frc.robot.commands.drive.Aim;
+import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
 import frc.robot.commands.stick.StickDefaultCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Stick;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -43,7 +46,9 @@ public class RobotContainer {
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
-  private Stick s_Stick = Stick.getInstance();
+  //private Stick s_Stick = Stick.getInstance();
+  private Vision s_Vision = new Vision();
+
   //private Arm s_Arm = Arm.getInstance();
   //private LED s_LED = new LED(Constants.LEDConstants.led1, 60);
 
@@ -55,13 +60,14 @@ public class RobotContainer {
     s_SwerveDrive.setDefaultCommand(
             new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber));
 
-    s_Stick.setDefaultCommand(new StickDefaultCommand(() -> operator.getLeftY()));
+    //s_Stick.setDefaultCommand(new StickDefaultCommand(() -> operator.getLeftY()));
 
     //s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operator.getLeftY(), () -> operator.getRightY()));
 
     configureBindings();
 
     SmartDashboard.putString("auton pose", auton.getInitialPose().toString());
+    //s_SwerveDrive.resetOdometry(auton.getInitialPose());
     // s_SwerveDrive.resetModulesToAbsolute();
   }
 
@@ -69,6 +75,7 @@ public class RobotContainer {
   
   private void configureBindings() {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
+    JoystickButton driverB = new JoystickButton(driver, XboxController.Button.kB.value);
     JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
     JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
     JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
@@ -80,6 +87,7 @@ public class RobotContainer {
     // operatorA.onTrue(new SetLedsYellow(s_LED));
 
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
+    driverB.onTrue(new DefaultAngle(s_SwerveDrive));
   }
 
   /**

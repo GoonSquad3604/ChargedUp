@@ -127,8 +127,13 @@ public class SwerveDrive extends SubsystemBase {
     return Rotation2d.fromDegrees(m_Pigeon.getYaw());
   }
 
+  public void setGyro(Rotation2d angle){
+    m_Pigeon.setYaw(angle.getDegrees());
+  }
+
   public void resetOdometry(Pose2d pose) {
     swerveDriveOdometry.resetPosition(getGyroAngle(), getModulePositions(), pose);
+    //setGyro(pose.getRotation());
   }
 
   public void resetModulesToAbsolute(){
