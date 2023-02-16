@@ -28,6 +28,7 @@ public class Aim extends CommandBase {
     if(m_Vision.getHasTarget()) {
       end(false);
     }    
+    
     if(m_Vision.getTx() > 0) direction = 1.0;
     else direction = -1.0;
   }

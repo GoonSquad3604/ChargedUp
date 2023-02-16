@@ -22,8 +22,10 @@ public class SwerveDefaultDrive extends CommandBase {
   private DoubleSupplier ySupplier;
   private DoubleSupplier rotSupplier;
   private BooleanSupplier rotLocatSupplier;
+  private BooleanSupplier slower;
+  private double speed = 1.0;
 
-  public SwerveDefaultDrive(DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier rotSupplier, BooleanSupplier rotLocSupplier) {
+  public SwerveDefaultDrive(DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier rotSupplier, BooleanSupplier rotLocSupplier, BooleanSupplier slower) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Swerve = SwerveDrive.getInstance();
 
@@ -31,6 +33,7 @@ public class SwerveDefaultDrive extends CommandBase {
     this.ySupplier = ySupplier;
     this.rotSupplier = rotSupplier;
     this.rotLocatSupplier = rotLocSupplier;
+    this.slower = slower;
 
     addRequirements(s_Swerve);
 
@@ -40,10 +43,14 @@ public class SwerveDefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(slower.getAsBoolean()) {
+      speed = 0.25;
+    }
+    else speed = 1;
 
-    double translationVal = MathUtil.applyDeadband(xSupplier.getAsDouble(), Constants.General.deadband);
-    double strafeVal = MathUtil.applyDeadband(ySupplier.getAsDouble(), Constants.General.deadband);
-    double rotationVal = MathUtil.applyDeadband(rotSupplier.getAsDouble(), Constants.General.deadband);
+    double translationVal = MathUtil.applyDeadband(xSupplier.getAsDouble(), Constants.General.deadband)*speed;
+    double strafeVal = MathUtil.applyDeadband(ySupplier.getAsDouble(), Constants.General.deadband)*speed;
+    double rotationVal = MathUtil.applyDeadband(rotSupplier.getAsDouble(), Constants.General.deadband)*speed;
 
     /* Drive */
     s_Swerve.drive(

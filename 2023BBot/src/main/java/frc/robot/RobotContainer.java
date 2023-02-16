@@ -18,6 +18,7 @@ import frc.robot.commands.LEDS.SetLedsYellow;
 import frc.robot.commands.arm.ArmDefaultCommand;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.drive.Aim;
+import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
 import frc.robot.commands.stick.StickDefaultCommand;
@@ -43,6 +44,7 @@ public class RobotContainer {
   
   //Declare Certain Buttons
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private JoystickButton driverRightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
@@ -55,10 +57,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    //double speedBoost = 1.0;
+
 
     //Set Defualt Commands
     s_SwerveDrive.setDefaultCommand(
-            new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber));
+            new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber, driverRightBumper));
 
     //s_Stick.setDefaultCommand(new StickDefaultCommand(() -> operator.getLeftY()));
 
@@ -76,6 +80,7 @@ public class RobotContainer {
   private void configureBindings() {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
     JoystickButton driverB = new JoystickButton(driver, XboxController.Button.kB.value);
+    JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
     JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
     JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
     JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
@@ -87,7 +92,9 @@ public class RobotContainer {
     // operatorA.onTrue(new SetLedsYellow(s_LED));
 
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
-    driverB.onTrue(new DefaultAngle(s_SwerveDrive));
+    driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
+    driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
+    //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;));
   }
 
   /**
@@ -100,4 +107,5 @@ public class RobotContainer {
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;
   }
+
 }
