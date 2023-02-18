@@ -4,10 +4,14 @@
 
 package frc.robot.subsystems;
 
+import java.net.Proxy.Type;
+
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
 import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,6 +27,12 @@ public class Vision extends SubsystemBase {
   private double tx;
   private double ty;
   private double ta;
+
+  private final double cameraHeight = 0.17;
+  private final double cameraAngle = Units.degreesToRadians(20);
+  private final double targetLowerHeight = 0.59;
+  private double distance;
+
   /** Creates a new Vision. */
   public Vision() {
     camera = new PhotonCamera("photonvision");
@@ -53,6 +63,13 @@ public class Vision extends SubsystemBase {
     return ta;
   }
 
+  public void getDistance() {
+
+    distance = Math.pow(3.3, -(ty/16.5)+0.27);
+    //distance = PhotonUtils.calculateDistanceToTargetMeters(cameraHeight, targetLowerHeight, cameraAngle, Units.degreesToRadians(ty));
+    SmartDashboard.putNumber("Distance", distance);
+  }
+
   @Override
   public void periodic() {
     
@@ -65,6 +82,7 @@ public class Vision extends SubsystemBase {
       ta = result.getBestTarget().getArea();
     }
 
+    getDistance();
     SmartDashboard.putBoolean("hastarget", hasTarget);
 
     SmartDashboard.putNumber("tx", tx);

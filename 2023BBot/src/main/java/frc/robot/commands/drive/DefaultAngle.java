@@ -24,11 +24,11 @@ public class DefaultAngle extends PIDCommand {
 
     super(
         // The controller that the command will use
-        new PIDController(0.075, 0, 0.00),
+        new PIDController(0.065, 0, 0.00),
         // This should return the measurement
         () -> Math.abs(swerve.getPose().getRotation().getDegrees()),
         // This should return the setpoint (can also be a constant)
-        3//177.5
+        176.5//177.5
 
         ,
         // This uses the output

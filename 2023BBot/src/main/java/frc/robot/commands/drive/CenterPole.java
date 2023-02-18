@@ -25,14 +25,14 @@ public class CenterPole extends PIDCommand {
   public CenterPole(Vision vision, SwerveDrive swerve, XboxController driver) {
       super(
           // The controller that the command will use
-          new PIDController(6, 0, 0.00),
+          new PIDController(4, 0, 0.00),
           // This should return the measurement
           () -> vision.getTx(),
           // This should return the setpoint (can also be a constant)
           0,
           // This uses the output
           output -> {
-            swerve.drive(new Translation2d((driver.getLeftY()*Constants.Swerve.maxSpeed), output), 0, true, false);
+            swerve.drive(new Translation2d(-(driver.getLeftY()*Constants.Swerve.maxSpeed), output), 0, true, false);
           });
 
       getController().enableContinuousInput(-1, 1);
@@ -45,6 +45,6 @@ public class CenterPole extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint() && m_Vision.getHasTarget();
+    return getController().atSetpoint() || !m_Vision.getHasTarget();
   }
 }

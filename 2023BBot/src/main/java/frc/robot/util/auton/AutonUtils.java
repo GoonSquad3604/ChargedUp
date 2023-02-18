@@ -4,6 +4,8 @@
 
 package frc.robot.util.auton;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
@@ -15,18 +17,6 @@ import frc.robot.subsystems.SwerveDrive;
 
 /** Add your docs here. */
 public class AutonUtils {
-
-    // public static Command getPathPlannerSwerveControllerCommand(PathPlannerTrajectory traj) {
-    //     return new PPSwerveControllerCommand(
-    //             traj,
-    //             DrivetrainSubsystem.getInstance()::getPose,
-    //             DrivetrainSubsystem.getInstance().getKinematics(),
-    //             new PIDController(8, 0, 0), 
-    //             new PIDController(8, 0, 0), 
-    //             new ProfiledPIDController(6, 0, 0, new TrapezoidProfile.Constraints(DrivetrainSubsystem.getAngularVelocity(), DrivetrainSubsystem.getAngularVelocity())),
-    //             DrivetrainSubsystem.getInstance()::setStates,
-    //             DrivetrainSubsystem.getInstance());
-    // }
 
     public static PPSwerveControllerCommand getSwerveControllerCommand(PathPlannerTrajectory traj){
         
@@ -41,4 +31,7 @@ public class AutonUtils {
             true,
             SwerveDrive.getInstance());
     }
+
+
+
 }
