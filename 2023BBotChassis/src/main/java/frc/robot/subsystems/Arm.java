@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
@@ -22,28 +21,20 @@ public class Arm extends SubsystemBase {
   private CANSparkMax shoulder1;
   private CANSparkMax shoulder2;
   private CANSparkMax elbow;
-  private CANSparkMax claw;
+  private Encoder shoulderEncoder;
+  private Encoder elbowEncoder;
 
   private static Arm _instance;
-  private SparkMaxAlternateEncoder shoulderEncoder;
+  //private SparkMaxAlternateEncoder encoder;
   
   /** Creates a new Arm. */
   public Arm() {
     shoulder1 = new CANSparkMax(Constants.ArmConstants.shoulder1ID, MotorType.kBrushless);
     shoulder2 = new CANSparkMax(Constants.ArmConstants.shoulder2ID, MotorType.kBrushless);
+    shoulder2.follow(shoulder1);
+    shoulder2.setInverted(true);
     elbow = new CANSparkMax(Constants.ArmConstants.elbowID, MotorType.kBrushless);
-    claw = new CANSparkMax(Constants.ArmConstants.clawId, MotorType.kBrushless);
-    
-    elbow.restoreFactoryDefaults();
-    shoulder1.restoreFactoryDefaults();
-    shoulder2.restoreFactoryDefaults();
-    claw.restoreFactoryDefaults();
-    // shoulder2.follow(shoulder1);
-    //shoulder2.setInverted(true);
-    shoulder2.follow(shoulder1, true);
     //encoder = elbow.getAlternateEncoder(, 0);
-
-    //shoulderEncoder = shoulder1.getAlternateEncoder(com.revrobotics.SparkMaxAlternateEncoder.Type.kQuadrature, 0)
   }
 
   public static double[] getAngle(double x, double y) {
@@ -54,8 +45,13 @@ public class Arm extends SubsystemBase {
    
     double angles[] = {Math.toDegrees(elbow), Math.toDegrees(shoulder)};
     return angles;
-  }
+}
 
+public static void main(String[] args) {
+    double wantedAngle[] = getAngle(2,2);
+    System.out.println(wantedAngle[1]);
+    System.out.println(wantedAngle[0]);
+}
   public static final Arm getInstance() {
     if (_instance == null) {
       _instance = new Arm();
@@ -64,11 +60,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void setShoulder(double power) {
-    shoulder1.set(power * .4);
+    shoulder1.set(power * .6);
 
   }
   public void setElbow(double power) {
-    elbow.set(power *.7);
+    elbow.set(power *.6);
   }
 
   public void stopShoulder() {
@@ -83,19 +79,8 @@ public class Arm extends SubsystemBase {
     elbow.get();
   }
 
-  // Claw
-  public void moveClaw(double power) {
-    claw.set(power);
-  }
-
-  public void stopClaw() {
-    claw.set(0);
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("elbowspeed", elbow.get());
-    
   }
 }

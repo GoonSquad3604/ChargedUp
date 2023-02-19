@@ -109,10 +109,10 @@ public final class Constants {
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class FrontLeft { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 18;
-            public static final int angleMotorID = 16;
+            public static final int driveMotorID = 12;
+            public static final int angleMotorID = 14;
             public static final int canCoderID = 20;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(285.117);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(23.027);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -122,17 +122,17 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 21;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(311.396);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(137.197);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
         
         /* Back Left Module - Module 2 */
         public static final class BackLeft { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 19;
-            public static final int angleMotorID = 17;
+            public static final int driveMotorID = 13;
+            public static final int angleMotorID = 15;
             public static final int canCoderID = 22;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(193.886);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(163.564);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -142,7 +142,7 @@ public final class Constants {
             public static final int driveMotorID = 40;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 23;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(78.31);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(117.665);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -150,11 +150,10 @@ public final class Constants {
     }
 
     public static final class ArmConstants {
-        public static final int shoulder1ID = 15;
+        public static final int shoulder1ID = 69;
         //meaning of life, the universe and everything
-        public static final int shoulder2ID = 4;
-        public static final int elbowID = 5;
-        public static final int clawId = 14;
+        public static final int shoulder2ID = 42;
+        public static final int elbowID = 420;
 
         // Arm lengths
         public static final double bottomArmLength = 5; // 5 is temporary
@@ -166,25 +165,8 @@ public final class Constants {
 
         // Gear ratios
         public static final double gearRatio = 1;
-    }
 
-    public static final class LEDConstants {
-        public static final int led1 = 0;
-    }
-
-    public static final class IntakeConstants {
-
-        // Hinge
-        public static final int leftHingeId = 13;
-        public static final int rightHingeId = 7;
-
-        // Spaghetti
-        public static final int intakeId = 6;
-
-        // Intake speeds
-        public static final double coneSpeed = 0.8;
-        public static final double cubeSpeed = 0.5;
-
+        
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
@@ -203,5 +185,25 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static final class LEDConstants {
+        public static final int led1 = 0;
+    }
+
+    public static final class IntakeConstants {
+
+        // Hinge
+        public static final int leftHingeId = 0;
+        public static final int rightHingeId = 0;
+
+        // Spaghetti
+        public static final int leftIntakeId = 0;
+        public static final int rightIntakeId = 0;
+
+        // Intake speeds
+        public static final double coneSpeed = 0;
+        public static final double cubeSpeed = 0;
+
     }
 }

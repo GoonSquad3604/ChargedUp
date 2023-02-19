@@ -24,7 +24,6 @@ import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
 import frc.robot.commands.stick.StickDefaultCommand;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Stick;
 import frc.robot.subsystems.SwerveDrive;
@@ -43,7 +42,6 @@ public class RobotContainer {
   TestAuton auton = new TestAuton();
 
 
-
   
   //Declare Certain Buttons
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
@@ -52,11 +50,10 @@ public class RobotContainer {
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
-  private Intake s_Intake = new Intake();
   //private Stick s_Stick = Stick.getInstance();
-  //private Vision s_Vision = new Vision();
+  private Vision s_Vision = new Vision();
 
-  private Arm s_Arm = Arm.getInstance();
+  //private Arm s_Arm = Arm.getInstance();
   //private LED s_LED = new LED(Constants.LEDConstants.led1, 60);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -71,7 +68,7 @@ public class RobotContainer {
 
     //s_Stick.setDefaultCommand(new StickDefaultCommand(() -> operator.getLeftY()));
 
-    s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operator.getLeftY(), () -> operator.getRightY()));
+    //s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operator.getLeftY(), () -> operator.getRightY()));
 
     configureBindings();
 
@@ -83,36 +80,22 @@ public class RobotContainer {
 
   
   private void configureBindings() {
-
-    // Driver
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
     JoystickButton driverB = new JoystickButton(driver, XboxController.Button.kB.value);
     JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
-
-    // Operator
     JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
     JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
     JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
-    JoystickButton operatorLeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    
-  
 
 
 
     // operatorY.onTrue(new SetLedsPurple(s_LED));
     // operatorX.onTrue(new SetLedsWhite(s_LED));
     // operatorA.onTrue(new SetLedsYellow(s_LED));
-    operatorLeftBumper.onTrue(new InstantCommand(() -> s_Intake.runConeIntake()));
-    operatorLeftBumper.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
-    operatorY.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.3)));
-    operatorY.onFalse(new InstantCommand(() -> s_Arm.stopClaw()));
-    operatorA.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.3)));
-    operatorA.onFalse(new InstantCommand(() -> s_Arm.stopClaw()));
-
 
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
     driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
-    //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
+    driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
     //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;));
   }
 
