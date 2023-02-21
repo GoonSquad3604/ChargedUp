@@ -182,8 +182,8 @@ public final class Constants {
         public static final int intakeId = 6;
 
         // Intake speeds
-        public static final double coneSpeed = 0.8;
-        public static final double cubeSpeed = 0.5;
+        public static final double coneSpeed = 1.0;
+        public static final double cubeSpeed = 0.6;
 
     }
 

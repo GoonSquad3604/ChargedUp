@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -28,7 +29,13 @@ public class Intake extends SubsystemBase {
     // Hinges
     leftHinge = new CANSparkMax(Constants.IntakeConstants.leftHingeId, MotorType.kBrushless);
     rightHinge = new CANSparkMax(Constants.IntakeConstants.rightHingeId, MotorType.kBrushless);
-    rightHinge.follow(leftHinge);
+    //rightHinge.follow(leftHinge, true);
+    leftHinge.restoreFactoryDefaults();
+    rightHinge.restoreFactoryDefaults();
+
+    rightHinge.setInverted(true);
+    rightHinge.setIdleMode(IdleMode.kBrake);
+    leftHinge.setIdleMode(IdleMode.kBrake);
 
     // Spaghetti
     intake = new WPI_TalonSRX(Constants.IntakeConstants.intakeId);
@@ -41,8 +48,10 @@ public class Intake extends SubsystemBase {
     return _instance;
   }
 
-  public void setHinge(double power) {
-    leftHinge.set(power);
+  public void setHinge(double leftPower, double rightPower) {
+    leftHinge.set(leftPower);
+    rightHinge.set(rightPower);
+
   }
 
   public void runCubeIntake() {

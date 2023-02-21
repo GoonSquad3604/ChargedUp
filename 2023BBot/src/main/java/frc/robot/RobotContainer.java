@@ -53,7 +53,7 @@ public class RobotContainer {
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
   private Intake s_Intake = new Intake();
-  //private Stick s_Stick = Stick.getInstance();
+  
   //private Vision s_Vision = new Vision();
 
   private Arm s_Arm = Arm.getInstance();
@@ -94,7 +94,7 @@ public class RobotContainer {
     JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
     JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
     JoystickButton operatorLeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    
+    JoystickButton operatorRightBumper = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
   
 
 
@@ -102,12 +102,18 @@ public class RobotContainer {
     // operatorY.onTrue(new SetLedsPurple(s_LED));
     // operatorX.onTrue(new SetLedsWhite(s_LED));
     // operatorA.onTrue(new SetLedsYellow(s_LED));
-    operatorLeftBumper.onTrue(new InstantCommand(() -> s_Intake.runConeIntake()));
+    operatorLeftBumper.onTrue(new InstantCommand(() -> s_Intake.runCubeIntake()));
     operatorLeftBumper.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
-    operatorY.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.3)));
-    operatorY.onFalse(new InstantCommand(() -> s_Arm.stopClaw()));
-    operatorA.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.3)));
-    operatorA.onFalse(new InstantCommand(() -> s_Arm.stopClaw()));
+    operatorRightBumper.onTrue(new InstantCommand(() -> s_Intake.runConeIntake()));
+    operatorRightBumper.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
+
+
+    operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.45, 0.7)));
+    operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    operatorA.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.10, -0.1)));
+    operatorA.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    
+
 
 
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));

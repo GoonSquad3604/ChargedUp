@@ -5,9 +5,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
@@ -25,7 +28,11 @@ public class Arm extends SubsystemBase {
   private CANSparkMax claw;
 
   private static Arm _instance;
-  private SparkMaxAlternateEncoder shoulderEncoder;
+  private RelativeEncoder shoulderEncoder;
+  private RelativeEncoder elbowEncoder;
+
+  private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
+  private static final int kCPR = 8192;
   
   /** Creates a new Arm. */
   public Arm() {
@@ -38,9 +45,19 @@ public class Arm extends SubsystemBase {
     shoulder1.restoreFactoryDefaults();
     shoulder2.restoreFactoryDefaults();
     claw.restoreFactoryDefaults();
-    // shoulder2.follow(shoulder1);
-    //shoulder2.setInverted(true);
     shoulder2.follow(shoulder1, true);
+
+    //Arm encoders
+    shoulderEncoder = shoulder1.getAlternateEncoder(kAltEncType, kCPR);
+    elbowEncoder = elbow.getAlternateEncoder(kAltEncType, kCPR);
+    
+    // Brake mode
+    shoulder1.setIdleMode(IdleMode.kBrake);
+    shoulder2.setIdleMode(IdleMode.kBrake);
+    elbow.setIdleMode(IdleMode.kBrake);
+
+    
+
     //encoder = elbow.getAlternateEncoder(, 0);
 
     //shoulderEncoder = shoulder1.getAlternateEncoder(com.revrobotics.SparkMaxAlternateEncoder.Type.kQuadrature, 0)
@@ -79,8 +96,13 @@ public class Arm extends SubsystemBase {
     elbow.set(0);
   }
 
-  public void elbowEncoder() {
-    elbow.get();
+  public double getElbowClicks() {
+    return elbowEncoder.getPosition();
+
+  }
+
+  public double getShoulderClicks() {
+    return shoulderEncoder.getPosition();
   }
 
   // Claw
@@ -95,7 +117,9 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("elbowspeed", elbow.get());
+    SmartDashboard.putNumber("ShoulderEncoder", getShoulderClicks());
+    SmartDashboard.putNumber("ElbowEncoder", getElbowClicks());
+    SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
     
   }
 }
