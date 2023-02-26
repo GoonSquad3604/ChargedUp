@@ -6,14 +6,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,41 +26,75 @@ import frc.robot.Constants.ArmConstants;
 
 public class Arm extends SubsystemBase {
 
-  private CANSparkMax shoulder1;
-  private CANSparkMax shoulder2;
+  // private CANSparkMax shoulder1;
+  // private CANSparkMax shoulder2;
   private CANSparkMax elbow;
   private CANSparkMax claw;
 
   private static Arm _instance;
-  private RelativeEncoder shoulderEncoder;
-  private RelativeEncoder elbowEncoder;
+  // private AbsoluteEncoder shoulderEncoder;
+  private AbsoluteEncoder elbowEncoder;
+  private RelativeEncoder clawEncoder;
 
-  private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
+  // PIDS!
+  private SparkMaxPIDController claw_pidController;
+  private SparkMaxPIDController elbow_pidController;
+
   private static final int kCPR = 8192;
   
   /** Creates a new Arm. */
   public Arm() {
-    shoulder1 = new CANSparkMax(Constants.ArmConstants.shoulder1ID, MotorType.kBrushless);
-    shoulder2 = new CANSparkMax(Constants.ArmConstants.shoulder2ID, MotorType.kBrushless);
+    // shoulder1 = new CANSparkMax(Constants.ArmConstants.shoulder1ID, MotorType.kBrushless);
+    // shoulder2 = new CANSparkMax(Constants.ArmConstants.shoulder2ID, MotorType.kBrushless);
     elbow = new CANSparkMax(Constants.ArmConstants.elbowID, MotorType.kBrushless);
     claw = new CANSparkMax(Constants.ArmConstants.clawId, MotorType.kBrushless);
     
     elbow.restoreFactoryDefaults();
-    shoulder1.restoreFactoryDefaults();
-    shoulder2.restoreFactoryDefaults();
+    // shoulder1.restoreFactoryDefaults();
+    // shoulder2.restoreFactoryDefaults();
     claw.restoreFactoryDefaults();
-    shoulder2.follow(shoulder1, true);
+
+    // shoulder1.setInverted(true);
+    // shoulder2.follow(shoulder1, true);
+    elbow.setInverted(true);
+    
+    
 
     //Arm encoders
-    shoulderEncoder = shoulder1.getAlternateEncoder(kAltEncType, kCPR);
-    elbowEncoder = elbow.getAlternateEncoder(kAltEncType, kCPR);
+    // shoulderEncoder = shoulder1.getAbsoluteEncoder(Type.kDutyCycle);
+    elbowEncoder = elbow.getAbsoluteEncoder(Type.kDutyCycle);
+    elbowEncoder.setInverted(false);
+    //elbowEncoder.setZeroOffset(180);
+    clawEncoder = claw.getEncoder();
+
+    // PID Controllers
+
+    // Claw PID
+    claw_pidController = claw.getPIDController();
+    claw_pidController.setFeedbackDevice(clawEncoder);
+    claw_pidController.setP(Constants.ArmConstants.clawP);
+    claw_pidController.setI(Constants.ArmConstants.clawI);
+    claw_pidController.setD(Constants.ArmConstants.clawD);
+    claw_pidController.setOutputRange(-.4, 0.4);
+
+    // Elbow PID
+    elbow_pidController = elbow.getPIDController();
+    elbow_pidController.setFeedbackDevice(elbowEncoder);
+    elbow_pidController.setP(Constants.ArmConstants.elbowUpP);
+    elbow_pidController.setI(Constants.ArmConstants.elbowI);
+    elbow_pidController.setD(Constants.ArmConstants.elbowD);
     
+    elbow_pidController.setOutputRange(-0.8, 0.8);
+
+
     // Brake mode
-    shoulder1.setIdleMode(IdleMode.kBrake);
-    shoulder2.setIdleMode(IdleMode.kBrake);
+    // shoulder1.setIdleMode(IdleMode.kBrake);
+    // shoulder2.setIdleMode(IdleMode.kBrake);
     elbow.setIdleMode(IdleMode.kBrake);
 
-    
+    //reset encoders
+    // resetShoulderEncoder();
+    resetElbowEncoder();
 
     //encoder = elbow.getAlternateEncoder(, 0);
 
@@ -80,29 +118,32 @@ public class Arm extends SubsystemBase {
     return _instance;
   }
 
-  public void setShoulder(double power) {
-    shoulder1.set(power * .4);
+  // public void setShoulder(double power) {
+  //   shoulder1.set(power * .4);
 
-  }
+  // }
   public void setElbow(double power) {
     elbow.set(power *.7);
   }
 
-  public void stopShoulder() {
-    shoulder1.set(0);
-  }
+  // public void stopShoulder() {
+  //   shoulder1.set(0);
+  // }
 
   public void stopElbow() {
     elbow.set(0);
   }
 
   public double getElbowClicks() {
-    return elbowEncoder.getPosition();
-
+    return elbowEncoder.getPosition()*360;
   }
 
-  public double getShoulderClicks() {
-    return shoulderEncoder.getPosition();
+  // public double getShoulderClicks() {
+  //   return shoulderEncoder.getPosition()*360.0;
+  // }
+
+  public double getClawClicks() {
+    return clawEncoder.getPosition();
   }
 
   // Claw
@@ -114,12 +155,47 @@ public class Arm extends SubsystemBase {
     claw.set(0);
   }
 
+  public void clawTo(double refrence) {
+    claw_pidController.setReference(refrence, ControlType.kPosition);
+    
+  }
+
+  
+  public void elbowTo(double refrence) {
+    elbow_pidController.setReference(refrence/360, CANSparkMax.ControlType.kPosition);
+  }
+
+
+
+  // public void resetShoulderEncoder(){
+  //   shoulderEncoder.setZeroOffset(0);
+  // }
+
+
+  public void resetElbowEncoder() {
+    elbowEncoder.setZeroOffset(0);
+  }
+
+  public void setUpP() {
+    elbow_pidController.setP(Constants.ArmConstants.elbowUpP);
+    elbow_pidController.setI(Constants.ArmConstants.elbowI);
+    elbow_pidController.setD(Constants.ArmConstants.elbowD);
+  }
+  public void setDownP() {
+    elbow_pidController.setP(Constants.ArmConstants.elbowDownP);
+    elbow_pidController.setI(Constants.ArmConstants.elbowI);
+    elbow_pidController.setD(Constants.ArmConstants.elbowD);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ShoulderEncoder", getShoulderClicks());
+    // SmartDashboard.putNumber("ShoulderEncoder", getShoulderClicks());
     SmartDashboard.putNumber("ElbowEncoder", getElbowClicks());
+    SmartDashboard.putNumber("ClawEncoder", getClawClicks());
     SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
+    SmartDashboard.putNumber("Elbow P", elbow_pidController.getP());
+
     
   }
 }

@@ -10,15 +10,19 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Shoulder;
 
 public class ArmDefaultCommand extends CommandBase {
   /** Creates a new ArmDefaultCommand. */
   private Arm s_Arm;
+  private Shoulder s_Shoulder;
+
   private DoubleSupplier shoulderSupplier;
   private DoubleSupplier elbowSupplier;
   public ArmDefaultCommand(DoubleSupplier shoulderSupplier, DoubleSupplier elbowSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Arm = Arm.getInstance();
+    s_Shoulder = Shoulder.getInstance();
 
     this.shoulderSupplier = shoulderSupplier;
     this.elbowSupplier = elbowSupplier;
@@ -32,7 +36,7 @@ public class ArmDefaultCommand extends CommandBase {
   @Override
   public void execute() {
   
-    s_Arm.setShoulder(MathUtil.applyDeadband(shoulderSupplier.getAsDouble(), Constants.General.deadband));
+    s_Shoulder.setShoulder(MathUtil.applyDeadband(shoulderSupplier.getAsDouble(), Constants.General.deadband));
     s_Arm.setElbow(MathUtil.applyDeadband(elbowSupplier.getAsDouble(), Constants.General.deadband));
   }
 

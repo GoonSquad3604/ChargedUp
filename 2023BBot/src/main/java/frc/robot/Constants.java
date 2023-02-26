@@ -166,6 +166,51 @@ public final class Constants {
 
         // Gear ratios
         public static final double gearRatio = 1;
+
+        // Claw PID
+        public static final double clawP = 0.04;
+        public static final double clawI = 0;
+        public static final double clawD = 0;
+
+        // Shoulder PID
+        public static final double shoulderUpP = 5.0;
+        public static final double shoulderDownP = 5.0;
+        public static final double shoulderI = 0;
+        public static final double shoulderD = 0.00;
+
+        // Elbow PID
+        public static final double elbowUpP = 4.0;
+        public static final double elbowDownP = 2.0;
+        public static final double elbowI = 0;
+        public static final double elbowD = 0;
+
+        // Positions
+
+        // Cone
+        public static final double highConeShoulder = 325.246468;
+        public static final double highConeElbow = 111.305462;
+
+        public static final double midConeShoulder = 271.494505;
+        public static final double midConeElbow = 8.0416982;
+
+        // Cube
+        public static final double highCubeShoulder = 321.013920;
+        public static final double highCubeElbow = 136.178917;
+
+        public static final double midCubeShoulder = 273.951023;
+        public static final double midCubeElbow = 8.0416982;
+
+        // Hybrid
+        public static final double hybridShoulder = 258.141031;
+        public static final double hybridElbow = 69.862753;
+
+        // Claw
+        public static double closedCone = -110.501411;
+        public static double closedCube = -45.237606;
+
+
+
+
     }
 
     public static final class LEDConstants {
@@ -183,7 +228,7 @@ public final class Constants {
 
         // Intake speeds
         public static final double coneSpeed = 1.0;
-        public static final double cubeSpeed = 0.6;
+        public static final double cubeSpeed = 0.5;
 
     }
 

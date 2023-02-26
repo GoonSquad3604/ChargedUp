@@ -7,26 +7,34 @@ package frc.robot;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.LEDS.SetLedsPurple;
 import frc.robot.commands.LEDS.SetLedsWhite;
 import frc.robot.commands.LEDS.SetLedsYellow;
 import frc.robot.commands.arm.ArmDefaultCommand;
+import frc.robot.commands.arm.ArmHigh;
+import frc.robot.commands.arm.ArmLow;
+import frc.robot.commands.arm.ArmMedium;
+import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.drive.Aim;
 import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
-import frc.robot.commands.stick.StickDefaultCommand;
+import frc.robot.commands.states.SetConeMode;
+import frc.robot.commands.states.SetCubeMode;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LED;
-import frc.robot.subsystems.Stick;
+import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.StateController;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
@@ -39,7 +47,8 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   //Declare controllers
   private XboxController driver = new XboxController(0);
-  private XboxController operator = new XboxController(1);
+  private XboxController operatorController = new XboxController(1);
+  private Joystick operatorJoystick = new Joystick(2);
   TestAuton auton = new TestAuton();
 
 
@@ -52,12 +61,14 @@ public class RobotContainer {
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
-  private Intake s_Intake = new Intake();
+  private Intake s_Intake = Intake.getInstance();
+  private StateController s_StateController = StateController.getInstance();
   
   //private Vision s_Vision = new Vision();
 
   private Arm s_Arm = Arm.getInstance();
-  //private LED s_LED = new LED(Constants.LEDConstants.led1, 60);
+  private Shoulder s_Shoulder = Shoulder.getInstance();
+  private LED s_LED = new LED(Constants.LEDConstants.led1, 26);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -69,9 +80,8 @@ public class RobotContainer {
     s_SwerveDrive.setDefaultCommand(
             new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber, driverRightBumper, () -> driver.getLeftTriggerAxis()));
 
-    //s_Stick.setDefaultCommand(new StickDefaultCommand(() -> operator.getLeftY()));
 
-    s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operator.getLeftY(), () -> operator.getRightY()));
+    //s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY()));
 
     configureBindings();
 
@@ -90,36 +100,64 @@ public class RobotContainer {
     JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
 
     // Operator
-    JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
-    JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
-    JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
-    JoystickButton operatorLeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    JoystickButton operatorRightBumper = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-  
-
-
-
-    // operatorY.onTrue(new SetLedsPurple(s_LED));
-    // operatorX.onTrue(new SetLedsWhite(s_LED));
-    // operatorA.onTrue(new SetLedsYellow(s_LED));
-    operatorLeftBumper.onTrue(new InstantCommand(() -> s_Intake.runCubeIntake()));
-    operatorLeftBumper.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
-    operatorRightBumper.onTrue(new InstantCommand(() -> s_Intake.runConeIntake()));
-    operatorRightBumper.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
-
-
-    operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.45, 0.7)));
-    operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    operatorA.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.10, -0.1)));
-    operatorA.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
+    JoystickButton operatorX = new JoystickButton(operatorController, XboxController.Button.kX.value);
+    JoystickButton operatorA = new JoystickButton(operatorController, XboxController.Button.kA.value);
+    JoystickButton operatorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
+    JoystickButton operatorRightBumper = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     
+    JoystickButton operator1 = new JoystickButton(operatorJoystick, 1);
+    JoystickButton operator2 = new JoystickButton(operatorJoystick, 2);
+    JoystickButton operator3 = new JoystickButton(operatorJoystick, 3);
+    JoystickButton operator4 = new JoystickButton(operatorJoystick, 4);
+    JoystickButton operator5 = new JoystickButton(operatorJoystick, 5);
+    JoystickButton operator7 = new JoystickButton(operatorJoystick, 7);
+    JoystickButton operator8 = new JoystickButton(operatorJoystick, 8);
+    JoystickButton operator9 = new JoystickButton(operatorJoystick, 9);
+    JoystickButton operator10 = new JoystickButton(operatorJoystick, 10);
+    JoystickButton operator11 = new JoystickButton(operatorJoystick, 11);
+    JoystickButton operator12 = new JoystickButton(operatorJoystick, 12);
 
 
 
+  
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
     driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
     //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
-    //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;));
+    //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;)); 
+
+
+    operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    operatorA.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
+    operatorA.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+
+    
+    operator1.onTrue((new InstantCommand(() -> s_Intake.runIntake())));
+    operator1.onFalse((new InstantCommand(() -> s_Intake.stopIntake())));
+
+    operator2.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    operator2.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.2, -0.2)));
+    operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+
+
+
+    operator7.onTrue(new SetCubeMode(s_LED));
+    operator8.onTrue(new SetConeMode(s_LED));
+
+    // Claw PID
+    //operator9.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+    operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.closedClawPos)));
+    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+
+    // Arm Positions
+    operator9.onTrue(new ReadyToRecieve());
+    operator10.onTrue(new ArmHigh());
+    operator11.onTrue(new ArmMedium());
+    operator12.onTrue(new ArmLow());
+
+
   }
 
   /**
