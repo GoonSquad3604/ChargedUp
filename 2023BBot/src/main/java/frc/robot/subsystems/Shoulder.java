@@ -22,6 +22,7 @@ public class Shoulder extends SubsystemBase {
   private AbsoluteEncoder shoulderEncoder;
   private SparkMaxPIDController pidController;
   private static Shoulder _instance;
+  private boolean refrenceSet;
 
   /** Creates a new Shoulder. */
   public Shoulder() {
@@ -49,6 +50,8 @@ public class Shoulder extends SubsystemBase {
     pidController.setI(Constants.ArmConstants.shoulderI);
     pidController.setD(Constants.ArmConstants.shoulderD);
     pidController.setOutputRange(-1.0, 1.0);
+
+    refrenceSet = false;
   }
 
   public static Shoulder getInstance() {
@@ -60,19 +63,26 @@ public class Shoulder extends SubsystemBase {
 
   public void shoulderTo(double refrence) {
     pidController.setReference(refrence/360.0, CANSparkMax.ControlType.kPosition);
+    refrenceSet = true;
   }
 
   public void setShoulder(double power) {
-    shoulder1.set(power * .4);
+      shoulder1.set(power * .4);
+      refrenceSet = false;
   }
   public void stopShoulder() {
     shoulder1.set(0);
+    refrenceSet = false;
   }
   public double getShoulderClicks() {
     return shoulderEncoder.getPosition()*360.0;
   }
   public void resetShoulderEncoder(){
     shoulderEncoder.setZeroOffset(0);
+  }
+
+  public void setReferenceBoolean(boolean input){
+    refrenceSet = true;
   }
 
   public void setUpP() {

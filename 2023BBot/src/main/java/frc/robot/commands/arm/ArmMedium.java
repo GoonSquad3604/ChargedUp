@@ -15,6 +15,9 @@ public class ArmMedium extends ParallelCommandGroup {
   StateController stateController;
   public ArmMedium() {
     stateController = StateController.getInstance();
-    addCommands(new ShoulderTo(stateController.midposShoulder), new ElbowTo(stateController.midposElbow));
+    double elbowPosition = stateController.getMidPosElbow();
+    double shoulderPosition = stateController.getMidPosShoulder();
+
+    addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
   }
 }

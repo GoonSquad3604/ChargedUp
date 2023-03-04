@@ -4,11 +4,18 @@
 
 package frc.robot.commands.arm;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import javax.print.attribute.standard.JobPriority;
+
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Constants.General;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 
@@ -19,26 +26,26 @@ public class ArmDefaultCommand extends CommandBase {
 
   private DoubleSupplier shoulderSupplier;
   private DoubleSupplier elbowSupplier;
-  public ArmDefaultCommand(DoubleSupplier shoulderSupplier, DoubleSupplier elbowSupplier) {
+  private BooleanSupplier joystickEnabled;
+  public ArmDefaultCommand(DoubleSupplier shoulderSupplier, DoubleSupplier elbowSupplier, BooleanSupplier leftBumperPressed) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Arm = Arm.getInstance();
     s_Shoulder = Shoulder.getInstance();
+    joystickEnabled = leftBumperPressed;
 
     this.shoulderSupplier = shoulderSupplier;
     this.elbowSupplier = elbowSupplier;
+    
     addRequirements(s_Arm);
   
   }
 
-
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  
-    s_Shoulder.setShoulder(MathUtil.applyDeadband(shoulderSupplier.getAsDouble(), Constants.General.deadband));
-    s_Arm.setElbow(MathUtil.applyDeadband(elbowSupplier.getAsDouble(), Constants.General.deadband));
-  }
-
-
+    public void execute() {
+      if(joystickEnabled.getAsBoolean()) {
+        s_Shoulder.setShoulder(MathUtil.applyDeadband(shoulderSupplier.getAsDouble(), Constants.General.deadband));
+        s_Arm.setElbow(MathUtil.applyDeadband(elbowSupplier.getAsDouble(), Constants.General.deadband));
+      }
+    }
 }

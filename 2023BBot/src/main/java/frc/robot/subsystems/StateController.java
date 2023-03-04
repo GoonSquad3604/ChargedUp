@@ -13,12 +13,12 @@ public class StateController extends SubsystemBase {
 
   private static StateController _instance;
   private RobotMode m_Mode;
-  public double intakeSpeed;
-  public double closedClawPos;
-  public double highposElbow;
-  public double midposElbow;
-  public double highposShoulder;
-  public double midposShoulder;
+  private double intakeSpeed;
+  private double closedClawPos;
+  private double highposElbow;
+  private double midposElbow;
+  private double highposShoulder;
+  private double midposShoulder;
 
 
   public static StateController getInstance() {
@@ -73,7 +73,22 @@ public class StateController extends SubsystemBase {
   public double getIntakeSpeed() {
     return intakeSpeed;
   }
-  
+
+  public double getHighPosElbow() {
+    return highposElbow;
+  }
+  public double getHighPosShoulder() {
+    return highposShoulder;
+  }
+  public double getMidPosElbow() {
+    return midposElbow;
+  }
+  public double getMidPosShoulder() {
+    return midposShoulder;
+  }
+  public double getClosedClawPos() {
+    return closedClawPos;
+  }
 
   @Override
   public void periodic() {

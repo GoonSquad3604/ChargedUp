@@ -66,6 +66,7 @@ public class Arm extends SubsystemBase {
     elbowEncoder.setInverted(false);
     //elbowEncoder.setZeroOffset(180);
     clawEncoder = claw.getEncoder();
+    clawEncoder.setPosition(0);
 
     // PID Controllers
 
@@ -75,7 +76,7 @@ public class Arm extends SubsystemBase {
     claw_pidController.setP(Constants.ArmConstants.clawP);
     claw_pidController.setI(Constants.ArmConstants.clawI);
     claw_pidController.setD(Constants.ArmConstants.clawD);
-    claw_pidController.setOutputRange(-.4, 0.4);
+    claw_pidController.setOutputRange(-.8, 0.8);
 
     // Elbow PID
     elbow_pidController = elbow.getPIDController();
@@ -111,7 +112,7 @@ public class Arm extends SubsystemBase {
     return angles;
   }
 
-  public static final Arm getInstance() {
+  public static Arm getInstance() {
     if (_instance == null) {
       _instance = new Arm();
     }

@@ -14,4 +14,11 @@ public final class Trajectories {
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
+
+    public static PathPlannerTrajectory twoConeFreelane() {
+        return PathPlanner.loadPath(
+                "2ConeFreelane",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
 }

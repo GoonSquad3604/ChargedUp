@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,6 +29,7 @@ import frc.robot.commands.drive.Aim;
 import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
+import frc.robot.commands.intake.ToggleHinge;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
 import frc.robot.subsystems.Arm;
@@ -57,6 +59,7 @@ public class RobotContainer {
   //Declare Certain Buttons
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private JoystickButton driverRightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private JoystickButton operatorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
   
 
   //Declare Subsystems
@@ -64,7 +67,7 @@ public class RobotContainer {
   private Intake s_Intake = Intake.getInstance();
   private StateController s_StateController = StateController.getInstance();
   
-  //private Vision s_Vision = new Vision();
+  private Vision s_Vision = new Vision();
 
   private Arm s_Arm = Arm.getInstance();
   private Shoulder s_Shoulder = Shoulder.getInstance();
@@ -76,12 +79,12 @@ public class RobotContainer {
     //double speedBoost = 1.0;
 
 
-    //Set Defualt Commands
+    //Set Defualt Commands%
     s_SwerveDrive.setDefaultCommand(
             new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber, driverRightBumper, () -> driver.getLeftTriggerAxis()));
 
 
-    //s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY()));
+    s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY(), operatorLeftBumper));
 
     configureBindings();
 
@@ -98,6 +101,7 @@ public class RobotContainer {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
     JoystickButton driverB = new JoystickButton(driver, XboxController.Button.kB.value);
     JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
+    JoystickButton driverX = new JoystickButton(driver, XboxController.Button.kX.value);
 
     // Operator
     JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
@@ -111,6 +115,7 @@ public class RobotContainer {
     JoystickButton operator3 = new JoystickButton(operatorJoystick, 3);
     JoystickButton operator4 = new JoystickButton(operatorJoystick, 4);
     JoystickButton operator5 = new JoystickButton(operatorJoystick, 5);
+    JoystickButton operator6 = new JoystickButton(operatorJoystick, 6);
     JoystickButton operator7 = new JoystickButton(operatorJoystick, 7);
     JoystickButton operator8 = new JoystickButton(operatorJoystick, 8);
     JoystickButton operator9 = new JoystickButton(operatorJoystick, 9);
@@ -123,21 +128,25 @@ public class RobotContainer {
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
     driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
+    
     //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
     //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;)); 
 
 
-    operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    operatorA.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
-    operatorA.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    // operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operatorA.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
+    // operatorA.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
 
     
     operator1.onTrue((new InstantCommand(() -> s_Intake.runIntake())));
     operator1.onFalse((new InstantCommand(() -> s_Intake.stopIntake())));
+    operator6.onTrue((new InstantCommand(() -> s_Intake.vomit())));
+    operator6.onFalse((new InstantCommand(()-> s_Intake.stopIntake())));
 
-    operator2.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    operator2.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operator2.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    // operator2.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operator2.onTrue(new ToggleHinge());
     operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.2, -0.2)));
     operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
 
@@ -148,14 +157,32 @@ public class RobotContainer {
 
     // Claw PID
     //operator9.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
-    operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.closedClawPos)));
-    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+    // operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
+    // operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+    // operator4.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
+    // operator5.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
 
     // Arm Positions
+
     operator9.onTrue(new ReadyToRecieve());
-    operator10.onTrue(new ArmHigh());
-    operator11.onTrue(new ArmMedium());
+
+    // Arm high
+    operator10.onTrue(new InstantCommand(() -> s_Arm.elbowTo(s_StateController.getHighPosElbow())));
+    operator10.onTrue(new InstantCommand(() -> s_Shoulder.shoulderTo(s_StateController.getHighPosShoulder())));
+
+    // Arm mid
+    operator11.onTrue(new InstantCommand(() -> s_Arm.elbowTo(s_StateController.getMidPosElbow())));
+    operator11.onTrue(new InstantCommand(() -> s_Shoulder.shoulderTo(s_StateController.getMidPosShoulder())));
+
+    // Arm low
     operator12.onTrue(new ArmLow());
+
+
+    // operator10.onTrue(new ArmHigh(s_StateController));
+    operator8.onTrue(new SetConeMode(s_LED));
+    operatorLeftBumper.onFalse(new InstantCommand(() -> s_Arm.setElbow(0)));
+    operatorLeftBumper.onFalse(new InstantCommand(() -> s_Shoulder.setShoulder(0)));
+    
 
 
   }

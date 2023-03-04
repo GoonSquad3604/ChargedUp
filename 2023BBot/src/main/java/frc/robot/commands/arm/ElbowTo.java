@@ -31,7 +31,8 @@ public class ElbowTo extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putString("Elbow to status", "beginning");
+    goodToMove = false;
+    SmartDashboard.putNumber("Elbow refrence", m_refrence);
     if(m_Arm.getElbowClicks() > m_refrence) {
       m_Arm.setUpP();
     }
@@ -45,7 +46,9 @@ public class ElbowTo extends CommandBase {
   @Override
   public void execute() {
     SmartDashboard.putString("Elbow to status", "running " + m_refrence);
+    SmartDashboard.putString("Shoulder is over 280", "no");
     if(m_Shoulder.getShoulderClicks() > 280.0) {
+      SmartDashboard.putString("Shoulder is over 280", "yep");
       goodToMove = true;
     }
     
@@ -61,6 +64,7 @@ public class ElbowTo extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     SmartDashboard.putString("Elbow to status", "ended");
+    
   }
 
   // Returns true when the command should end.

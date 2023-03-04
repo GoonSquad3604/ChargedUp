@@ -205,7 +205,7 @@ public final class Constants {
         public static final double hybridElbow = 69.862753;
 
         // Claw
-        public static double closedCone = -110.501411;
+        public static double closedCone = -118.501411;
         public static double closedCube = -45.237606;
 
 
@@ -215,6 +215,7 @@ public final class Constants {
 
     public static final class LEDConstants {
         public static final int led1 = 0;
+        public static final int led2 = 1;
     }
 
     public static final class IntakeConstants {
@@ -222,13 +223,17 @@ public final class Constants {
         // Hinge
         public static final int leftHingeId = 13;
         public static final int rightHingeId = 7;
+        public static final double hingeP = 0.1;
+        public static final double hingeI = 0;
+        public static final double hingeD = 0;
+        public static final double hingeDown = -20;
 
         // Spaghetti
         public static final int intakeId = 6;
 
         // Intake speeds
         public static final double coneSpeed = 1.0;
-        public static final double cubeSpeed = 0.5;
+        public static final double cubeSpeed = 0.25;
 
     }
 

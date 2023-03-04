@@ -4,8 +4,10 @@
 
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.StateController;
 
@@ -13,10 +15,13 @@ import frc.robot.subsystems.StateController;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmHigh extends ParallelCommandGroup {
-  StateController stateController;
+  StateController m_stateController;
   /** Creates a new ArmHigh. */
-  public ArmHigh() {
-    stateController = StateController.getInstance();
-    addCommands(new ShoulderTo(stateController.highposShoulder), new ElbowTo(stateController.highposElbow));
+  public ArmHigh(StateController stateController) {
+    m_stateController = stateController;
+    double elbowPosition = m_stateController.getHighPosElbow();
+    double shoulderPosition = m_stateController.getHighPosShoulder();
+    addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
+    addRequirements(m_stateController);
   }
 }
