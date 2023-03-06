@@ -26,7 +26,6 @@ import frc.robot.commands.arm.ArmMedium;
 import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.drive.Aim;
-import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
@@ -72,7 +71,7 @@ public class RobotContainer {
 
   private Arm s_Arm = Arm.getInstance();
   private Shoulder s_Shoulder = Shoulder.getInstance();
-  private LED s_LED = new LED(Constants.LEDConstants.led1, 26);
+  private LED s_LED = new LED(Constants.LEDConstants.led1, 24);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -124,64 +123,89 @@ public class RobotContainer {
     JoystickButton operator11 = new JoystickButton(operatorJoystick, 11);
     JoystickButton operator12 = new JoystickButton(operatorJoystick, 12);
 
+    // MANUAL STUFF
+
+    // Claw
+    operator1.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
+    operator1.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+    operator2.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
+    operator2.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+
+    // Hinge
+    operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    operator4.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
+    operator4.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+
+    // Intake
+    operator5.onTrue(new InstantCommand(() -> s_Intake.runIntake()));
+    operator5.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
+
+    operator6.onTrue(new SetConeMode(s_LED));
+    operator7.onTrue(new SetCubeMode(s_LED));
+
+
+    
+
+
 
 
   
-    driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
-    driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
-    driverX.onTrue(new AutoBalance(s_SwerveDrive));
+    // driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
+    // driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
     
-    //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
-    //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;)); 
+    // //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
+    // //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;)); 
 
 
-    // operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    // operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    // operatorA.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
-    // operatorA.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operator9.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    // operator9.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operator10.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
+    // operator11.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
 
     
-    operator1.onTrue((new InstantCommand(() -> s_Intake.runIntake())));
-    operator1.onFalse((new InstantCommand(() -> s_Intake.stopIntake())));
-    operator6.onTrue((new InstantCommand(() -> s_Intake.vomit())));
-    operator6.onFalse((new InstantCommand(()-> s_Intake.stopIntake())));
+    // operator1.onTrue((new InstantCommand(() -> s_Intake.runIntake())));
+    // operator1.onFalse((new InstantCommand(() -> s_Intake.stopIntake())));
+    // operator6.onTrue((new InstantCommand(() -> s_Intake.vomit())));
+    // operator6.onFalse((new InstantCommand(()-> s_Intake.stopIntake())));
 
-    // operator2.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    // operator2.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    // operator2.onTrue(new ToggleHinge());
-    operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.2, -0.2)));
-    operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // // operator2.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    // // operator2.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // // operator2.onTrue(new ToggleHinge());
+    // operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.2, -0.2)));
+    // operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
 
 
 
-    operator7.onTrue(new SetCubeMode(s_LED));
-    operator8.onTrue(new SetConeMode(s_LED));
+    // operator7.onTrue(new SetCubeMode(s_LED));
+    // operator8.onTrue(new SetConeMode(s_LED));
 
     // Claw PID
     //operator9.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
-    operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
-    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+    // operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
+    // operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
     // operator4.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
     // operator5.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
 
-    // Arm Positions
+    // // Arm Positions
+    // operator9.onTrue(new ReadyToRecieve());
 
-    operator9.onTrue(new ReadyToRecieve());
+    // // Arm high
+    // operator10.onTrue(new InstantCommand(() -> s_Arm.elbowTo(s_StateController.getHighPosElbow())));
+    // operator10.onTrue(new InstantCommand(() -> s_Shoulder.shoulderTo(s_StateController.getHighPosShoulder())));
 
-    // Arm high
-    operator10.onTrue(new ArmHigh(s_StateController.getHighPosShoulder(), s_StateController.getHighPosShoulder()));
+    // // Arm mid
+    // operator11.onTrue(new InstantCommand(() -> s_Arm.elbowTo(s_StateController.getMidPosElbow())));
+    // operator11.onTrue(new InstantCommand(() -> s_Shoulder.shoulderTo(s_StateController.getMidPosShoulder())));
 
-    // Arm mid
-    operator11.onTrue(new ArmMedium(s_StateController.getMidPosShoulder(), s_StateController.getMidPosShoulder()));
-
-    // Arm low
-    operator12.onTrue(new ArmLow());
+    // // Arm low
+    // operator12.onTrue(new ArmLow());
 
 
-    // operator10.onTrue(new ArmHigh(s_StateController));
-    operator8.onTrue(new SetConeMode(s_LED));
-    operatorLeftBumper.onFalse(new InstantCommand(() -> s_Arm.setElbow(0)));
-    operatorLeftBumper.onFalse(new InstantCommand(() -> s_Shoulder.setShoulder(0)));
+    // // operator10.onTrue(new ArmHigh(s_StateController));
+    // operator8.onTrue(new SetConeMode(s_LED));
+    // operatorLeftBumper.onFalse(new InstantCommand(() -> s_Arm.setElbow(0)));
+    // operatorLeftBumper.onFalse(new InstantCommand(() -> s_Shoulder.setShoulder(0)));
     
 
 

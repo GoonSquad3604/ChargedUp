@@ -15,8 +15,13 @@ import frc.robot.subsystems.StateController;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmHigh extends ParallelCommandGroup {
+  StateController m_stateController;
   /** Creates a new ArmHigh. */
-  public ArmHigh(double shoulderPosition, double elbowPosition) {
+  public ArmHigh(StateController stateController) {
+    m_stateController = stateController;
+    double elbowPosition = m_stateController.getHighPosElbow();
+    double shoulderPosition = m_stateController.getHighPosShoulder();
     addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
+    addRequirements(m_stateController);
   }
 }

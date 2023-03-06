@@ -4,19 +4,20 @@
 
 package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Arm;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.StateController;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmHigh extends ParallelCommandGroup {
+public class ArmLow extends ParallelCommandGroup {
+  StateController stateController;
   /** Creates a new ArmHigh. */
-  public ArmHigh(double shoulderPosition, double elbowPosition) {
-    addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
+  public ArmLow() {
+    stateController = StateController.getInstance();
+    addCommands(new ShoulderTo(Constants.ArmConstants.hybridShoulder), new ElbowTo(Constants.ArmConstants.hybridElbow));
   }
 }

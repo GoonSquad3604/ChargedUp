@@ -2,18 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.arm;
+package frc.robot.commands.LEDS;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.subsystems.StateController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.LED;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmMedium extends ParallelCommandGroup {
-  /** Creates a new ArmMedium. */
-  StateController stateController;
-  public ArmMedium(double shoulderPosition, double elbowPosition) {
-    addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
+public class SetLedsYellow extends InstantCommand {
+  LED m_led;
+
+  public SetLedsYellow(LED led) {
+    m_led = led;
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    m_led.setColor(255, 255, 0);
   }
 }
