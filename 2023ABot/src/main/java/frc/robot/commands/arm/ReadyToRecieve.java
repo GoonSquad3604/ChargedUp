@@ -4,7 +4,10 @@
 
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,18 +17,17 @@ public class ReadyToRecieve extends SequentialCommandGroup {
 
   double shoulderClicks;
   Shoulder shoulder;
+  Arm m_Arm;
 
   /** Creates a new ReadyToRecieve. */
   public ReadyToRecieve() {
     shoulder = Shoulder.getInstance();
     shoulderClicks = shoulder.getShoulderClicks();
-    if(shoulderClicks > 290.0) {
+    m_Arm = Arm.getInstance();
       addCommands(
-        new ElbowTo(245.101504),
-        new ShoulderTo(247.958593),
-        new ElbowTo(201.261055)  
+        new ShoulderTo(99.382528),
+        new InstantCommand(() -> m_Arm.elbowTo((155.217386))),
+        new InstantCommand(() -> m_Arm.clawTo(0))
       );
-    }
-
   }
 }

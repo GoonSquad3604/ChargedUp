@@ -52,6 +52,7 @@ public class Shoulder extends SubsystemBase {
     pidController.setOutputRange(-1.0, 1.0);
 
     refrenceSet = false;
+    
   }
 
   public static Shoulder getInstance() {

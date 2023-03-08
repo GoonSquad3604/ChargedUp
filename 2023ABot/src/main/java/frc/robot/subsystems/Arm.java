@@ -85,7 +85,7 @@ public class Arm extends SubsystemBase {
     elbow_pidController.setI(Constants.ArmConstants.elbowI);
     elbow_pidController.setD(Constants.ArmConstants.elbowD);
     
-    elbow_pidController.setOutputRange(-0.8, 0.8);
+    elbow_pidController.setOutputRange(-0.7, 0.7);
 
 
     // Brake mode

@@ -60,11 +60,11 @@ public class StateController extends SubsystemBase {
     m_Mode = RobotMode.NEUTRAL;
     intakeSpeed = 0;
    
-    highposShoulder = Constants.ArmConstants.highCubeShoulder;
-    highposElbow = Constants.ArmConstants.highCubeElbow;
-    midposShoulder = Constants.ArmConstants.midCubeShoulder;
-    midposElbow = Constants.ArmConstants.midCubeElbow;
-    closedClawPos = Constants.ArmConstants.closedCube;
+    highposShoulder = Constants.ArmConstants.highConeShoulder;
+    highposElbow = Constants.ArmConstants.highConeElbow;
+    midposShoulder = Constants.ArmConstants.midConeShoulder;
+    midposElbow = Constants.ArmConstants.midConeElbow;
+    closedClawPos = Constants.ArmConstants.closedCone;
   }
   public RobotMode getMode() {
     return m_Mode;

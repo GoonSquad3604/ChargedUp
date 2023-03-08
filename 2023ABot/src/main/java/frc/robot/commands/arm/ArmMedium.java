@@ -13,11 +13,7 @@ import frc.robot.subsystems.StateController;
 public class ArmMedium extends ParallelCommandGroup {
   /** Creates a new ArmMedium. */
   StateController stateController;
-  public ArmMedium() {
-    stateController = StateController.getInstance();
-    double elbowPosition = stateController.getMidPosElbow();
-    double shoulderPosition = stateController.getMidPosShoulder();
-
+  public ArmMedium(double shoulderPosition, double elbowPosition) {
     addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
   }
 }

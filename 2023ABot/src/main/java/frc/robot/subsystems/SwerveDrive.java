@@ -140,6 +140,10 @@ public class SwerveDrive extends SubsystemBase {
     return Rotation2d.fromDegrees(m_Pigeon.getYaw());
   }
 
+  public double getRoll() {
+    return m_Pigeon.getRoll();
+  }
+
   public double getGyroPitch() {
     return m_Pigeon.getPitch();
   }

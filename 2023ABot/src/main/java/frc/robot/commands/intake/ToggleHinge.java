@@ -4,6 +4,7 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
@@ -20,6 +21,7 @@ public class ToggleHinge extends InstantCommand {
     if(m_Intake.toggledUp) {
       m_Intake.hingeTo(Constants.IntakeConstants.hingeDown);
       m_Intake.toggledUp = false;
+      SmartDashboard.putNumber("HingeDesiredPos", Constants.IntakeConstants.hingeDown);
     }
     else {
       m_Intake.hingeTo(0);

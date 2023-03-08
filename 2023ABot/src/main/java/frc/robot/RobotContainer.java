@@ -23,9 +23,11 @@ import frc.robot.commands.arm.ArmDefaultCommand;
 import frc.robot.commands.arm.ArmHigh;
 import frc.robot.commands.arm.ArmLow;
 import frc.robot.commands.arm.ArmMedium;
+import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.drive.Aim;
+import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
@@ -126,23 +128,51 @@ public class RobotContainer {
     // MANUAL STUFF
 
     // Claw
-    operator1.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
-    operator1.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
-    operator2.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
-    operator2.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+    operatorY.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
+    operatorY.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+    operatorX.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
+    operatorX.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+    // operator2.onTrue(new ToggleHinge());
 
     // Hinge
-    operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    operator4.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
-    operator4.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
+    // operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    // operator4.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
+    // operator4.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
 
     // Intake
-    operator5.onTrue(new InstantCommand(() -> s_Intake.runIntake()));
-    operator5.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
+    operator1.onTrue(new InstantCommand(() -> s_Intake.runIntake()));
+    operator1.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
+    operator3.onTrue(new InstantCommand(() -> s_Intake.vomit()));
+    operator3.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
 
-    operator6.onTrue(new SetConeMode(s_LED));
     operator7.onTrue(new SetCubeMode(s_LED));
+    operator8.onTrue(new SetConeMode(s_LED));
+
+    // HINGE ZERO
+    driverB.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
+    driverB.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    driverB.onFalse(new InstantCommand(() -> s_Intake.zeroHinge()));
+
+
+    // SMART STUFF
+
+    // Drive Train
+    driverA.onTrue(new AutoBalance(s_SwerveDrive));
+
+    // Arm
+    operator9.onTrue(new HomePosition());
+    operator10.onTrue(new ArmHigh(s_StateController.getHighPosShoulder(),s_StateController.getHighPosElbow()));
+    operator11.onTrue(new ArmMedium(s_StateController.getMidPosShoulder(),s_StateController.getMidPosElbow()));
+    operator12.onTrue(new ArmLow());
+
+    // Claw
+    operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
+    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+    operator2.onTrue(new ToggleHinge());
+
+    operator6.onTrue(new ReadyToRecieve());
+
 
 
     
@@ -151,7 +181,7 @@ public class RobotContainer {
 
 
   
-    // driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
+    driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
     // driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
     
     // //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
@@ -180,9 +210,11 @@ public class RobotContainer {
     // operator7.onTrue(new SetCubeMode(s_LED));
     // operator8.onTrue(new SetConeMode(s_LED));
 
+
     // Claw PID
     //operator9.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
     // operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
+    // operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
     // operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
     // operator4.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
     // operator5.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));

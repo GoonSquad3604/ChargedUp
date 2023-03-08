@@ -112,7 +112,7 @@ public final class Constants {
             public static final int driveMotorID = 18;
             public static final int angleMotorID = 16;
             public static final int canCoderID = 20;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(25.048828);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.960938);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -122,7 +122,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 21;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(77.695313);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(77.607422);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -132,7 +132,7 @@ public final class Constants {
             public static final int driveMotorID = 19;
             public static final int angleMotorID = 17;
             public static final int canCoderID = 22;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(20.302734);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(20.390625);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -142,7 +142,7 @@ public final class Constants {
             public static final int driveMotorID = 40;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 23;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(71.191406);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(71.103516);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -173,7 +173,7 @@ public final class Constants {
         public static final double clawD = 0;
 
         // Shoulder PID
-        public static final double shoulderUpP = 5.0;
+        public static final double shoulderUpP = 7.0;
         public static final double shoulderDownP = 5.0;
         public static final double shoulderI = 0;
         public static final double shoulderD = 0.00;
@@ -187,26 +187,26 @@ public final class Constants {
         // Positions
 
         // Cone
-        public static final double highConeShoulder = 325.246468;
-        public static final double highConeElbow = 111.305462;
+        public static final double highConeShoulder = 190.016935;
+        public static final double highConeElbow = 247.590852;
 
-        public static final double midConeShoulder = 271.494505;
-        public static final double midConeElbow = 8.0416982;
+        public static final double midConeShoulder = 155.204566;
+        public static final double midConeElbow = 321.342030;
 
         // Cube
-        public static final double highCubeShoulder = 321.013920;
-        public static final double highCubeElbow = 136.178917;
+        public static final double highCubeShoulder = 175.620897;
+        public static final double highCubeElbow = 250.658376;
 
-        public static final double midCubeShoulder = 273.951023;
-        public static final double midCubeElbow = 8.0416982;
+        public static final double midCubeShoulder = 148.918262;
+        public static final double midCubeElbow = 290.796475;
 
         // Hybrid
-        public static final double hybridShoulder = 258.141031;
-        public static final double hybridElbow = 69.862753;
+        public static final double hybridShoulder = 137.648177;
+        public static final double hybridElbow = 232.072899;
 
         // Claw
-        public static double closedCone = -118.501411;
-        public static double closedCube = -45.237606;
+        public static double closedCone = 68.5;
+        public static double closedCube = 31.69;
 
 
 
@@ -223,16 +223,16 @@ public final class Constants {
         // Hinge
         public static final int leftHingeId = 13;
         public static final int rightHingeId = 7;
-        public static final double hingeP = 0.1;
+        public static final double hingeP = 0.05;
         public static final double hingeI = 0;
-        public static final double hingeD = 0;
-        public static final double hingeDown = -20;
+        public static final double hingeD = 0.01;
+        public static final double hingeDown = 24.428421;
 
         // Spaghetti
         public static final int intakeId = 6;
 
         // Intake speeds
-        public static final double coneSpeed = 1.0;
+        public static final double coneSpeed = 0.90;
         public static final double cubeSpeed = 0.25;
 
     }

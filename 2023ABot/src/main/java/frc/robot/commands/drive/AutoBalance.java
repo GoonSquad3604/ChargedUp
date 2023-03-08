@@ -15,16 +15,16 @@ public class AutoBalance extends PIDCommand {
   public AutoBalance(SwerveDrive drive) {
     super(
         // The controller that the command will use
-        new PIDController(1.0, 0, 0),
+        new PIDController(5.0, 0, 0),
         // This should return the measurement
-        () -> drive.getGyroPitch(),
+        () -> drive.getRoll(),
         // This should return the setpoint (can also be a constant)
         () -> 0,
         // This uses the output
         output -> {
           drive.drive(new Translation2d(output, 0), 0, true, false, false);
         });
-      getController().enableContinuousInput(-1, 1);
+      //getController().enableContinuousInput(-1, 1);
       getController().setTolerance(3, 1);
       m_Drive = SwerveDrive.getInstance();
       addRequirements(m_Drive);
