@@ -156,6 +156,10 @@ public class Arm extends SubsystemBase {
     claw.set(0);
   }
 
+  public void setStartingPos() {
+    clawEncoder.setPosition(Constants.ArmConstants.startingPos);
+  }
+
   public void clawTo(double refrence) {
     claw_pidController.setReference(refrence, ControlType.kPosition);
     

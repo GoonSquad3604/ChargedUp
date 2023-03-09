@@ -112,7 +112,7 @@ public final class Constants {
             public static final int driveMotorID = 18;
             public static final int angleMotorID = 16;
             public static final int canCoderID = 20;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.960938);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.521484);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -122,7 +122,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 21;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(77.607422);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(78.662109);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -132,7 +132,7 @@ public final class Constants {
             public static final int driveMotorID = 19;
             public static final int angleMotorID = 17;
             public static final int canCoderID = 22;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(20.390625);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(20.302734);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -187,7 +187,7 @@ public final class Constants {
         // Positions
 
         // Cone
-        public static final double highConeShoulder = 190.016935;
+        public static final double highConeShoulder = 194.016935;
         public static final double highConeElbow = 247.590852;
 
         public static final double midConeShoulder = 155.204566;
@@ -205,8 +205,9 @@ public final class Constants {
         public static final double hybridElbow = 232.072899;
 
         // Claw
-        public static double closedCone = 68.5;
-        public static double closedCube = 31.69;
+        public static double closedCone = 62;
+        public static double closedCube = 23.33;
+        public static double startingPos = 46.66;
 
 
 
@@ -247,7 +248,7 @@ public final class Constants {
         public static final double kPYController = 0.0;
         //public static final double kIYController = 0.1;
         //public static final double kIXController = 0.1;
-        public static final double kPThetaController = 0.4;
+        public static final double kPThetaController = 0.0;
     
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

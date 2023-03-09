@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.LEDS.SetLedsPurple;
@@ -32,6 +33,7 @@ import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.SwerveDefaultDrive;
 import frc.robot.commands.intake.ToggleHinge;
+import frc.robot.commands.intake.ToggleHingeDown;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
 import frc.robot.subsystems.Arm;
@@ -53,7 +55,19 @@ public class RobotContainer {
   private XboxController driver = new XboxController(0);
   private XboxController operatorController = new XboxController(1);
   private Joystick operatorJoystick = new Joystick(2);
-  TestAuton auton = new TestAuton();
+  //TestAuton auton = new TestAuton();
+
+    // Hinge toggled
+    private boolean toggledHinge = false;
+
+    private void toggle() {
+      if(toggledHinge) {
+        toggledHinge = false;
+      }
+      else {
+        toggledHinge = true;
+      }
+    }
 
 
 
@@ -66,7 +80,7 @@ public class RobotContainer {
 
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
-  private Intake s_Intake = Intake.getInstance();
+  private Intake s_Intake = new Intake();
   private StateController s_StateController = StateController.getInstance();
   
   private Vision s_Vision = new Vision();
@@ -90,7 +104,7 @@ public class RobotContainer {
 
     configureBindings();
 
-    SmartDashboard.putString("auton pose", auton.getInitialPose().toString());
+    //SmartDashboard.putString("auton pose", auton.getInitialPose().toString());
     //s_SwerveDrive.resetOdometry(auton.getInitialPose());
     // s_SwerveDrive.resetModulesToAbsolute();
   }
@@ -124,6 +138,10 @@ public class RobotContainer {
     JoystickButton operator10 = new JoystickButton(operatorJoystick, 10);
     JoystickButton operator11 = new JoystickButton(operatorJoystick, 11);
     JoystickButton operator12 = new JoystickButton(operatorJoystick, 12);
+
+    //custom triggers
+    Trigger toggleTrigger = new Trigger(s_Intake::getToggle);
+    Trigger notToggleTrigger = new Trigger(s_Intake::getNotToggle);
 
     // MANUAL STUFF
 
@@ -169,77 +187,19 @@ public class RobotContainer {
     // Claw
     operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
     operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
-    operator2.onTrue(new ToggleHinge());
+    operator2.and(toggleTrigger).onTrue(new ToggleHinge(s_Intake)); 
+    operator2.and(notToggleTrigger).onTrue(new ToggleHingeDown(s_Intake)); 
+    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
+    // operator2.onTrue(toggledHinge ? new SequentialCommandGroup(new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
+    // new Wait(1),
+    // new ReadyToRecieve(),
+    // new InstantCommand(() -> toggle())) : )
 
     operator6.onTrue(new ReadyToRecieve());
 
-
-
-    
-
-
-
-
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
-    // driverB.onTrue(new DefaultAngle(s_SwerveDrive, driver));
-    
-    // //driverA.onTrue(new CenterPole(s_Vision, s_SwerveDrive, driver));
-    // //driverLeftBumper.whileTrue(() -> (speedBoost = 0.5;)); 
-
-
-    // operator9.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    // operator9.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    // operator10.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
-    // operator11.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-
-    
-    // operator1.onTrue((new InstantCommand(() -> s_Intake.runIntake())));
-    // operator1.onFalse((new InstantCommand(() -> s_Intake.stopIntake())));
-    // operator6.onTrue((new InstantCommand(() -> s_Intake.vomit())));
-    // operator6.onFalse((new InstantCommand(()-> s_Intake.stopIntake())));
-
-    // // operator2.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    // // operator2.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    // // operator2.onTrue(new ToggleHinge());
-    // operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.2, -0.2)));
-    // operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-
-
-
-    // operator7.onTrue(new SetCubeMode(s_LED));
-    // operator8.onTrue(new SetConeMode(s_LED));
-
-
-    // Claw PID
-    //operator9.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
-    // operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
-    // operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
-    // operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
-    // operator4.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
-    // operator5.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
-
-    // // Arm Positions
-    // operator9.onTrue(new ReadyToRecieve());
-
-    // // Arm high
-    // operator10.onTrue(new InstantCommand(() -> s_Arm.elbowTo(s_StateController.getHighPosElbow())));
-    // operator10.onTrue(new InstantCommand(() -> s_Shoulder.shoulderTo(s_StateController.getHighPosShoulder())));
-
-    // // Arm mid
-    // operator11.onTrue(new InstantCommand(() -> s_Arm.elbowTo(s_StateController.getMidPosElbow())));
-    // operator11.onTrue(new InstantCommand(() -> s_Shoulder.shoulderTo(s_StateController.getMidPosShoulder())));
-
-    // // Arm low
-    // operator12.onTrue(new ArmLow());
-
-
-    // // operator10.onTrue(new ArmHigh(s_StateController));
-    // operator8.onTrue(new SetConeMode(s_LED));
-    // operatorLeftBumper.onFalse(new InstantCommand(() -> s_Arm.setElbow(0)));
-    // operatorLeftBumper.onFalse(new InstantCommand(() -> s_Shoulder.setShoulder(0)));
-    
-
+ 
 
   }
 
@@ -249,7 +209,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    TestAuton auton = new TestAuton();
+    TestAuton auton = new TestAuton(s_LED, s_Intake);
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;
   }

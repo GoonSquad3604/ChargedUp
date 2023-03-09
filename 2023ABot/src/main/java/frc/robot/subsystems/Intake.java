@@ -26,10 +26,10 @@ public class Intake extends SubsystemBase {
   CANSparkMax rightHinge;
   RelativeEncoder hingEncoder;
   StateController stateController;
-  private static Intake _instance;
+  //private static Intake _instance;
 
   // Toggling
-  public boolean toggledUp = true;
+  private boolean toggledUp;
   private SparkMaxPIDController hingePIDController;
 
   // Spaghetti wheels
@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
     stateController = StateController.getInstance();
-
+    toggledUp = true;
     // Hinges
     leftHinge = new CANSparkMax(Constants.IntakeConstants.leftHingeId, MotorType.kBrushless);
     rightHinge = new CANSparkMax(Constants.IntakeConstants.rightHingeId, MotorType.kBrushless);
@@ -66,12 +66,31 @@ public class Intake extends SubsystemBase {
     intake = new WPI_TalonSRX(Constants.IntakeConstants.intakeId);
   }
 
-  public static final Intake getInstance() {
-    if (_instance == null) {
-            _instance = new Intake();
+  public void toggle() {
+    if(toggledUp) {
+      toggledUp = false;
+      SmartDashboard.putString("toggle", "down"); 
     }
-    return _instance;
+    else {
+      toggledUp = true;
+      SmartDashboard.putString("toggle", "up"); 
+    }
   }
+
+  public boolean getToggle() {
+    return toggledUp;
+  }
+
+  public boolean getNotToggle() {
+    return !toggledUp;
+  }
+
+  // public static Intake getInstance() {
+  //   if (_instance == null) {
+  //           _instance = new Intake();
+  //   }
+  //   return _instance;
+  // }
 
   public double getEncoder() {
     return hingEncoder.getPosition();

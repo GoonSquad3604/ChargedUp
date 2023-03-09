@@ -19,24 +19,24 @@ public class TwoPieceFreelane extends GoonAutonCommand{
 
     Arm m_Arm;
 
-  public TwoPieceFreelane(){
-    super.addCommands(
-        new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
-        new ArmHigh(Constants.ArmConstants.highConeShoulder, Constants.ArmConstants.highConeElbow),
-        new Wait(1),
-        new InstantCommand(() -> m_Arm.clawTo(0)),
-        new Wait(1),
+//   public TwoPieceFreelane(){
+//     super.addCommands(
+//         new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+//         new ArmHigh(Constants.ArmConstants.highConeShoulder, Constants.ArmConstants.highConeElbow),
+//         new Wait(1),
+//         new InstantCommand(() -> m_Arm.clawTo(0)),
+//         new Wait(1),
 
-      AutonUtils.getSwerveControllerCommand(Trajectories.twoConeFreelane()),
-      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
-      new Wait(0.1),
-      new ArmHigh(Constants.ArmConstants.highCubeShoulder, Constants.ArmConstants.highCubeElbow),
-      new InstantCommand(() -> m_Arm.clawTo(0))
+//       AutonUtils.getSwerveControllerCommand(Trajectories.twoConeFreelane()),
+//       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
+//       new Wait(0.1),
+//       new ArmHigh(Constants.ArmConstants.highCubeShoulder, Constants.ArmConstants.highCubeElbow),
+//       new InstantCommand(() -> m_Arm.clawTo(0))
 
         
-  );
-    super.setInitialPose(Trajectories.twoConeFreelane());
-    new Stop();
-  }
-}
+//   );
+//     super.setInitialPose(Trajectories.twoConeFreelane());
+//     new Stop();
+//   }
+ }
 

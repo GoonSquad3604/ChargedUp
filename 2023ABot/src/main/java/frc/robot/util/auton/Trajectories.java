@@ -15,9 +15,22 @@ public final class Trajectories {
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
 
-    public static PathPlannerTrajectory twoConeFreelane() {
+    public static PathPlannerTrajectory freeLaneMeterBack() {
         return PathPlanner.loadPath(
-                "2ConeFreelane",
+                "FreeLaneMeterBack",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
+    public static PathPlannerTrajectory midMeterBack() {
+        return PathPlanner.loadPath(
+                "MidMeterBack",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
+    
+    public static PathPlannerTrajectory twoPieceFreeLane() {
+        return PathPlanner.loadPath(
+                "TwoConeFreelane",
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
