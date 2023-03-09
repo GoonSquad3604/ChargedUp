@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -26,7 +27,9 @@ import frc.robot.commands.arm.ArmLow;
 import frc.robot.commands.arm.ArmMedium;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.ReadyToRecieve;
+import frc.robot.commands.autons.OnePieceMid;
 import frc.robot.commands.autons.TestAuton;
+import frc.robot.commands.autons.TwoPieceFreelane;
 import frc.robot.commands.drive.Aim;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.CenterPole;
@@ -43,6 +46,7 @@ import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.StateController;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+import frc.robot.util.auton.GoonAutonCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -55,62 +59,48 @@ public class RobotContainer {
   private XboxController driver = new XboxController(0);
   private XboxController operatorController = new XboxController(1);
   private Joystick operatorJoystick = new Joystick(2);
-  //TestAuton auton = new TestAuton();
+ 
 
-    // Hinge toggled
-    private boolean toggledHinge = false;
-
-    private void toggle() {
-      if(toggledHinge) {
-        toggledHinge = false;
-      }
-      else {
-        toggledHinge = true;
-      }
-    }
-
-
-
-  
   //Declare Certain Buttons
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private JoystickButton driverRightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private JoystickButton operatorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
   
-
   //Declare Subsystems
   private SwerveDrive s_SwerveDrive = SwerveDrive.getInstance();
   private Intake s_Intake = new Intake();
   private StateController s_StateController = StateController.getInstance();
   
-  private Vision s_Vision = new Vision();
+  //private Vision s_Vision = new Vision();
 
   private Arm s_Arm = Arm.getInstance();
   private Shoulder s_Shoulder = Shoulder.getInstance();
   private LED s_LED = new LED(Constants.LEDConstants.led1, 24);
 
+
+  //Declare Autons and chooser
+  SendableChooser<GoonAutonCommand> m_chooser;
+  //_chooser.addOption("Complex Auto", m_complexAuto);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    //double speedBoost = 1.0;
-
 
     //Set Defualt Commands%
     s_SwerveDrive.setDefaultCommand(
             new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber, driverRightBumper, () -> driver.getLeftTriggerAxis()));
 
-
     s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY(), operatorLeftBumper));
+
+    //Build Auton Chooser
+    m_chooser = new SendableChooser<GoonAutonCommand>();
+    m_chooser.setDefaultOption("Mid Single Cone", new OnePieceMid(s_LED, s_Intake));
+    m_chooser.addOption("Two Piece Free Lane", new TwoPieceFreelane(s_LED, s_Intake));
+    SmartDashboard.putData(m_chooser);
 
     configureBindings();
 
-    //SmartDashboard.putString("auton pose", auton.getInitialPose().toString());
-    //s_SwerveDrive.resetOdometry(auton.getInitialPose());
-    // s_SwerveDrive.resetModulesToAbsolute();
   }
 
-
-  
   private void configureBindings() {
 
     // Driver
@@ -190,10 +180,7 @@ public class RobotContainer {
     operator2.and(toggleTrigger).onTrue(new ToggleHinge(s_Intake)); 
     operator2.and(notToggleTrigger).onTrue(new ToggleHingeDown(s_Intake)); 
     operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
-    // operator2.onTrue(toggledHinge ? new SequentialCommandGroup(new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
-    // new Wait(1),
-    // new ReadyToRecieve(),
-    // new InstantCommand(() -> toggle())) : )
+ 
 
     operator6.onTrue(new ReadyToRecieve());
 
@@ -209,7 +196,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    TestAuton auton = new TestAuton(s_LED, s_Intake);
+
+    GoonAutonCommand auton = m_chooser.getSelected();
+    
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;
   }

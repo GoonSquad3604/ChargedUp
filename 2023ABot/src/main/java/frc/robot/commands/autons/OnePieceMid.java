@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.autons;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,14 +19,16 @@ import frc.robot.util.auton.AutonUtils;
 import frc.robot.util.auton.GoonAutonCommand;
 import frc.robot.util.auton.Trajectories;
 
-/** Add your docs here. */
-public class TestAuton extends GoonAutonCommand{
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class OnePieceMid extends GoonAutonCommand{
 
   LED m_Led;
   Arm m_Arm;
   Intake m_Intake;
 
-  public TestAuton(LED led, Intake intake){
+  public OnePieceMid(LED led, Intake intake){
     m_Led = led;
     m_Intake = intake;
     m_Arm = Arm.getInstance();
@@ -40,27 +38,13 @@ public class TestAuton extends GoonAutonCommand{
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
       new Wait(.25),
       new ArmHigh(Constants.ArmConstants.highConeShoulder+2, Constants.ArmConstants.highConeElbow),
-      AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
+      AutonUtils.getSwerveControllerCommand(Trajectories.midMeterBack()),
       new Wait(0.5),
       new InstantCommand(() -> m_Arm.clawTo(0)),
-      new Wait(0.25),
-      new ParallelCommandGroup(
-        new ParallelCommandGroup(new HomePosition(), new SequentialCommandGroup(new Wait(1),AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane()))),
-        new SequentialCommandGroup(
-          new Wait(.5),
-          new SetCubeMode(m_Led),
-          new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
-          new InstantCommand(() -> m_Intake.toggle()),
-          new InstantCommand(() -> m_Intake.runIntake()),
-          new Wait(1),
-          new ReadyToRecieve(),
-          new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube))
-        )
-      ),
+      
       new Stop()
   );
-    super.setInitialPose(Trajectories.freeLaneMeterBack());
+    super.setInitialPose(Trajectories.midMeterBack());
     
   }
 }
-
