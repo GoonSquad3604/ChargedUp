@@ -205,9 +205,9 @@ public final class Constants {
         public static final double hybridElbow = 232.072899;
 
         // Claw
-        public static double closedCone = 62;
-        public static double closedCube = 23.33;
-        public static double startingPos = 46.66;
+        public static double closedCone = 130.66;
+        public static double closedCube = 67.31;
+        public static double startingPos = 74.9;
 
 
 

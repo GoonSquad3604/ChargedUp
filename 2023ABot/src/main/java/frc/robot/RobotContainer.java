@@ -30,6 +30,7 @@ import frc.robot.commands.arm.ArmLow;
 import frc.robot.commands.arm.ArmMedium;
 import frc.robot.commands.arm.ArmMediumCube;
 import frc.robot.commands.arm.HomePosition;
+import frc.robot.commands.arm.HomePositionCone;
 import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.autons.OnePieceMid;
 import frc.robot.commands.autons.OnePieceOfflane;
@@ -66,7 +67,7 @@ public class RobotContainer {
   private Joystick operatorJoystick = new Joystick(2);
  
 
-  //Declare Certain Buttons
+  //Declare Certain Buttons NICEEEEE
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private JoystickButton driverRightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private JoystickButton operatorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
@@ -179,10 +180,12 @@ public class RobotContainer {
     //driverA.onTrue(new AutoBalance(s_SwerveDrive));
 
     // Arm
-    operator9.onTrue(new HomePosition());
+    operator9.and(cubeTrigger).onTrue(new HomePosition());
+    operator9.and(coneTrigger).onTrue(new HomePositionCone());
     //operator10.onTrue(new ArmHigh(s_StateController.getHighPosShoulder(),s_StateController.getHighPosElbow()));
     operator10.and(coneTrigger).onTrue(new ArmHigh());
     operator10.and(cubeTrigger).onTrue(new ArmHighCube());
+    operator6.onTrue(new ArmHighCube());
     
     operator11.and(coneTrigger).onTrue(new ArmMedium());
     operator11.and(cubeTrigger).onTrue(new ArmMediumCube());
