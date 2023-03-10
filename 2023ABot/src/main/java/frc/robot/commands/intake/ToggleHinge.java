@@ -22,7 +22,7 @@ public class ToggleHinge extends SequentialCommandGroup {
     //m_Intake = Intake.getInstance();
     m_Intake = intake;
     boolean toggle = m_Intake.getToggle();
-    SmartDashboard.putBoolean("we are togggleing",toggle); 
+    //SmartDashboard.putBoolean("we are togggleing",toggle); 
     // if(toggle) {
       //SmartDashboard.putString("toggle", "down"); 
       addCommands(

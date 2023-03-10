@@ -198,8 +198,9 @@ public class Arm extends SubsystemBase {
     // SmartDashboard.putNumber("ShoulderEncoder", getShoulderClicks());
     SmartDashboard.putNumber("ElbowEncoder", getElbowClicks());
     SmartDashboard.putNumber("ClawEncoder", getClawClicks());
-    SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
-    SmartDashboard.putNumber("Elbow P", elbow_pidController.getP());
+    SmartDashboard.putBoolean("Claw Open", Math.abs(getElbowClicks()) < 5);
+    //SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
+    //SmartDashboard.putNumber("Elbow P", elbow_pidController.getP());
 
     
   }

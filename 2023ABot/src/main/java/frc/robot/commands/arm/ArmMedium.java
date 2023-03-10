@@ -5,6 +5,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.StateController;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -13,7 +14,7 @@ import frc.robot.subsystems.StateController;
 public class ArmMedium extends ParallelCommandGroup {
   /** Creates a new ArmMedium. */
   StateController stateController;
-  public ArmMedium(double shoulderPosition, double elbowPosition) {
-    addCommands(new ShoulderTo(shoulderPosition), new ElbowTo(elbowPosition));
+  public ArmMedium() {
+    addCommands(new ShoulderTo(Constants.ArmConstants.midConeShoulder), new ElbowTo(Constants.ArmConstants.midConeElbow));
   }
 }

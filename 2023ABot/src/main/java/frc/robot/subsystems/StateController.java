@@ -22,7 +22,7 @@ public class StateController extends SubsystemBase {
 
 
   public static StateController getInstance() {
-    SmartDashboard.putString("test", "this");
+    // SmartDashboard.putString("test", "this");
     if(_instance == null) {
       _instance = new StateController();
     }
@@ -34,7 +34,7 @@ public class StateController extends SubsystemBase {
   }
 
   public void setCube() {
-    SmartDashboard.putString("Cube or Cone Mode", "Cube");
+    // SmartDashboard.putString("Cube or Cone Mode", "Cube");
     m_Mode = RobotMode.CUBE;
     intakeSpeed = Constants.IntakeConstants.cubeSpeed;
     highposShoulder = Constants.ArmConstants.highCubeShoulder;
@@ -45,7 +45,7 @@ public class StateController extends SubsystemBase {
 
   }
   public void setCone() {
-    SmartDashboard.putString("Cube or Cone Mode", "Cone");
+    // SmartDashboard.putString("Cube or Cone Mode", "Cone");
     m_Mode = RobotMode.CONE;
     intakeSpeed = Constants.IntakeConstants.coneSpeed;
     highposShoulder = Constants.ArmConstants.highConeShoulder;
@@ -56,7 +56,7 @@ public class StateController extends SubsystemBase {
 
   }
   public void setNeutral() {
-    SmartDashboard.putString("Cube or Cone Mode", "this");
+    // SmartDashboard.putString("Cube or Cone Mode", "this");
     m_Mode = RobotMode.NEUTRAL;
     intakeSpeed = 0;
    
@@ -90,9 +90,17 @@ public class StateController extends SubsystemBase {
     return closedClawPos;
   }
 
+  public boolean isConeMode(){
+    return m_Mode == RobotMode.CONE;
+  }
+
+  public boolean isCubeMode(){
+    return m_Mode == RobotMode.CUBE;
+  }
+
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("highposelbow", highposElbow);
+    // SmartDashboard.putNumber("highposelbow", highposElbow);
     // This method will be called once per scheduler run
   }
 }

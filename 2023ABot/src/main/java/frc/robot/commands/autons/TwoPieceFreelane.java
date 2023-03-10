@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.arm.ArmHigh;
+import frc.robot.commands.arm.ArmHighCube;
 import frc.robot.commands.arm.HomeFromReady;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.ReadyToRecieve;
@@ -39,24 +40,37 @@ public class TwoPieceFreelane extends GoonAutonCommand{
         new SetConeMode(m_Led),
         new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
         new Wait(.25),
-        new ArmHigh(Constants.ArmConstants.highConeShoulder+2, Constants.ArmConstants.highConeElbow),
+        new ArmHigh(),
         AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
         new Wait(0.5),
         new InstantCommand(() -> m_Arm.clawTo(0)),
         new Wait(0.25),
+        new HomePosition(),
         new ParallelCommandGroup(
-          new ParallelCommandGroup(new HomePosition(), new SequentialCommandGroup(new Wait(1),AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane()))),
           new SequentialCommandGroup(
-            new Wait(.5),
+            new Wait(1),
+            AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane())),
+          new SequentialCommandGroup(
+            
             new SetCubeMode(m_Led),
+            new Wait(.5),
             new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
             new InstantCommand(() -> m_Intake.toggle()),
             new InstantCommand(() -> m_Intake.runIntake()),
-            new Wait(1),
+            //new Wait(1),
             new ReadyToRecieve(),
-            new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube))
+            new Wait(.5),
+            new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
+            new Wait(.25),
+            new InstantCommand(() -> m_Intake.stopIntake()),
+            new InstantCommand(() -> m_Intake.hingeTo(0)),
+            new InstantCommand(() -> m_Intake.toggle()),
+            new ArmHighCube(),
+            new Wait(1)
           )
+          // new InstantCommand(() -> m_Arm.clawTo(0))
         ),
+        new InstantCommand(() -> m_Arm.clawTo(0)),
         new Stop()
     );
       super.setInitialPose(Trajectories.freeLaneMeterBack());

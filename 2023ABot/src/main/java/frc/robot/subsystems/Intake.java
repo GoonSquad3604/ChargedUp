@@ -69,11 +69,11 @@ public class Intake extends SubsystemBase {
   public void toggle() {
     if(toggledUp) {
       toggledUp = false;
-      SmartDashboard.putString("toggle", "down"); 
+      //SmartDashboard.putString("toggle", "down"); 
     }
     else {
       toggledUp = true;
-      SmartDashboard.putString("toggle", "up"); 
+      //SmartDashboard.putString("toggle", "up"); 
     }
   }
 
@@ -123,8 +123,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("leftintake setting", leftHinge.get());
-    SmartDashboard.putNumber("rightintake setting", rightHinge.get());
+    //SmartDashboard.putNumber("leftintake setting", leftHinge.get());
+    //SmartDashboard.putNumber("rightintake setting", rightHinge.get());
     SmartDashboard.putNumber("Hinge Position", getEncoder());
   }
 }

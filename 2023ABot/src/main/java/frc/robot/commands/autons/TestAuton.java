@@ -39,7 +39,7 @@ public class TestAuton extends GoonAutonCommand{
       new SetConeMode(m_Led),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
       new Wait(.25),
-      new ArmHigh(Constants.ArmConstants.highConeShoulder+2, Constants.ArmConstants.highConeElbow),
+      new ArmHigh(),
       AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
       new Wait(0.5),
       new InstantCommand(() -> m_Arm.clawTo(0)),

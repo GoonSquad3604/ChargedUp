@@ -27,10 +27,24 @@ public final class Trajectories {
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
+
+    public static PathPlannerTrajectory offLaneMeterBack() {
+        return PathPlanner.loadPath(
+                "OuterLaneMeterBack",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
     
     public static PathPlannerTrajectory twoPieceFreeLane() {
         return PathPlanner.loadPath(
                 "TwoConeFreelane",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
+
+    public static PathPlannerTrajectory offLaneBackUp() {
+        return PathPlanner.loadPath(
+                "OffLaneBackUp",
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }

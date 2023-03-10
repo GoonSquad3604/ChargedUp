@@ -50,7 +50,7 @@ public class SwerveDrive extends SubsystemBase {
     Timer.delay(1);
     resetModulesToAbsolute();
     swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
-    SmartDashboard.putData(m_Field2d);
+    // SmartDashboard.putData(m_Field2d);
     
   }
 
@@ -178,7 +178,7 @@ public class SwerveDrive extends SubsystemBase {
 
     swerveDriveOdometry.update(getGyroAngle(), getModulePositions());
 
-    printclicks();
+    //printclicks();
     m_Field2d.setRobotPose(swerveDriveOdometry.getPoseMeters());
     SmartDashboard.putNumber("gyro angle", getGyroAngle().getDegrees());
 

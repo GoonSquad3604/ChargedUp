@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.concurrent.locks.Condition;
+
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -23,11 +25,14 @@ import frc.robot.commands.LEDS.SetLedsWhite;
 import frc.robot.commands.LEDS.SetLedsYellow;
 import frc.robot.commands.arm.ArmDefaultCommand;
 import frc.robot.commands.arm.ArmHigh;
+import frc.robot.commands.arm.ArmHighCube;
 import frc.robot.commands.arm.ArmLow;
 import frc.robot.commands.arm.ArmMedium;
+import frc.robot.commands.arm.ArmMediumCube;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.autons.OnePieceMid;
+import frc.robot.commands.autons.OnePieceOfflane;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.autons.TwoPieceFreelane;
 import frc.robot.commands.drive.Aim;
@@ -80,7 +85,6 @@ public class RobotContainer {
 
   //Declare Autons and chooser
   SendableChooser<GoonAutonCommand> m_chooser;
-  //_chooser.addOption("Complex Auto", m_complexAuto);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -95,7 +99,10 @@ public class RobotContainer {
     m_chooser = new SendableChooser<GoonAutonCommand>();
     m_chooser.setDefaultOption("Mid Single Cone", new OnePieceMid(s_LED, s_Intake));
     m_chooser.addOption("Two Piece Free Lane", new TwoPieceFreelane(s_LED, s_Intake));
+    m_chooser.addOption("Off Lane Single Piece Back Up", new OnePieceOfflane(s_LED, s_Intake));
     SmartDashboard.putData(m_chooser);
+
+    s_LED.setColor(255, 255, 255);
 
     configureBindings();
 
@@ -133,6 +140,9 @@ public class RobotContainer {
     Trigger toggleTrigger = new Trigger(s_Intake::getToggle);
     Trigger notToggleTrigger = new Trigger(s_Intake::getNotToggle);
 
+    Trigger coneTrigger = new Trigger(s_StateController::isConeMode);
+    Trigger cubeTrigger = new Trigger(s_StateController::isCubeMode);
+
     // MANUAL STUFF
 
     // Claw
@@ -166,12 +176,17 @@ public class RobotContainer {
     // SMART STUFF
 
     // Drive Train
-    driverA.onTrue(new AutoBalance(s_SwerveDrive));
+    //driverA.onTrue(new AutoBalance(s_SwerveDrive));
 
     // Arm
     operator9.onTrue(new HomePosition());
-    operator10.onTrue(new ArmHigh(s_StateController.getHighPosShoulder(),s_StateController.getHighPosElbow()));
-    operator11.onTrue(new ArmMedium(s_StateController.getMidPosShoulder(),s_StateController.getMidPosElbow()));
+    //operator10.onTrue(new ArmHigh(s_StateController.getHighPosShoulder(),s_StateController.getHighPosElbow()));
+    operator10.and(coneTrigger).onTrue(new ArmHigh());
+    operator10.and(cubeTrigger).onTrue(new ArmHighCube());
+    
+    operator11.and(coneTrigger).onTrue(new ArmMedium());
+    operator11.and(cubeTrigger).onTrue(new ArmMediumCube());
+
     operator12.onTrue(new ArmLow());
 
     // Claw
@@ -182,11 +197,9 @@ public class RobotContainer {
     operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
  
 
-    operator6.onTrue(new ReadyToRecieve());
-
+    //operator6.onTrue(new ReadyToRecieve());
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
- 
 
   }
 

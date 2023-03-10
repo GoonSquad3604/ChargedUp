@@ -30,7 +30,7 @@ public class ShoulderTo extends InstantCommand {
   public void initialize() {
     //determine direction
     //use direction to set high or low p. you need to call shoulder.setupP should.setdownP
-    SmartDashboard.putString("Shoulder to status", "moving to: " + m_refrence);
+    //SmartDashboard.putString("Shoulder to status", "moving to: " + m_refrence);
     if(m_Shoulder.getShoulderClicks() > m_refrence) {
       m_Shoulder.setDownP();
     }

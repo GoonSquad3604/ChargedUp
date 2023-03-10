@@ -187,7 +187,7 @@ public final class Constants {
         // Positions
 
         // Cone
-        public static final double highConeShoulder = 194.016935;
+        public static final double highConeShoulder = 198.016935;
         public static final double highConeElbow = 247.590852;
 
         public static final double midConeShoulder = 155.204566;
