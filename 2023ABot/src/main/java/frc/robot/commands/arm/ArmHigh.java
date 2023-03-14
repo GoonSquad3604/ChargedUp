@@ -5,6 +5,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -17,7 +18,9 @@ import frc.robot.subsystems.StateController;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmHigh extends ParallelCommandGroup {
   StateController m_stateController;
+  Arm m_Arm;
   public ArmHigh() {
-    addCommands(new ShoulderTo(Constants.ArmConstants.highConeShoulder), new ElbowTo(Constants.ArmConstants.highConeElbow));
+    m_Arm = Arm.getInstance();
+    addCommands(new InstantCommand(() -> m_Arm.notReadyToRecieve()), new ShoulderTo(Constants.ArmConstants.highConeShoulder), new ElbowTo(Constants.ArmConstants.highConeElbow));
   }
 }

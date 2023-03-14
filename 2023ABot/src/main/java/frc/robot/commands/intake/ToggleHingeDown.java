@@ -4,6 +4,7 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -20,10 +21,11 @@ public class ToggleHingeDown extends SequentialCommandGroup {
   /** Creates a new ToggleHingeDown. */
   public ToggleHingeDown(Intake intake) {
     m_Intake = intake;
-
+      
       addCommands(
         new HomeFromReady(),
         new Wait(1),
+        new InstantCommand(() -> SmartDashboard.putString("Running Toggle Up", "yep")),
         new InstantCommand(() -> m_Intake.hingeTo(0)),
         new InstantCommand(() -> m_Intake.toggle())
       );

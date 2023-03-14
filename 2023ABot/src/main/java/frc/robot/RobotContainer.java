@@ -177,7 +177,7 @@ public class RobotContainer {
     // SMART STUFF
 
     // Drive Train
-    //driverA.onTrue(new AutoBalance(s_SwerveDrive));
+    driverA.onTrue(new AutoBalance());
 
     // Arm
     operator9.and(cubeTrigger).onTrue(new HomePosition());
@@ -194,7 +194,7 @@ public class RobotContainer {
 
     // Claw
     operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
-    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(0)));
+    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
     operator2.and(toggleTrigger).onTrue(new ToggleHinge(s_Intake)); 
     operator2.and(notToggleTrigger).onTrue(new ToggleHingeDown(s_Intake)); 
     operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
@@ -213,7 +213,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    GoonAutonCommand auton = m_chooser.getSelected();
+    GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
     
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;

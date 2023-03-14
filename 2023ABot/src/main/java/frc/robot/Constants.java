@@ -77,10 +77,12 @@ public final class Constants {
 
                /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        public static final double driveKS = (0.083472 / 12); //TODO: This must be tuned to specific robot
-        public static final double driveKV = (2.6579 / 12);
-        public static final double driveKA = (0.088189 / 12);
-        
+        // public static final double driveKS = (0.083472 / 12); //TODO: This must be tuned to specific robot
+        // public static final double driveKV = (2.6579 / 12);
+        // public static final double driveKA = (0.088189 / 12);
+        public static final double driveKS = (0.44576 / 12); //TODO: This must be tuned to specific robot
+        public static final double driveKV = (2.9137 / 12);
+        public static final double driveKA = (0.7054 / 12);
         /* Swerve Current Limiting */
         public static final int angleContinuousCurrentLimit = 25;
         public static final int anglePeakCurrentLimit = 40;
@@ -168,46 +170,53 @@ public final class Constants {
         public static final double gearRatio = 1;
 
         // Claw PID
-        public static final double clawP = 0.04;
+        public static final double clawP = 13.0;
         public static final double clawI = 0;
         public static final double clawD = 0;
 
-        // Shoulder PID
+        // Shoulder PIDb
         public static final double shoulderUpP = 7.0;
         public static final double shoulderDownP = 5.0;
         public static final double shoulderI = 0;
         public static final double shoulderD = 0.00;
 
         // Elbow PID
-        public static final double elbowUpP = 4.0;
+        public static final double elbowUpP = 5.0;
         public static final double elbowDownP = 2.0;
         public static final double elbowI = 0;
         public static final double elbowD = 0;
 
         // Positions
 
-        // Cone
-        public static final double highConeShoulder = 198.016935;
-        public static final double highConeElbow = 247.590852;
+        // Home Position
+        public static final double homeElbow = 109.22;
+        
+        // Ready to recieve
+        public static final double readyElbow = 166.16;
 
-        public static final double midConeShoulder = 155.204566;
-        public static final double midConeElbow = 321.342030;
+
+        // Cone
+        public static final double highConeShoulder = 206.87;
+        public static final double highConeElbow = 220.23;
+
+        public static final double midConeShoulder = 179.20;
+        public static final double midConeElbow = 272.87;
 
         // Cube
-        public static final double highCubeShoulder = 175.620897;
-        public static final double highCubeElbow = 250.658376;
+        public static final double highCubeShoulder = 202.24;
+        public static final double highCubeElbow = 266.927369;
 
-        public static final double midCubeShoulder = 148.918262;
-        public static final double midCubeElbow = 290.796475;
+        public static final double midCubeShoulder = 182.93;
+        public static final double midCubeElbow = 288.625817;
 
         // Hybrid
-        public static final double hybridShoulder = 137.648177;
-        public static final double hybridElbow = 232.072899;
+        public static final double hybridShoulder = 136.648177;
+        public static final double hybridElbow = 258.072899;
 
         // Claw
-        public static double closedCone = 130.66;
-        public static double closedCube = 67.31;
-        public static double startingPos = 74.9;
+        public static double closedCone = 0.838;
+        public static double closedCube = 0.756;
+        public static double startingPos = 0.705;
 
 
 
@@ -227,28 +236,28 @@ public final class Constants {
         public static final double hingeP = 0.05;
         public static final double hingeI = 0;
         public static final double hingeD = 0.01;
-        public static final double hingeDown = 24.428421;
+        public static final double hingeDown = 25.9;
 
         // Spaghetti
         public static final int intakeId = 6;
 
         // Intake speeds
-        public static final double coneSpeed = 0.90;
-        public static final double cubeSpeed = 0.25;
+        public static final double coneSpeed = 0.80;
+        public static final double cubeSpeed = 0.27;
 
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 1;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
-        public static final double kPXController = 0.0;
+        public static final double kPXController = 0.4;
         public static final double kPYController = 0.0;
         //public static final double kIYController = 0.1;
         //public static final double kIXController = 0.1;
-        public static final double kPThetaController = 0.0;
+        public static final double kPThetaController = 0.4;
     
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

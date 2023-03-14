@@ -4,8 +4,10 @@
 
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.StateController;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -13,8 +15,10 @@ import frc.robot.subsystems.StateController;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmMedium extends ParallelCommandGroup {
   /** Creates a new ArmMedium. */
+  Arm m_Arm;
   StateController stateController;
   public ArmMedium() {
-    addCommands(new ShoulderTo(Constants.ArmConstants.midConeShoulder), new ElbowTo(Constants.ArmConstants.midConeElbow));
+    m_Arm = Arm.getInstance();
+    addCommands(new InstantCommand(() -> m_Arm.notReadyToRecieve()), new ShoulderTo(Constants.ArmConstants.midConeShoulder), new ElbowTo(Constants.ArmConstants.midConeElbow));
   }
 }

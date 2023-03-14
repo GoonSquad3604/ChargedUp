@@ -23,8 +23,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.arm.ReadyToRecieve;
 
 public class Arm extends SubsystemBase {
+
+  private boolean isReadyToRecieve = false;
 
   // private CANSparkMax shoulder1;
   // private CANSparkMax shoulder2;
@@ -34,7 +37,8 @@ public class Arm extends SubsystemBase {
   private static Arm _instance;
   // private AbsoluteEncoder shoulderEncoder;
   private AbsoluteEncoder elbowEncoder;
-  private RelativeEncoder clawEncoder;
+  //private RelativeEncoder clawEncoder;
+  private AbsoluteEncoder clawEncoder;
 
   // PIDS!
   private SparkMaxPIDController claw_pidController;
@@ -65,9 +69,12 @@ public class Arm extends SubsystemBase {
     elbowEncoder = elbow.getAbsoluteEncoder(Type.kDutyCycle);
     elbowEncoder.setInverted(false);
     //elbowEncoder.setZeroOffset(180);
-    clawEncoder = claw.getEncoder();
-    clawEncoder.setPosition(0);
+    //clawEncoder = claw.getEncoder();
 
+    clawEncoder = claw.getAbsoluteEncoder(Type.kDutyCycle);
+    
+    //clawEncoder.setPosition(0);
+    elbowEncoder.setZeroOffset(45/360);
     // PID Controllers
 
     // Claw PID
@@ -76,7 +83,7 @@ public class Arm extends SubsystemBase {
     claw_pidController.setP(Constants.ArmConstants.clawP);
     claw_pidController.setI(Constants.ArmConstants.clawI);
     claw_pidController.setD(Constants.ArmConstants.clawD);
-    claw_pidController.setOutputRange(-.8, 0.8);
+    claw_pidController.setOutputRange(-1.0, 1.0);
 
     // Elbow PID
     elbow_pidController = elbow.getPIDController();
@@ -95,7 +102,7 @@ public class Arm extends SubsystemBase {
 
     //reset encoders
     // resetShoulderEncoder();
-    resetElbowEncoder();
+    //resetElbowEncoder();
 
     //encoder = elbow.getAlternateEncoder(, 0);
 
@@ -156,9 +163,9 @@ public class Arm extends SubsystemBase {
     claw.set(0);
   }
 
-  public void setStartingPos() {
-    clawEncoder.setPosition(Constants.ArmConstants.startingPos);
-  }
+  // public void setStartingPos() {
+  //   clawEncoder.setPosition(Constants.ArmConstants.startingPos);
+  // }
 
   public void clawTo(double refrence) {
     claw_pidController.setReference(refrence, ControlType.kPosition);
@@ -190,6 +197,18 @@ public class Arm extends SubsystemBase {
     elbow_pidController.setP(Constants.ArmConstants.elbowDownP);
     elbow_pidController.setI(Constants.ArmConstants.elbowI);
     elbow_pidController.setD(Constants.ArmConstants.elbowD);
+  }
+
+  public void setReadyToRecieve() {
+    isReadyToRecieve = true;
+  }
+
+  public void notReadyToRecieve() {
+    isReadyToRecieve = false;
+  }
+
+  public boolean getReadyToRecieve() {
+    return isReadyToRecieve;
   }
 
   @Override

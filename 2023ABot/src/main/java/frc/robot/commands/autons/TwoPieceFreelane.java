@@ -31,49 +31,54 @@ public class TwoPieceFreelane extends GoonAutonCommand{
     Arm m_Arm;
     Intake m_Intake;
   
+    /**
+     * @param led
+     * @param intake
+     */
     public TwoPieceFreelane(LED led, Intake intake){
       m_Led = led;
       m_Intake = intake;
       m_Arm = Arm.getInstance();
       super.addCommands(
-        new InstantCommand(() -> m_Arm.setStartingPos()),
-        new SetConeMode(m_Led),
-        new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
-        new Wait(.25),
-        new ArmHigh(),
+        // new InstantCommand(() -> m_Arm.setStartingPos()),
+        // new SetConeMode(m_Led),
+        // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+        // new Wait(.25),
+        // new ArmHigh(),
         AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
-        new Wait(0.5),
-        new InstantCommand(() -> m_Arm.clawTo(0)),
-        new Wait(0.25),
-        new HomePosition(),
-        new ParallelCommandGroup(
-          new SequentialCommandGroup(
-            new Wait(1),
-            AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane())),
-          new SequentialCommandGroup(
+        new Wait(2),
+        // new InstantCommand(() -> m_Arm.clawTo(0)),
+        // new Wait(0.4),
+        // new HomePosition(),
+        // //new ParallelCommandGroup(
+        //   //new SequentialCommandGroup(
+        // new Wait(.5),
+        AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane())
+          //new SequentialCommandGroup(
             
-            new SetCubeMode(m_Led),
-            new Wait(.5),
-            new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
-            new InstantCommand(() -> m_Intake.toggle()),
-            new InstantCommand(() -> m_Intake.runIntake()),
-            //new Wait(1),
-            new ReadyToRecieve(),
-            new Wait(.5),
-            new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
-            new Wait(.25),
-            new InstantCommand(() -> m_Intake.stopIntake()),
-            new InstantCommand(() -> m_Intake.hingeTo(0)),
-            new InstantCommand(() -> m_Intake.toggle()),
-            new ArmHighCube(),
-            new Wait(1)
-          )
-          // new InstantCommand(() -> m_Arm.clawTo(0))
-        ),
-        new InstantCommand(() -> m_Arm.clawTo(0)),
-        new Stop()
+        // new SetCubeMode(m_Led),
+        // new Stop()
     );
-      super.setInitialPose(Trajectories.freeLaneMeterBack());
+       super.setInitialPose(Trajectories.freeLaneMeterBack());
       
     }
   }
+            // new Wait(.5),
+            // new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
+            // new InstantCommand(() -> m_Intake.toggle()),
+            // new InstantCommand(() -> m_Intake.runIntake()),
+            // //new Wait(1),
+            // new ReadyToRecieve(),
+            // new Wait(.5),
+            // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
+            // // new Wait(.25),
+            // new InstantCommand(() -> m_Intake.stopIntake()),
+            // new InstantCommand(() -> m_Intake.hingeTo(0)),
+            // new InstantCommand(() -> m_Intake.toggle()),
+            // new ArmHighCube(),
+            // new Wait(1)
+         // )
+          // new InstantCommand(() -> m_Arm.clawTo(0))
+        //),
+        //new InstantCommand(() -> m_Arm.clawTo(0)),
+   

@@ -35,31 +35,10 @@ public class TestAuton extends GoonAutonCommand{
     m_Intake = intake;
     m_Arm = Arm.getInstance();
     super.addCommands(
-      new InstantCommand(() -> m_Arm.setStartingPos()),
-      new SetConeMode(m_Led),
-      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
-      new Wait(.25),
-      new ArmHigh(),
-      AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
-      new Wait(0.5),
-      new InstantCommand(() -> m_Arm.clawTo(0)),
-      new Wait(0.25),
-      new ParallelCommandGroup(
-        new ParallelCommandGroup(new HomePosition(), new SequentialCommandGroup(new Wait(1),AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane()))),
-        new SequentialCommandGroup(
-          new Wait(.5),
-          new SetCubeMode(m_Led),
-          new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
-          new InstantCommand(() -> m_Intake.toggle()),
-          new InstantCommand(() -> m_Intake.runIntake()),
-          new Wait(1),
-          new ReadyToRecieve(),
-          new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube))
-        )
-      ),
+      AutonUtils.getSwerveControllerCommand(Trajectories.testTrajectory()),
       new Stop()
   );
-    super.setInitialPose(Trajectories.freeLaneMeterBack());
+    super.setInitialPose(Trajectories.testTrajectory());
     
   }
 }

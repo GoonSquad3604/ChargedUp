@@ -5,6 +5,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 
@@ -21,7 +22,8 @@ public class HomeFromReady extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Arm.elbowTo(86.034214);
-    m_Shoulder.shoulderTo(92.3604);
+    m_Arm.elbowTo(Constants.ArmConstants.homeElbow);
+    m_Shoulder.shoulderTo(114.14);
+    //m_Arm.setReadyToRecieve();
   }
 }

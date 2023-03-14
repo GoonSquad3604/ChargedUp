@@ -174,6 +174,7 @@ public class SwerveDrive extends SubsystemBase {
       SmartDashboard.putNumber(mod.name + " Can Coder Angle", mod.getCanCoder().getDegrees());
       SmartDashboard.putNumber(mod.name + " talon angle", mod.getAngle().getDegrees());
       SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
+      SmartDashboard.putNumber("Role", getRoll());
     }
 
     swerveDriveOdometry.update(getGyroAngle(), getModulePositions());
@@ -199,7 +200,5 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboard.putNumber("degrees", degrees);
     double newclicks = Conversions.degreesToFalcon(degrees, Constants.Swerve.angleGearRatio);
     SmartDashboard.putNumber("clicks after", newclicks);
-
-
   }
 }

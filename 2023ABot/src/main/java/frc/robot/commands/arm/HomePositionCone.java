@@ -26,8 +26,9 @@ public class HomePositionCone extends SequentialCommandGroup {
     m_Arm = Arm.getInstance();
       addCommands(
         new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
-        new ElbowTo(86.034214),
-        new ShoulderTo(92.3604)
+        new ElbowTo(Constants.ArmConstants.homeElbow),
+        new ShoulderTo(114.14),
+        new InstantCommand(() -> m_Arm.notReadyToRecieve())
       );
   }
 }

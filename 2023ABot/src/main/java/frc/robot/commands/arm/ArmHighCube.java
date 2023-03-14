@@ -4,18 +4,21 @@
 
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.subsystems.Arm;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmHighCube extends ParallelCommandGroup {
   /** Creates a new ArmHighCube. */
+  Arm m_Arm;
   public ArmHighCube() {
-    
-  addCommands(new ShoulderTo(Constants.ArmConstants.highCubeShoulder), new ElbowTo(Constants.ArmConstants.highCubeElbow));
+  m_Arm = Arm.getInstance();
+  addCommands(new InstantCommand(() -> m_Arm.notReadyToRecieve()), new ShoulderTo(Constants.ArmConstants.highCubeShoulder), new ElbowTo(Constants.ArmConstants.highCubeElbow));
     
   }
 }

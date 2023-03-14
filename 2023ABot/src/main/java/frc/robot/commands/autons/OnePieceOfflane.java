@@ -31,15 +31,15 @@ public class OnePieceOfflane extends GoonAutonCommand{
       m_Intake = intake;
       m_Arm = Arm.getInstance();
       super.addCommands(
-        new InstantCommand(() -> m_Arm.setStartingPos()),
-        new SetConeMode(m_Led),
-        new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
-        new Wait(.25),
-        new ArmHigh(),
+        //new InstantCommand(() -> m_Arm.setStartingPos()),
+        //new SetConeMode(m_Led),
+        // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+        new Wait(2),
+        // new ArmHigh(),
         AutonUtils.getSwerveControllerCommand(Trajectories.offLaneMeterBack()),
-        new Wait(0.5),
-        new InstantCommand(() -> m_Arm.clawTo(0)),
-        new Wait(1),
+        // new Wait(1.0),
+        // new InstantCommand(() -> m_Arm.clawTo(0)),
+        // new Wait(0.4),
         AutonUtils.getSwerveControllerCommand(Trajectories.offLaneBackUp()),
         new Stop()
     );
