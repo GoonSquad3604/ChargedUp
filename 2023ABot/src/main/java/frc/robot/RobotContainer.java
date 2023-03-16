@@ -29,10 +29,12 @@ import frc.robot.commands.arm.ArmHighCube;
 import frc.robot.commands.arm.ArmLow;
 import frc.robot.commands.arm.ArmMedium;
 import frc.robot.commands.arm.ArmMediumCube;
+import frc.robot.commands.arm.ArmShelf;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.HomePositionCone;
 import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.autons.OnePieceMid;
+import frc.robot.commands.autons.OnePieceMidBalance;
 import frc.robot.commands.autons.OnePieceOfflane;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.autons.TwoPieceFreelane;
@@ -97,11 +99,12 @@ public class RobotContainer {
     s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY(), operatorLeftBumper));
 
     //Build Auton Chooser
-    m_chooser = new SendableChooser<GoonAutonCommand>();
+    m_chooser = new SendableChooser<>();
     m_chooser.setDefaultOption("Mid Single Cone", new OnePieceMid(s_LED, s_Intake));
+    m_chooser.addOption("Mid Balance", new OnePieceMidBalance(s_LED, s_Intake));
     m_chooser.addOption("Two Piece Free Lane", new TwoPieceFreelane(s_LED, s_Intake));
     m_chooser.addOption("Off Lane Single Piece Back Up", new OnePieceOfflane(s_LED, s_Intake));
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("chooser", m_chooser);
 
     s_LED.setColor(255, 255, 255);
 
@@ -185,7 +188,6 @@ public class RobotContainer {
     //operator10.onTrue(new ArmHigh(s_StateController.getHighPosShoulder(),s_StateController.getHighPosElbow()));
     operator10.and(coneTrigger).onTrue(new ArmHigh());
     operator10.and(cubeTrigger).onTrue(new ArmHighCube());
-    operator6.onTrue(new ArmHighCube());
     
     operator11.and(coneTrigger).onTrue(new ArmMedium());
     operator11.and(cubeTrigger).onTrue(new ArmMediumCube());
@@ -197,10 +199,10 @@ public class RobotContainer {
     operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
     operator2.and(toggleTrigger).onTrue(new ToggleHinge(s_Intake)); 
     operator2.and(notToggleTrigger).onTrue(new ToggleHingeDown(s_Intake)); 
-    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
+    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.autonReady)));
  
 
-    //operator6.onTrue(new ReadyToRecieve());
+    operator6.and(coneTrigger).onTrue(new ArmShelf());
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
 
@@ -213,7 +215,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
+    //GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
+    //GoonAutonCommand auton = m_chooser.getSelected();
+
+    GoonAutonCommand auton = new OnePieceMidBalance(s_LED, s_Intake);
+
     
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;

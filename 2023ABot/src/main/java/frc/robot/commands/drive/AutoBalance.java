@@ -25,7 +25,7 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_drive.drive(new Translation2d(m_drive.getRoll()*0.046,0), 0, true, false, false);
+      m_drive.drive(new Translation2d(m_drive.getRoll()*0.05,0), 0, true, false, false);
   }
 
   // Called once the command ends or is interrupted.

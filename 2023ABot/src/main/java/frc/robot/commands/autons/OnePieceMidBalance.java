@@ -23,22 +23,31 @@ import frc.robot.util.auton.Trajectories;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OnePieceMid extends GoonAutonCommand{
+public class OnePieceMidBalance extends GoonAutonCommand{
 
   LED m_Led;
   Arm m_Arm;
   Intake m_Intake;
 
-  public OnePieceMid(LED led, Intake intake){
+  public OnePieceMidBalance(LED led, Intake intake){
     m_Led = led;
     m_Intake = intake;
     m_Arm = Arm.getInstance();
     super.addCommands(
-      // AutonUtils.getSwerveControllerCommand(Trajectories.ontoPlatform()),
-      // new AutoBalance(),
+      new SetConeMode(m_Led),
+      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+      new ArmHigh(),
+      //new Wait(0.25),
+      AutonUtils.getSwerveControllerCommand(Trajectories.midMeterBack()),
+      new Wait(0.5),
+      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
+      new Wait(0.25),
+      new HomePosition(),
+      AutonUtils.getSwerveControllerCommand(Trajectories.ontoPlatform()),
+      new AutoBalance(),
       
-      // new Stop()
+      new Stop()
   );
-    super.setInitialPose(Trajectories.ontoPlatform());
+    super.setInitialPose(Trajectories.midMeterBack());
   }
 }

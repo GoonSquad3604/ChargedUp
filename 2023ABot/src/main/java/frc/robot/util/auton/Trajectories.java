@@ -37,8 +37,8 @@ public final class Trajectories {
     
     public static PathPlannerTrajectory twoPieceFreeLane() {
         return PathPlanner.loadPath(
-                "TwoConeFreelane",
-                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                "TwoPieceFreelane",
+                Constants.AutoConstants.kSlowMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
 
@@ -48,4 +48,19 @@ public final class Trajectories {
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
+
+    public static PathPlannerTrajectory ontoPlatform() {
+        return PathPlanner.loadPath(
+                "OntoPlatform",
+                Constants.AutoConstants.kSlowerMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kSlowerMaxAccelerationMetersPerSecondSquared);
+    }
+
+    public static PathPlannerTrajectory ontoPlatformFromCube() {
+        return PathPlanner.loadPath(
+                "OntoPlatformFromCubeScore",
+                Constants.AutoConstants.kSlowerMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kSlowerMaxAccelerationMetersPerSecondSquared);
+    }
+    
 }
