@@ -44,6 +44,8 @@ public class Arm extends SubsystemBase {
   private SparkMaxPIDController claw_pidController;
   private SparkMaxPIDController elbow_pidController;
 
+  private RelativeEncoder backupencoder;
+
   private static final int kCPR = 8192;
   
   /** Creates a new Arm. */
@@ -72,6 +74,9 @@ public class Arm extends SubsystemBase {
     //clawEncoder = claw.getEncoder();
 
     clawEncoder = claw.getAbsoluteEncoder(Type.kDutyCycle);
+
+    backupencoder = claw.getEncoder();
+    backupencoder.setPosition(0);
     
     //clawEncoder.setPosition(0);
     elbowEncoder.setZeroOffset(45/360);
@@ -220,7 +225,9 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putBoolean("Claw Open", Math.abs(getElbowClicks()) < 5);
     //SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
     //SmartDashboard.putNumber("Elbow P", elbow_pidController.getP());
-
+    if(backupencoder.getPosition() < -50) {
+      claw.set(0);
+    }
     
   }
 }

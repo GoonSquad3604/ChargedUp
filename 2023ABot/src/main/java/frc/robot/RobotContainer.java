@@ -33,8 +33,10 @@ import frc.robot.commands.arm.ArmShelf;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.HomePositionCone;
 import frc.robot.commands.arm.ReadyToRecieve;
+import frc.robot.commands.autons.ForwardAndBack;
 import frc.robot.commands.autons.OnePieceMid;
 import frc.robot.commands.autons.OnePieceMidBalance;
+import frc.robot.commands.autons.OnePieceMidBalanceCube;
 import frc.robot.commands.autons.OnePieceOfflane;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.autons.TwoPieceFreelane;
@@ -101,9 +103,12 @@ public class RobotContainer {
     //Build Auton Chooser
     m_chooser = new SendableChooser<>();
     m_chooser.setDefaultOption("Mid Single Cone", new OnePieceMid(s_LED, s_Intake));
-    m_chooser.addOption("Mid Balance", new OnePieceMidBalance(s_LED, s_Intake));
-    m_chooser.addOption("Two Piece Free Lane", new TwoPieceFreelane(s_LED, s_Intake));
-    m_chooser.addOption("Off Lane Single Piece Back Up", new OnePieceOfflane(s_LED, s_Intake));
+    m_chooser.addOption("Mid Cone Balance", new OnePieceMidBalance(s_LED, s_Intake));
+    m_chooser.addOption("Mid Cube Balance", new OnePieceMidBalanceCube(s_LED, s_Intake));
+    //m_chooser.addOption("Two Piece Free Lane", new TwoPieceFreelane(s_LED, s_Intake));
+    m_chooser.addOption("Off Lane Single Cone Back Up", new OnePieceOfflane(s_LED, s_Intake));
+    m_chooser.addOption("Forward and Backup Mobility", new ForwardAndBack(s_LED, s_Intake));
+    
     SmartDashboard.putData("chooser", m_chooser);
 
     s_LED.setColor(255, 255, 255);
