@@ -170,9 +170,10 @@ public final class Constants {
         public static final double gearRatio = 1;
 
         // Claw PID
-        public static final double clawP = 16.0;
+        public static final double clawP = 15;
         public static final double clawI = 0;
-        public static final double clawD = 0;
+        public static final double clawD = 3;
+        public static final double clawFF = 0.1;
 
         // Shoulder PIDb
         public static final double shoulderUpP = 5.0;
@@ -181,7 +182,7 @@ public final class Constants {
         public static final double shoulderD = 0.00;
 
         // Elbow PID
-        public static final double elbowUpP = 5.0;
+        public static final double elbowUpP = 2.0;
         public static final double elbowDownP = 2.0;
         public static final double elbowI = 0;
         public static final double elbowD = 0;
@@ -189,7 +190,8 @@ public final class Constants {
         // Positions
 
         // Home Position
-        public static final double homeElbow = 109.22;
+        public static final double homeElbow = 332.95;
+        public static final double homeShoulder = 107.46;
         
         // Ready to recieve
         public static final double readyElbow = 166.16;
@@ -219,11 +221,11 @@ public final class Constants {
         public static final double hybridElbow = 313.691404;
 
         // Claw
-        public static double closedCone = 0.86;
-        public static double closedCube = 0.756;
-        public static double startingPos = 0.684;
-        public static double autonReady = 0.823;
-        public static double shelfPos = 0.786;
+        public static double closedCone = 0.329;
+        public static double closedCube = 0.329;
+        public static double startingPos = 0.41;
+        public static double autonReady = 0.41;
+        public static double shelfPos = 0.41;
 
 
 
@@ -235,22 +237,37 @@ public final class Constants {
         public static final int led2 = 1;
     }
 
+
     public static final class IntakeConstants {
 
         // Hinge
         public static final int leftHingeId = 13;
         public static final int rightHingeId = 7;
-        public static final double hingeP = 0.05;
-        public static final double hingeI = 0;
+        public static final double hingeP = 2.5;
+        public static final double hingeI = 0.00;
         public static final double hingeD = 0.01;
-        public static final double hingeDown = 26.1;
+
+        // public static final double hingeDown = 26.1;
+        public static final double hingeUp = 0.51;
+        public static final double hingeShoot = 0.572668;
+        public static final double hingeDown = 0.82;
+
 
         // Spaghetti
         public static final int intakeId = 6;
 
         // Intake speeds
-        public static final double coneSpeed = 0.80;
-        public static final double cubeSpeed = 0.27;
+        public static final double coneSpeed = 0.75;
+        public static final double cubeSpeed = 0.4;
+        public static final double vomitSpeed = -1.0;
+
+        public static final int sensorId = 9;
+
+        // Shooter speeds
+        public static final double topCubeSpeed = -0.85;
+        public static final double midCubeSpeed = -0.5;
+        public static final double lowCubeSpeed = -0.15;
+
 
     }
 

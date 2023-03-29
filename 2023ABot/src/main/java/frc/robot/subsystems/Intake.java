@@ -6,14 +6,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,9 +27,11 @@ public class Intake extends SubsystemBase {
   // Intake arms that move up and down
   CANSparkMax leftHinge;
   CANSparkMax rightHinge;
-  RelativeEncoder hingEncoder;
+  AbsoluteEncoder hingEncoder;
   StateController stateController;
-  //private static Intake _instance;
+  private static Intake _instance;
+
+  private DigitalInput sensor;
 
   // Toggling
   private boolean toggledUp;
@@ -41,17 +46,23 @@ public class Intake extends SubsystemBase {
     // Hinges
     leftHinge = new CANSparkMax(Constants.IntakeConstants.leftHingeId, MotorType.kBrushless);
     rightHinge = new CANSparkMax(Constants.IntakeConstants.rightHingeId, MotorType.kBrushless);
-    hingEncoder = leftHinge.getEncoder();
-    hingEncoder.setPosition(0);
+    
     
     leftHinge.restoreFactoryDefaults();
     rightHinge.restoreFactoryDefaults();
+    leftHinge.setInverted(true);
+    
     rightHinge.follow(leftHinge, true);
 
-    //rightHinge.setInverted(true);
-    leftHinge.setInverted(true);
     rightHinge.setIdleMode(IdleMode.kBrake);
     leftHinge.setIdleMode(IdleMode.kBrake);
+
+    //rightHinge.setInverted(true);
+    
+    
+
+    hingEncoder = leftHinge.getAbsoluteEncoder(Type.kDutyCycle);
+    hingEncoder.setInverted(true);
 
     // PIDS!
     hingePIDController = leftHinge.getPIDController();
@@ -59,11 +70,14 @@ public class Intake extends SubsystemBase {
     hingePIDController.setP(Constants.IntakeConstants.hingeP);
     hingePIDController.setI(Constants.IntakeConstants.hingeI);
     hingePIDController.setD(Constants.IntakeConstants.hingeD);
-    hingePIDController.setOutputRange(-0.3, 0.3);
+    hingePIDController.setOutputRange(-0.8, 0.8);
+    leftHinge.setClosedLoopRampRate(1);
 
 
     // Spaghetti
     intake = new WPI_TalonSRX(Constants.IntakeConstants.intakeId);
+
+    sensor = new DigitalInput(Constants.IntakeConstants.sensorId);
   }
 
   public void toggle() {
@@ -85,32 +99,36 @@ public class Intake extends SubsystemBase {
     return !toggledUp;
   }
 
-  // public static Intake getInstance() {
-  //   if (_instance == null) {
-  //           _instance = new Intake();
-  //   }
-  //   return _instance;
-  // }
+  public static Intake getInstance() {
+    if (_instance == null) {
+            _instance = new Intake();
+    }
+    return _instance;
+  }
 
   public double getEncoder() {
     return hingEncoder.getPosition();
   }
 
   public void zeroHinge() {
-    hingEncoder.setPosition(0);
+    //hingEncoder.setPosition(0);
   }
 
   public void setHinge(double leftPower, double rightPower) {
     leftHinge.set(leftPower);
-    rightHinge.set(rightPower);
+    //rightHinge.set(rightPower);
   }
 
   public void runIntake() {
     intake.set(stateController.getIntakeSpeed());
     //intake.set(1.0);
   }
+  public void runIntake(double speed) {
+    intake.set(speed);
+    //intake.set(1.0);
+  }
   public void vomit() {
-    intake.set(-stateController.getIntakeSpeed());
+    intake.set(Constants.IntakeConstants.vomitSpeed);
   }
   public void stopIntake() {
     intake.set(0);
@@ -120,11 +138,16 @@ public class Intake extends SubsystemBase {
     hingePIDController.setReference(position, CANSparkMax.ControlType.kPosition);
   }
 
+  public boolean getIntakeSensor() {
+    return !sensor.get();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //SmartDashboard.putNumber("leftintake setting", leftHinge.get());
     //SmartDashboard.putNumber("rightintake setting", rightHinge.get());
     SmartDashboard.putNumber("Hinge Position", getEncoder());
+    SmartDashboard.putBoolean("intake sensor", getIntakeSensor());
   }
 }

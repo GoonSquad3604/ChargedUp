@@ -14,6 +14,7 @@ import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
@@ -63,7 +64,7 @@ public class Arm extends SubsystemBase {
     // shoulder1.setInverted(true);
     // shoulder2.follow(shoulder1, true);
     elbow.setInverted(true);
-    
+
     
 
     //Arm encoders
@@ -74,6 +75,8 @@ public class Arm extends SubsystemBase {
     //clawEncoder = claw.getEncoder();
 
     clawEncoder = claw.getAbsoluteEncoder(Type.kDutyCycle);
+    clawEncoder.setInverted(true);
+
 
     backupencoder = claw.getEncoder();
     backupencoder.setPosition(0);
@@ -89,6 +92,9 @@ public class Arm extends SubsystemBase {
     claw_pidController.setI(Constants.ArmConstants.clawI);
     claw_pidController.setD(Constants.ArmConstants.clawD);
     claw_pidController.setOutputRange(-1.0, 1.0);
+
+    claw.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    claw.setSoftLimit(SoftLimitDirection.kReverse, -100);
 
     // Elbow PID
     elbow_pidController = elbow.getPIDController();
@@ -223,11 +229,11 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ElbowEncoder", getElbowClicks());
     SmartDashboard.putNumber("ClawEncoder", getClawClicks());
     SmartDashboard.putBoolean("Claw Open", Math.abs(getElbowClicks()) < 5);
+    SmartDashboard.putNumber("Backup Claw Encoder", backupencoder.getPosition());
     //SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
     //SmartDashboard.putNumber("Elbow P", elbow_pidController.getP());
-    if(backupencoder.getPosition() < -50) {
-      claw.set(0);
-    }
+    
+
     
   }
 }

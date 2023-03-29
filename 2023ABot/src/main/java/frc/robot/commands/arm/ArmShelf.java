@@ -16,11 +16,17 @@ import frc.robot.subsystems.StateController;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmShelf extends ParallelCommandGroup {
+public class ArmShelf extends SequentialCommandGroup {
   StateController m_stateController;
   Arm m_Arm;
   public ArmShelf() {
     m_Arm = Arm.getInstance();
-    addCommands(new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.shelfPos)), new InstantCommand(() -> m_Arm.notReadyToRecieve()), new ShoulderTo(Constants.ArmConstants.shoulderShelf), new ElbowTo(Constants.ArmConstants.elbowShelf));
+    addCommands(new ParallelCommandGroup(
+      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.shelfPos)), 
+      new InstantCommand(() -> m_Arm.notReadyToRecieve()), 
+      new ShoulderTo(Constants.ArmConstants.shoulderShelf), 
+      new ElbowTo(Constants.ArmConstants.elbowShelf)
+    ),
+    new InstantCommand(() -> m_Arm.stopClaw() ));
   }
 }

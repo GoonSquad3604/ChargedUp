@@ -23,7 +23,7 @@ public class HomeFromReady extends InstantCommand {
   @Override
   public void initialize() {
     m_Arm.elbowTo(Constants.ArmConstants.homeElbow);
-    m_Shoulder.shoulderTo(114.14);
+    m_Shoulder.shoulderTo(Constants.ArmConstants.homeShoulder);
     //m_Arm.setReadyToRecieve();
   }
 }

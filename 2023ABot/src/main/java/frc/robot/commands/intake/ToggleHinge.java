@@ -16,31 +16,24 @@ import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.utils.Wait;
 import frc.robot.subsystems.Intake;
 
-public class ToggleHinge extends SequentialCommandGroup {
+public class ToggleHinge extends InstantCommand {
   Intake m_Intake;
   public ToggleHinge(Intake intake) {
     //m_Intake = Intake.getInstance();
     m_Intake = intake;
-    boolean toggle = m_Intake.getToggle();
-    //SmartDashboard.putBoolean("we are togggleing",toggle); 
-    // if(toggle) {
-      //SmartDashboard.putString("toggle", "down"); 
-      addCommands(
-        new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)),
-        new Wait(1),
-        new ReadyToRecieve(),
-        new InstantCommand(() -> m_Intake.toggle())
-      );
-    // }
+    
+    
+  }
 
-    // else {
-    //   //SmartDashboard.putString("toggle", "up"); 
-    //   addCommands(
-    //     new HomeFromReady(),
-    //     new Wait(1),
-    //     new InstantCommand(() -> m_Intake.hingeTo(0)),
-    //     new InstantCommand(() -> m_Intake.toggle())
-    //   );
-    // }
+  @Override
+  public void initialize() {
+    if(m_Intake.getEncoder() > Constants.IntakeConstants.hingeUp + .03 ){
+
+      m_Intake.hingeTo(Constants.IntakeConstants.hingeUp);
+
+    }
+    else {
+      m_Intake.hingeTo(Constants.IntakeConstants.hingeDown);
+    }
   }
 }

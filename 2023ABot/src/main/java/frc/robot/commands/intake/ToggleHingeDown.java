@@ -23,10 +23,8 @@ public class ToggleHingeDown extends SequentialCommandGroup {
     m_Intake = intake;
       
       addCommands(
-        new HomeFromReady(),
-        new Wait(1),
         new InstantCommand(() -> SmartDashboard.putString("Running Toggle Up", "yep")),
-        new InstantCommand(() -> m_Intake.hingeTo(0)),
+        new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeUp)),
         new InstantCommand(() -> m_Intake.toggle())
       );
   }

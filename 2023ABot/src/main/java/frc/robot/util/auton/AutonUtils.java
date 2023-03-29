@@ -7,6 +7,7 @@ package frc.robot.util.auton;
 import java.util.HashMap;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -30,6 +31,10 @@ public class AutonUtils {
             SwerveDrive.getInstance()::setModuleStates, 
             true,
             SwerveDrive.getInstance());
+    }
+
+    public static FollowPathWithEvents getPathWithEvents(PathPlannerTrajectory traj, HashMap<String, Command> eventMap){
+        return new FollowPathWithEvents(getSwerveControllerCommand(traj), traj.getMarkers(), eventMap);
     }
 
 

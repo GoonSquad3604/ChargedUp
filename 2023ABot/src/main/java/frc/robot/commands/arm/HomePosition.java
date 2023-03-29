@@ -27,7 +27,7 @@ public class HomePosition extends SequentialCommandGroup {
       addCommands(
         new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
         new ElbowTo(Constants.ArmConstants.homeElbow),
-        new ShoulderTo(114.14),
+        new ShoulderTo(Constants.ArmConstants.homeShoulder),
         new InstantCommand(() -> m_Arm.notReadyToRecieve())
       );
   }
