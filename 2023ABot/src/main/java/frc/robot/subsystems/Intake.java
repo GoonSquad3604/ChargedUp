@@ -71,11 +71,12 @@ public class Intake extends SubsystemBase {
     hingePIDController.setI(Constants.IntakeConstants.hingeI);
     hingePIDController.setD(Constants.IntakeConstants.hingeD);
     hingePIDController.setOutputRange(-0.8, 0.8);
-    leftHinge.setClosedLoopRampRate(1);
+    leftHinge.setClosedLoopRampRate(1.5);
 
 
     // Spaghetti
     intake = new WPI_TalonSRX(Constants.IntakeConstants.intakeId);
+    intake.enableVoltageCompensation(true);
 
     sensor = new DigitalInput(Constants.IntakeConstants.sensorId);
   }

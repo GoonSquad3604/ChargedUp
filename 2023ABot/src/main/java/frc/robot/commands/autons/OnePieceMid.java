@@ -1,5 +1,8 @@
 package frc.robot.commands.autons;
 
+import java.util.HashMap;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -10,6 +13,7 @@ import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.Stop;
+import frc.robot.commands.intake.IntakeUntilPickup;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
 import frc.robot.commands.utils.Wait;
@@ -28,8 +32,17 @@ public class OnePieceMid extends GoonAutonCommand{
   LED m_Led;
   Arm m_Arm;
   Intake m_Intake;
+  HashMap<String, Command> eventMap;
+
 
   public OnePieceMid(LED led, Intake intake){
+    eventMap = new HashMap<String, Command>();
+
+    eventMap.put("IntakeShooterPos", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)));
+    eventMap.put("IntakeDown", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)));
+    eventMap.put("RunIntake", new IntakeUntilPickup());
+    eventMap.put("HomePos", new HomePosition());
+    
     m_Led = led;
     m_Intake = intake;
     m_Arm = Arm.getInstance();
@@ -37,11 +50,13 @@ public class OnePieceMid extends GoonAutonCommand{
       new SetConeMode(m_Led),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
       new ArmHigh(),
-      //new Wait(0.25),
-      AutonUtils.getSwerveControllerCommand(Trajectories.midMeterBack()),
-      new Wait(0.5),
+      new Wait(.5),
+      AutonUtils.getPathWithEvents(Trajectories.midMeterBack(), eventMap),
+      new Wait(.5),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
-      new Wait(0.25)
+      new Wait(.5),
+      new InstantCommand(() -> m_Arm.stopClaw()),
+      new Stop()
   );
     super.setInitialPose(Trajectories.midMeterBack());
   }

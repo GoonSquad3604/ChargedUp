@@ -41,6 +41,7 @@ import frc.robot.commands.autons.OnePieceMidBalanceCube;
 import frc.robot.commands.autons.OnePieceOfflane;
 import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.autons.ThreeCubeAuton;
+import frc.robot.commands.autons.ThreePieceAuton;
 import frc.robot.commands.autons.TwoPieceFreelane;
 import frc.robot.commands.autons.TwoPieceFreelaneBalance;
 import frc.robot.commands.drive.Aim;
@@ -52,6 +53,7 @@ import frc.robot.commands.intake.ToggleHinge;
 import frc.robot.commands.intake.ToggleHingeDown;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
+import frc.robot.commands.utils.Wait;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LED;
@@ -107,10 +109,9 @@ public class RobotContainer {
     m_chooser = new SendableChooser<>();
     m_chooser.setDefaultOption("Mid Single Cone", new OnePieceMid(s_LED, s_Intake));
     m_chooser.addOption("Mid Cone Balance", new OnePieceMidBalance(s_LED, s_Intake));
-    m_chooser.addOption("Mid Cube Balance", new OnePieceMidBalanceCube(s_LED, s_Intake));
-    //m_chooser.addOption("Two Piece Free Lane", new TwoPieceFreelane(s_LED, s_Intake));
+    m_chooser.addOption("GODTON", new TwoPieceFreelaneBalance(s_LED, s_Intake));
+    m_chooser.addOption("Three Piece Free Lane", new ThreePieceAuton(s_LED, s_Intake));
     m_chooser.addOption("Off Lane Single Cone Back Up", new OnePieceOfflane(s_LED, s_Intake));
-    m_chooser.addOption("Forward and Backup Mobility", new ForwardAndBack(s_LED, s_Intake));
     
     SmartDashboard.putData("chooser", m_chooser);
 
@@ -162,14 +163,14 @@ public class RobotContainer {
     // MANUAL STUFF
 
     // Claw
-    operatorY.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
-    operatorY.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
-    operatorX.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
-    operatorX.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
-    // operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(-.2, 0)));
-    // operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
-    // operatorX.onTrue(new InstantCommand(() -> s_Intake.setHinge(.2, 0)));
-    // operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
+    // operatorY.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
+    // operatorY.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+    // operatorX.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
+    // operatorX.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
+    operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(-.2, 0)));
+    operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
+    operatorX.onTrue(new InstantCommand(() -> s_Intake.setHinge(.2, 0)));
+    operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
     // operator2.onTrue(new ToggleHinge());
 
     // Hinge
@@ -205,18 +206,31 @@ public class RobotContainer {
     // driverA.onTrue(new AutoBalance());
 
     // Arm
-    // operator9.and(coneTrigger).onTrue(new HomePositionCone());
-    // operator10.and(coneTrigger).onTrue(new ArmHigh());
-    // operator11.and(coneTrigger).onTrue(new ArmMedium());
-    // operator12.and(coneTrigger).onTrue(new ArmLow());
+    operator9.and(coneTrigger).onTrue(new HomePositionCone());
+    operator10.and(coneTrigger).onTrue(new ArmHigh());
+    operator11.and(coneTrigger).onTrue(new ArmMedium());
+    operator12.and(coneTrigger).onTrue(new ArmLow());
 
     // Claw
-    operator4.onTrue(new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())));
-    operator5.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)));
+    operator4.onTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())),
+      new Wait(1.0),
+      new InstantCommand(() -> s_Arm.stopClaw())
+    ));
+
+    operator4.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 255, 0)));
+
+    operator5.onTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)),
+      new Wait(1.0),
+      new InstantCommand(() -> s_Arm.stopClaw())
+    ));
+
     operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.autonReady)));
  
 
     operator6.and(coneTrigger).onTrue(new ArmShelf());
+    operator6.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 0, 0)));
     operator6.and(cubeTrigger).onTrue(new InstantCommand(() -> s_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)));
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
@@ -241,10 +255,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     //GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
-    //GoonAutonCommand auton = m_chooser.getSelected();
+    GoonAutonCommand auton = m_chooser.getSelected();
 
-    // GoonAutonCommand auton = new OnePieceMidBalance(s_LED, s_Intake);
-    GoonAutonCommand auton = new TwoPieceFreelaneBalance(s_LED, s_Intake);
+     //GoonAutonCommand auton = new OnePieceMidBalance(s_LED, s_Intake);
+    //GoonAutonCommand auton = new TwoPieceFreelaneBalance(s_LED, s_Intake);
     
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;

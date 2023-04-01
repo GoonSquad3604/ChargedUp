@@ -41,6 +41,8 @@ public class Shoulder extends SubsystemBase {
     shoulder2.setIdleMode(IdleMode.kBrake);
 
     resetShoulderEncoder();
+    shoulder1.setClosedLoopRampRate(0.4);
+    shoulder2.setClosedLoopRampRate(0.4);
 
     // PID!
     pidController = shoulder1.getPIDController();

@@ -41,20 +41,33 @@ public class ThreePieceAuton extends GoonAutonCommand{
     eventMap.put("IntakeShooterPos", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)));
     eventMap.put("IntakeDown", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)));
     eventMap.put("RunIntake", new IntakeUntilPickup());
+    eventMap.put("HomePos", new HomePosition());
 
     m_Led = led;
     m_Intake = intake;
     m_Arm = Arm.getInstance();
     super.addCommands(
+      new SetConeMode(m_Led),
+      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+      new Wait(0.3),
+      new ArmHigh(),
+      new Wait(.5),
+      AutonUtils.getPathWithEvents(Trajectories.freeLaneMeterBack(), eventMap),
+      new Wait(.5),
+      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
+      new Wait(.5),
+      new InstantCommand(() -> m_Arm.stopClaw()),
       new SetCubeMode(m_Led),
-      new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)),
-      new Wait(0.5),
-      new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.vomitSpeed)),
-      new Wait(.35),
-      new InstantCommand(() -> m_Intake.stopIntake()),
       AutonUtils.getPathWithEvents(Trajectories.ThreeCubePurpleCannon_1(), eventMap),
+      new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)),
+      new Wait(0.45),
+      new InstantCommand(() -> m_Intake.stopIntake()),
+      AutonUtils.getPathWithEvents(Trajectories.ThreeCubePurpleCannon_2(), eventMap),
+      new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.midCubeSpeed)),
+      new Wait(0.45),
+      new InstantCommand(() -> m_Intake.stopIntake()),
       new Stop()
   );
-    super.setInitialPose(Trajectories.ThreeCubePurpleCannon_1());
+    super.setInitialPose(Trajectories.freeLaneMeterBack());
   }
 }

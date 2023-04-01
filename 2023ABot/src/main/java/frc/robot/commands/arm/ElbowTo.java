@@ -47,7 +47,7 @@ public class ElbowTo extends CommandBase {
   public void execute() {
     //SmartDashboard.putString("Elbow to status", "running " + m_refrence);
    // SmartDashboard.putString("Shoulder is over 280", "no");
-    if(m_Shoulder.getShoulderClicks() > 153.0) {
+    if(m_Shoulder.getShoulderClicks() > 0.0) {
      // SmartDashboard.putString("Shoulder is over 280", "yep");
       goodToMove = true;
     }

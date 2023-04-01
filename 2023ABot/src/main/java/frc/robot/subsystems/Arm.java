@@ -110,6 +110,8 @@ public class Arm extends SubsystemBase {
     // shoulder1.setIdleMode(IdleMode.kBrake);
     // shoulder2.setIdleMode(IdleMode.kBrake);
     elbow.setIdleMode(IdleMode.kBrake);
+    claw.setIdleMode(IdleMode.kBrake);
+    elbow.setClosedLoopRampRate(0.25);
 
     //reset encoders
     // resetShoulderEncoder();

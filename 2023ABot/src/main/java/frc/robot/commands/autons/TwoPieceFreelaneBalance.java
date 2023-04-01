@@ -39,13 +39,23 @@ public class TwoPieceFreelaneBalance extends GoonAutonCommand{
         eventMap.put("IntakeShooterPos", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)));
         eventMap.put("IntakeDown", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)));
         eventMap.put("RunIntake", new IntakeUntilPickup());
+        eventMap.put("HomePos", new HomePosition());
 
         m_Led = led;
         m_Intake = intake;
         m_Arm = Arm.getInstance();
         super.addCommands(
             //Score a cone
-
+            new SetConeMode(m_Led),
+            new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+            new Wait(0.3),
+            new ArmHigh(),
+            new Wait(.5),
+            AutonUtils.getPathWithEvents(Trajectories.freeLaneMeterBack(), eventMap),
+            new Wait(.5),
+            new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
+            new Wait(.5),
+            new InstantCommand(() -> m_Arm.stopClaw()),
             new SetCubeMode(m_Led),
             AutonUtils.getPathWithEvents(Trajectories.ThreeCubePurpleCannon_1(), eventMap),
             new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)),
@@ -56,6 +66,6 @@ public class TwoPieceFreelaneBalance extends GoonAutonCommand{
             new Stop()
         );
 
-        super.setInitialPose(Trajectories.ThreeCubePurpleCannon_1());
+        super.setInitialPose(Trajectories.freeLaneMeterBack());
     }
 }

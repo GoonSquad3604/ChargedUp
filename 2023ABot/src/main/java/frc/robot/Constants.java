@@ -39,6 +39,7 @@ public final class Constants {
         /* Swerve Kinematics 
         * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
 
+        //meaning of life, the universe and everything
         public static final Translation2d frontLeftLocation = new Translation2d(wheelBase / 2.0, trackWidth / 2.0);
         public static final Translation2d frontRightLocation = new Translation2d(wheelBase / 2.0, -trackWidth / 2.0);
         public static final Translation2d backLeftLocation = new Translation2d(-wheelBase / 2.0, trackWidth / 2.0);
@@ -100,7 +101,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 4.5; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 4.968; //TODO: This must be tuned to specific robot
         /** Radians per Second */
         public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
 
@@ -114,7 +115,7 @@ public final class Constants {
             public static final int driveMotorID = 18;
             public static final int angleMotorID = 16;
             public static final int canCoderID = 20;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.521484);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.697266);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -124,7 +125,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 21;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(78.662109);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(78.750000);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -134,7 +135,7 @@ public final class Constants {
             public static final int driveMotorID = 19;
             public static final int angleMotorID = 17;
             public static final int canCoderID = 22;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(20.302734);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(20.039063);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -144,7 +145,7 @@ public final class Constants {
             public static final int driveMotorID = 40;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 23;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(71.103516);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(71.367188);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -153,7 +154,7 @@ public final class Constants {
 
     public static final class ArmConstants {
         public static final int shoulder1ID = 15;
-        //meaning of life, the universe and everything
+        
         public static final int shoulder2ID = 4;
         public static final int elbowID = 5;
         public static final int clawId = 14;
@@ -170,43 +171,43 @@ public final class Constants {
         public static final double gearRatio = 1;
 
         // Claw PID
-        public static final double clawP = 15;
+        public static final double clawP = 24;
         public static final double clawI = 0;
         public static final double clawD = 3;
         public static final double clawFF = 0.1;
 
         // Shoulder PIDb
-        public static final double shoulderUpP = 5.0;
-        public static final double shoulderDownP = 5.0;
+        public static final double shoulderUpP = 7.0;
+        public static final double shoulderDownP = 7.0;
         public static final double shoulderI = 0;
         public static final double shoulderD = 0.00;
 
         // Elbow PID
-        public static final double elbowUpP = 2.0;
-        public static final double elbowDownP = 2.0;
+        public static final double elbowUpP = 4.0;
+        public static final double elbowDownP = 4.0;
         public static final double elbowI = 0;
         public static final double elbowD = 0;
 
         // Positions
 
         // Home Position
-        public static final double homeElbow = 332.95;
-        public static final double homeShoulder = 107.46;
+        public static final double homeElbow = 302.5;
+        public static final double homeShoulder = 108.14;
         
         // Ready to recieve
         public static final double readyElbow = 166.16;
 
 
         // Cone
-        public static final double highConeShoulder = 205.34;
-        public static final double highConeElbow = 273.94;
+        public static final double highConeShoulder = 205.73;
+        public static final double highConeElbow = 151;
 
-        public static final double midConeShoulder = 177.44;
-        public static final double midConeElbow = 311.88;
+        public static final double midConeShoulder = 185.59;
+        public static final double midConeElbow = 177;
 
         // Shelf
-        public static final double shoulderShelf = 156.265197;
-        public static final double elbowShelf = 342.536201;
+        public static final double shoulderShelf = 114.84;
+        public static final double elbowShelf = 302.5;
 
 
         // Cube
@@ -217,15 +218,15 @@ public final class Constants {
         public static final double midCubeElbow = 288.625817;
 
         // Hybrid
-        public static final double hybridShoulder = 156.339816;
-        public static final double hybridElbow = 313.691404;
+        public static final double hybridShoulder = 135.2;
+        public static final double hybridElbow = 295.83;
 
         // Claw
-        public static double closedCone = 0.329;
-        public static double closedCube = 0.329;
-        public static double startingPos = 0.41;
-        public static double autonReady = 0.41;
-        public static double shelfPos = 0.41;
+        public static final double closedCone = 0.305;
+        public static final double closedCube = 0.315;
+        public static final double startingPos = 0.41;
+        public static final double autonReady = 0.359;
+        public static final double shelfPos = 0.41;
 
 
 
@@ -243,14 +244,14 @@ public final class Constants {
         // Hinge
         public static final int leftHingeId = 13;
         public static final int rightHingeId = 7;
-        public static final double hingeP = 2.5;
+        public static final double hingeP = 2; // was 2.5
         public static final double hingeI = 0.00;
         public static final double hingeD = 0.01;
 
         // public static final double hingeDown = 26.1;
         public static final double hingeUp = 0.51;
         public static final double hingeShoot = 0.572668;
-        public static final double hingeDown = 0.82;
+        public static final double hingeDown = 0.815;
 
 
         // Spaghetti
@@ -264,9 +265,9 @@ public final class Constants {
         public static final int sensorId = 9;
 
         // Shooter speeds
-        public static final double topCubeSpeed = -0.85;
+        public static final double topCubeSpeed = -0.9;
         public static final double midCubeSpeed = -0.5;
-        public static final double lowCubeSpeed = -0.15;
+        public static final double lowCubeSpeed = -0.2;
 
 
     }
