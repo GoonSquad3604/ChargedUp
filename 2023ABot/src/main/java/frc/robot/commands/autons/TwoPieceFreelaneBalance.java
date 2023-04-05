@@ -37,27 +37,29 @@ public class TwoPieceFreelaneBalance extends GoonAutonCommand{
         eventMap = new HashMap<String, Command>();
 
         eventMap.put("IntakeShooterPos", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)));
+        eventMap.put("ShootHigh", new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)));
         eventMap.put("IntakeDown", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)));
         eventMap.put("RunIntake", new IntakeUntilPickup());
         eventMap.put("HomePos", new HomePosition());
+        eventMap.put("StopClaw", new InstantCommand(() -> m_Arm.stopClaw()));
+        eventMap.put("OpenClaw", new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)));
 
         m_Led = led;
         m_Intake = intake;
         m_Arm = Arm.getInstance();
         super.addCommands(
-            //Score a cone
             new SetConeMode(m_Led),
             new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
             new Wait(0.3),
             new ArmHigh(),
-            new Wait(.5),
+            //new Wait(.5),
             AutonUtils.getPathWithEvents(Trajectories.freeLaneMeterBack(), eventMap),
-            new Wait(.5),
-            new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
-            new Wait(.5),
-            new InstantCommand(() -> m_Arm.stopClaw()),
+            // new Wait(.5),
+            // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
+            //new Wait(.5),
+            //new InstantCommand(() -> m_Arm.stopClaw()),
             new SetCubeMode(m_Led),
-            AutonUtils.getPathWithEvents(Trajectories.ThreeCubePurpleCannon_1(), eventMap),
+            AutonUtils.getPathWithEvents(Trajectories.ThreeCubePurpleCannon_1Fast(), eventMap),
             new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)),
             new Wait(0.45),
             new InstantCommand(() -> m_Intake.stopIntake()),

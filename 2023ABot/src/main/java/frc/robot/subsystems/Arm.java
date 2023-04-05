@@ -93,8 +93,8 @@ public class Arm extends SubsystemBase {
     claw_pidController.setD(Constants.ArmConstants.clawD);
     claw_pidController.setOutputRange(-1.0, 1.0);
 
-    claw.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    claw.setSoftLimit(SoftLimitDirection.kReverse, -100);
+    // claw.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    // claw.setSoftLimit(SoftLimitDirection.kReverse, -100);
 
     // Elbow PID
     elbow_pidController = elbow.getPIDController();

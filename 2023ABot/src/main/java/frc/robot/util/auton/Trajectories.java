@@ -75,7 +75,23 @@ public final class Trajectories {
                 "ThreeCubePurpleCannon_Part2",
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
+
+    public static PathPlannerTrajectory ThreeCubePurpleCannon_1Fast() {
+        return PathPlanner.loadPath(
+                "ThreeCubePurpleCannon_Part1Fast",
+                4.5,//Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }  
+    
+    public static PathPlannerTrajectory ThreeCubePurpleCannon_2Fast() {
+        return PathPlanner.loadPath(
+                "ThreeCubePurpleCannon_Part2Fast",
+                4.5,//Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    } 
+
+    
 
     public static PathPlannerTrajectory BalanceFromFreelane() {
         return PathPlanner.loadPath(

@@ -49,6 +49,7 @@ public class OnePieceMid extends GoonAutonCommand{
     super.addCommands(
       new SetConeMode(m_Led),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
+      new Wait(0.5),
       new ArmHigh(),
       new Wait(.5),
       AutonUtils.getPathWithEvents(Trajectories.midMeterBack(), eventMap),

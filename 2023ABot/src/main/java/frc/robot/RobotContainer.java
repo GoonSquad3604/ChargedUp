@@ -160,6 +160,8 @@ public class RobotContainer {
 
     Trigger intakeSensorTrigger = new Trigger(s_Intake::getIntakeSensor);
 
+    Trigger driverRightTrigger = new Trigger(()->driver.getRightTriggerAxis() > 0.8);
+
     // MANUAL STUFF
 
     // Claw
@@ -203,13 +205,16 @@ public class RobotContainer {
     driverStart.and(driverStop).onTrue(new StopAll());
 
     // Drive Train
-    // driverA.onTrue(new AutoBalance());
+    
 
     // Arm
     operator9.and(coneTrigger).onTrue(new HomePositionCone());
     operator10.and(coneTrigger).onTrue(new ArmHigh());
     operator11.and(coneTrigger).onTrue(new ArmMedium());
     operator12.and(coneTrigger).onTrue(new ArmLow());
+
+    driverRightTrigger.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()+5)));
+    driverA.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()-5)));
 
     // Claw
     operator4.onTrue(new SequentialCommandGroup(

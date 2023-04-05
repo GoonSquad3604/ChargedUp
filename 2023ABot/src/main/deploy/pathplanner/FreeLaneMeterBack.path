@@ -45,5 +45,12 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.6763636363635986,
+      "names": [
+        "OpenClaw"
+      ]
+    }
+  ]
 }
