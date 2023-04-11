@@ -71,7 +71,7 @@ public final class Constants {
 
         /* Drive Motor PID Values */
 
-        public static final double driveKP = 0.04771; //0.05171 //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.05171; //0.04771 //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
@@ -191,7 +191,7 @@ public final class Constants {
         // Positions
 
         // Home Position
-        public static final double homeElbow = 302.5;
+        public static final double homeElbow = 312.9;
         public static final double homeShoulder = 108.14;
         
         // Ready to recieve
@@ -200,14 +200,14 @@ public final class Constants {
 
         // Cone
         public static final double highConeShoulder = 205.73;
-        public static final double highConeElbow = 151;
+        public static final double highConeElbow = 163.3;
 
-        public static final double midConeShoulder = 185.59;
+        public static final double midConeShoulder = 196.3;
         public static final double midConeElbow = 177;
 
         // Shelf
-        public static final double shoulderShelf = 114.84;
-        public static final double elbowShelf = 302.5;
+        public static final double shoulderShelf = 113.04;
+        public static final double elbowShelf = 313.58;
 
 
         // Cube
@@ -219,7 +219,7 @@ public final class Constants {
 
         // Hybrid
         public static final double hybridShoulder = 135.2;
-        public static final double hybridElbow = 295.83;
+        public static final double hybridElbow = 256;
 
         // Claw
         public static final double closedCone = 0.305;
@@ -251,7 +251,7 @@ public final class Constants {
         // public static final double hingeDown = 26.1;
         public static final double hingeUp = 0.51;
         public static final double hingeShoot = 0.572668;
-        public static final double hingeDown = 0.815;
+        public static final double hingeDown = 0.81;
 
 
         // Spaghetti
@@ -259,15 +259,15 @@ public final class Constants {
 
         // Intake speeds
         public static final double coneSpeed = 0.75;
-        public static final double cubeSpeed = 0.4;
+        public static final double cubeSpeed = 0.35;
         public static final double vomitSpeed = -1.0;
 
         public static final int sensorId = 9;
 
         // Shooter speeds
-        public static final double topCubeSpeed = -0.9;
-        public static final double midCubeSpeed = -0.5;
-        public static final double lowCubeSpeed = -0.2;
+        public static final double topCubeSpeed = -0.95;
+        public static final double midCubeSpeed = -0.55;
+        public static final double lowCubeSpeed = -0.4;
 
 
     }

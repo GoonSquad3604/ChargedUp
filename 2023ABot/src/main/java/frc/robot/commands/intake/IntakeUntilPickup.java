@@ -38,11 +38,12 @@ public class IntakeUntilPickup extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Intake.stopIntake();
+    timer.reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (fin || timer.get() > 3.0);
+    return (fin || timer.get() > 5.0);
   }
 }

@@ -51,7 +51,7 @@ public class Shoulder extends SubsystemBase {
     pidController.setP(Constants.ArmConstants.shoulderUpP);
     pidController.setI(Constants.ArmConstants.shoulderI);
     pidController.setD(Constants.ArmConstants.shoulderD);
-    pidController.setOutputRange(-1.0, 1.0);
+    pidController.setOutputRange(-1.0, 1.0); // -1, 1
 
     refrenceSet = false;
     

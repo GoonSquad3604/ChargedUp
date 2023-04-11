@@ -144,6 +144,11 @@ public class SwerveDrive extends SubsystemBase {
     return m_Pigeon.getRoll();
   }
 
+
+  public double getYaw() {
+    return m_Pigeon.getYaw();
+  }
+
   public double getGyroPitch() {
     return m_Pigeon.getPitch();
   }
@@ -174,7 +179,10 @@ public class SwerveDrive extends SubsystemBase {
       SmartDashboard.putNumber(mod.name + " Can Coder Angle", mod.getCanCoder().getDegrees());
       SmartDashboard.putNumber(mod.name + " talon angle", mod.getAngle().getDegrees());
       SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
-      SmartDashboard.putNumber("Role", getRoll());
+
+      SmartDashboard.putNumber("Roll", getRoll());
+      SmartDashboard.putNumber("Pitch", getGyroPitch());
+      SmartDashboard.putNumber("Yaw", getYaw());
     }
 
     swerveDriveOdometry.update(getGyroAngle(), getModulePositions());

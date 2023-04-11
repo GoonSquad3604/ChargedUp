@@ -217,13 +217,15 @@ public class RobotContainer {
     driverA.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()-5)));
 
     // Claw
-    operator4.onTrue(new SequentialCommandGroup(
+    operator4.and(coneTrigger).onTrue(new SequentialCommandGroup(
       new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())),
-      new Wait(1.0),
+      new Wait(0.5),
+      new InstantCommand(() -> s_LED.setColor(255, 255, 0)),
+      new Wait(0.5),
       new InstantCommand(() -> s_Arm.stopClaw())
     ));
 
-    operator4.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 255, 0)));
+    //operator4.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 255, 0)));
 
     operator5.onTrue(new SequentialCommandGroup(
       new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)),
