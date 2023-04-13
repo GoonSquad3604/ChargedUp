@@ -246,12 +246,12 @@ public final class Constants {
         public static final int rightHingeId = 7;
         public static final double hingeP = 2; // was 2.5
         public static final double hingeI = 0.00;
-        public static final double hingeD = 0.01;
+        public static final double hingeD = 0;//0.01;
 
         // public static final double hingeDown = 26.1;
         public static final double hingeUp = 0.51;
         public static final double hingeShoot = 0.572668;
-        public static final double hingeDown = 0.81;
+        public static final double hingeDown = 0.805;
 
 
         // Spaghetti
