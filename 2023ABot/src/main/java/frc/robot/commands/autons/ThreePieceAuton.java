@@ -42,6 +42,7 @@ public class ThreePieceAuton extends GoonAutonCommand{
     eventMap.put("ShootHigh", new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)));
     eventMap.put("IntakeDown", new InstantCommand(() -> m_Intake.hingeTo(Constants.IntakeConstants.hingeDown)));
     eventMap.put("RunIntake", new IntakeUntilPickup());
+    eventMap.put("RunIntake2", new IntakeUntilPickup());
     eventMap.put("HomePos", new HomePosition());
     eventMap.put("StopClaw", new InstantCommand(() -> m_Arm.stopClaw()));
     eventMap.put("OpenClaw", new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)));

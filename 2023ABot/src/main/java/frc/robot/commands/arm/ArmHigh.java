@@ -21,6 +21,6 @@ public class ArmHigh extends ParallelCommandGroup {
   Arm m_Arm;
   public ArmHigh() {
     m_Arm = Arm.getInstance();
-    addCommands(new InstantCommand(() -> m_Arm.notReadyToRecieve()), new ShoulderTo(Constants.ArmConstants.highConeShoulder), new ElbowTo(Constants.ArmConstants.highConeElbow));
+    addCommands( new ShoulderTo(Constants.ArmConstants.highConeShoulder), new ElbowTo(Constants.ArmConstants.highConeElbow));
   }
 }

@@ -74,15 +74,65 @@
     },
     {
       "anchorPoint": {
-        "x": 7.6,
-        "y": 3.6364756324377128
+        "x": 7.87573324076748,
+        "y": 3.567862884655869
       },
       "prevControl": {
-        "x": 7.513285691956001,
-        "y": 4.45544409729772
+        "x": 7.789018932723481,
+        "y": 4.386831349515877
+      },
+      "nextControl": {
+        "x": 7.962447548811479,
+        "y": 2.748894419795861
+      },
+      "holonomicAngle": -91.89951091933521,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.890605512436011,
+        "y": 5.096568019921139
+      },
+      "prevControl": {
+        "x": 7.737460164957113,
+        "y": 5.323002306820278
+      },
+      "nextControl": {
+        "x": 4.043750859914908,
+        "y": 4.870133733022
+      },
+      "holonomicAngle": -88.80651057601794,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.2550835423061817,
+        "y": 4.512587482138323
+      },
+      "prevControl": {
+        "x": 3.883259963030356,
+        "y": 4.674505579226914
       },
       "nextControl": null,
-      "holonomicAngle": -91.89951091933521,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -97,10 +147,16 @@
   ],
   "markers": [
     {
-      "position": 1.7018181818180866,
+      "position": 2.036363636363608,
       "names": [
         "IntakeDown",
-        "RunIntake"
+        "RunIntake2"
+      ]
+    },
+    {
+      "position": 3.636363636363571,
+      "names": [
+        "IntakeShooterPos"
       ]
     }
   ]

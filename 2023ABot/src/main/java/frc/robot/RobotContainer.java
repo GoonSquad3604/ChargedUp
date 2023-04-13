@@ -34,6 +34,7 @@ import frc.robot.commands.arm.ArmShelf;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.HomePositionCone;
 import frc.robot.commands.arm.ReadyToRecieve;
+import frc.robot.commands.autons.AutonTest;
 import frc.robot.commands.autons.ForwardAndBack;
 import frc.robot.commands.autons.OnePieceMid;
 import frc.robot.commands.autons.OnePieceMidBalance;
@@ -262,10 +263,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     //GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
-    GoonAutonCommand auton = m_chooser.getSelected();
+    // GoonAutonCommand auton = m_chooser.getSelected();
+    // GoonAutonCommand auton = new AutonTest(s_LED, s_Intake);
 
      //GoonAutonCommand auton = new OnePieceMidBalance(s_LED, s_Intake);
     //GoonAutonCommand auton = new TwoPieceFreelaneBalance(s_LED, s_Intake);
+    GoonAutonCommand auton = new ThreePieceAuton(s_LED, s_Intake);
     
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;

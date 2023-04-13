@@ -99,4 +99,11 @@ public final class Trajectories {
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
+
+    public static PathPlannerTrajectory TestPath() {
+        return PathPlanner.loadPath(
+                "TestPath",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
 }
