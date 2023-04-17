@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.concurrent.locks.Condition;
 
+import org.ejml.masks.FMaskPrimitive;
+
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -49,6 +51,7 @@ import frc.robot.commands.drive.Aim;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
+import frc.robot.commands.drive.FastAutoBalance;
 import frc.robot.commands.drive.SwerveDefaultDrive;
 import frc.robot.commands.intake.ToggleHinge;
 import frc.robot.commands.intake.ToggleHingeDown;
@@ -176,6 +179,8 @@ public class RobotContainer {
     operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
     // operator2.onTrue(new ToggleHinge());
 
+    //driverX.onTrue(new FastAutoBalance());
+
     // Hinge
     // operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
     // operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
@@ -263,12 +268,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     //GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
-    // GoonAutonCommand auton = m_chooser.getSelected();
+    GoonAutonCommand auton = m_chooser.getSelected();
     // GoonAutonCommand auton = new AutonTest(s_LED, s_Intake);
 
      //GoonAutonCommand auton = new OnePieceMidBalance(s_LED, s_Intake);
     //GoonAutonCommand auton = new TwoPieceFreelaneBalance(s_LED, s_Intake);
-    GoonAutonCommand auton = new ThreePieceAuton(s_LED, s_Intake);
+    //GoonAutonCommand auton = new ThreePieceAuton(s_LED, s_Intake);
     
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;

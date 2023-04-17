@@ -70,9 +70,9 @@ public class Intake extends SubsystemBase {
     hingePIDController.setP(Constants.IntakeConstants.hingeP);
     hingePIDController.setI(Constants.IntakeConstants.hingeI);
     hingePIDController.setD(Constants.IntakeConstants.hingeD);
-    hingePIDController.setOutputRange(-.8, .8);
-    leftHinge.setClosedLoopRampRate(2);
-    rightHinge.setClosedLoopRampRate(2);
+    hingePIDController.setOutputRange(-1.0, 1.0);
+    leftHinge.setClosedLoopRampRate(0.5);
+    rightHinge.setClosedLoopRampRate(0.5);
 
 
     // Spaghetti
