@@ -5,7 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoProperty;
+import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -34,15 +37,30 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    UsbCamera camera = CameraServer.startAutomaticCapture();
-    camera.setResolution(80, 35);
+   
+    
 
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    UsbCamera camera = CameraServer.startAutomaticCapture(0);
+    
+    
+    
+    MjpegServer server = new MjpegServer("serve_USB Camera 0", 1181);
+    server.setSource(camera);
 
+    server.setCompression(80);
+    camera.setResolution(320, 240);
+    
+    server.getProperty("fps").set(5);
+    //server.setFPS(10);
+    
+    //camera.setExposureAuto();
+    //camera.setFPS(10);
+    
   }
 
   /**
@@ -59,7 +77,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
 
-    SmartDashboard.putString("alliance color", DriverStation.getAlliance().name());
+    // SmartDashboard.putString("alliance color", DriverStation.getAlliance().name());
     CommandScheduler.getInstance().run();
   }
 

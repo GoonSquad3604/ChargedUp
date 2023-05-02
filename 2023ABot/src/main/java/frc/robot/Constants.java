@@ -31,8 +31,8 @@ public final class Constants {
     public static final class Swerve{
 
         // /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(23); //TODO: Match this to robot
-        public static final double wheelBase = Units.inchesToMeters(23); //TODO: Math this to robot
+        public static final double trackWidth = Units.inchesToMeters(23); 
+        public static final double wheelBase = Units.inchesToMeters(23); 
 
         public static final int pigeonID = 25;
         
@@ -55,7 +55,7 @@ public final class Constants {
         //Swerve Moudle constants
 
         public static final double angleGearRatio = ((150.0 / 7.0) / 1.0);
-        public static final double driveGearRatio = (6.75 / 1.0); //MK4 L2 gearing
+        public static final double driveGearRatio = (6.75 / 1.0); 
 
         public static final boolean driveMotorInvert = true;
         public static final boolean angleMotorInvert = true;
@@ -71,17 +71,14 @@ public final class Constants {
 
         /* Drive Motor PID Values */
 
-        public static final double driveKP = 0.05171; //0.04771 //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.05171;  
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
                /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        // public static final double driveKS = (0.083472 / 12); //TODO: This must be tuned to specific robot
-        // public static final double driveKV = (2.6579 / 12);
-        // public static final double driveKA = (0.088189 / 12);
-        public static final double driveKS = (0.44576 / 12); //TODO: This must be tuned to specific robot
+        public static final double driveKS = (0.44576 / 12);
         public static final double driveKV = (2.9137 / 12);
         public static final double driveKA = (0.7054 / 12);
         /* Swerve Current Limiting */
@@ -101,9 +98,9 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 4.968; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 4.968; 
         /** Radians per Second */
-        public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 10.0; 
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
@@ -111,17 +108,17 @@ public final class Constants {
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
-        public static final class FrontLeft { //TODO: This must be tuned to specific robot
+        public static final class FrontLeft { 
             public static final int driveMotorID = 18;
             public static final int angleMotorID = 16;
             public static final int canCoderID = 20;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(24.697266);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(26.54);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
         /* Front Right Module - Module 1 */
-        public static final class FrontRight { //TODO: This must be tuned to specific robot
+        public static final class FrontRight { 
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 21;
@@ -131,7 +128,7 @@ public final class Constants {
         }
         
         /* Back Left Module - Module 2 */
-        public static final class BackLeft { //TODO: This must be tuned to specific robot
+        public static final class BackLeft { 
             public static final int driveMotorID = 19;
             public static final int angleMotorID = 17;
             public static final int canCoderID = 22;
@@ -141,7 +138,7 @@ public final class Constants {
         }
 
         /* Back Right Module - Module 3 */
-        public static final class BackRight { //TODO: This must be tuned to specific robot
+        public static final class BackRight { 
             public static final int driveMotorID = 40;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 23;
@@ -160,8 +157,8 @@ public final class Constants {
         public static final int clawId = 14;
 
         // Arm lengths
-        public static final double bottomArmLength = 5; // 5 is temporary
-        public static final double topArmLength = 5; // 5 is temporary
+        public static final double bottomArmLength = 5; 
+        public static final double topArmLength = 5; 
 
         //Arm Origin Length. The Origin of the arm is located how far from the back bumbers and arm.
         public static final double armOriginXOffset = .3326;
@@ -244,11 +241,10 @@ public final class Constants {
         // Hinge
         public static final int leftHingeId = 13;
         public static final int rightHingeId = 7;
-        public static final double hingeP = 2; // was 2.5
+        public static final double hingeP = 2; 
         public static final double hingeI = 0.00;
-        public static final double hingeD = 0;//0.01;
+        public static final double hingeD = 0;
 
-        // public static final double hingeDown = 26.1;
         public static final double hingeUp = 0.51;
         public static final double hingeShoot = 0.572668;
         public static final double hingeDown = 0.808;
@@ -272,7 +268,7 @@ public final class Constants {
 
     }
 
-    public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    public static final class AutoConstants { 
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -284,8 +280,7 @@ public final class Constants {
     
         public static final double kPXController = 8.0;
         public static final double kPYController = 0.0;
-        //public static final double kIYController = 0.1;
-        //public static final double kIXController = 0.1;
+       
         public static final double kPThetaController = 0.0;
     
         /* Constraint for the motion profilied robot angle controller */

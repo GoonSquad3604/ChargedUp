@@ -95,27 +95,5 @@
       }
     }
   ],
-  "markers": [
-    {
-      "position": 0.02,
-      "names": [
-        "HomePos",
-        "StopClaw"
-      ]
-    },
-    {
-      "position": 0.23999999999998947,
-      "names": [
-        "RunIntake",
-        "IntakeDown"
-      ]
-    },
-    {
-      "position": 1.11,
-      "names": [
-        "StopIntake",
-        "IntakeShooterPos"
-      ]
-    }
-  ]
+  "markers": []
 }

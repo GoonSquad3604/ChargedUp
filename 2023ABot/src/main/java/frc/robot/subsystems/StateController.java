@@ -34,7 +34,6 @@ public class StateController extends SubsystemBase {
   }
 
   public void setCube() {
-    // SmartDashboard.putString("Cube or Cone Mode", "Cube");
     m_Mode = RobotMode.CUBE;
     intakeSpeed = Constants.IntakeConstants.cubeSpeed;
     highposShoulder = Constants.ArmConstants.highCubeShoulder;
@@ -45,7 +44,6 @@ public class StateController extends SubsystemBase {
 
   }
   public void setCone() {
-    // SmartDashboard.putString("Cube or Cone Mode", "Cone");
     m_Mode = RobotMode.CONE;
     intakeSpeed = Constants.IntakeConstants.coneSpeed;
     highposShoulder = Constants.ArmConstants.highConeShoulder;
@@ -56,7 +54,6 @@ public class StateController extends SubsystemBase {
 
   }
   public void setNeutral() {
-    // SmartDashboard.putString("Cube or Cone Mode", "this");
     m_Mode = RobotMode.NEUTRAL;
     intakeSpeed = 0;
    
@@ -100,7 +97,7 @@ public class StateController extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("highposelbow", highposElbow);
+    
     // This method will be called once per scheduler run
   }
 }

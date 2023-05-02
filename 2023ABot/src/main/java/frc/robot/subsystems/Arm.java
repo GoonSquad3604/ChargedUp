@@ -30,15 +30,12 @@ public class Arm extends SubsystemBase {
 
   private boolean isReadyToRecieve = false;
 
-  // private CANSparkMax shoulder1;
-  // private CANSparkMax shoulder2;
+ 
   private CANSparkMax elbow;
   private CANSparkMax claw;
 
   private static Arm _instance;
-  // private AbsoluteEncoder shoulderEncoder;
   private AbsoluteEncoder elbowEncoder;
-  //private RelativeEncoder clawEncoder;
   private AbsoluteEncoder clawEncoder;
 
   // PIDS!
@@ -51,28 +48,22 @@ public class Arm extends SubsystemBase {
   
   /** Creates a new Arm. */
   public Arm() {
-    // shoulder1 = new CANSparkMax(Constants.ArmConstants.shoulder1ID, MotorType.kBrushless);
-    // shoulder2 = new CANSparkMax(Constants.ArmConstants.shoulder2ID, MotorType.kBrushless);
+    
     elbow = new CANSparkMax(Constants.ArmConstants.elbowID, MotorType.kBrushless);
     claw = new CANSparkMax(Constants.ArmConstants.clawId, MotorType.kBrushless);
     
     elbow.restoreFactoryDefaults();
-    // shoulder1.restoreFactoryDefaults();
-    // shoulder2.restoreFactoryDefaults();
+   
     claw.restoreFactoryDefaults();
 
-    // shoulder1.setInverted(true);
-    // shoulder2.follow(shoulder1, true);
+    
     elbow.setInverted(true);
 
     
 
     //Arm encoders
-    // shoulderEncoder = shoulder1.getAbsoluteEncoder(Type.kDutyCycle);
     elbowEncoder = elbow.getAbsoluteEncoder(Type.kDutyCycle);
     elbowEncoder.setInverted(false);
-    //elbowEncoder.setZeroOffset(180);
-    //clawEncoder = claw.getEncoder();
 
     clawEncoder = claw.getAbsoluteEncoder(Type.kDutyCycle);
     clawEncoder.setInverted(true);
@@ -81,7 +72,6 @@ public class Arm extends SubsystemBase {
     backupencoder = claw.getEncoder();
     backupencoder.setPosition(0);
     
-    //clawEncoder.setPosition(0);
     elbowEncoder.setZeroOffset(45/360);
     // PID Controllers
 
@@ -93,8 +83,7 @@ public class Arm extends SubsystemBase {
     claw_pidController.setD(Constants.ArmConstants.clawD);
     claw_pidController.setOutputRange(-1.0, 1.0);
 
-    // claw.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    // claw.setSoftLimit(SoftLimitDirection.kReverse, -100);
+    
 
     // Elbow PID
     elbow_pidController = elbow.getPIDController();
@@ -107,29 +96,15 @@ public class Arm extends SubsystemBase {
 
 
     // Brake mode
-    // shoulder1.setIdleMode(IdleMode.kBrake);
-    // shoulder2.setIdleMode(IdleMode.kBrake);
+    
     elbow.setIdleMode(IdleMode.kBrake);
     claw.setIdleMode(IdleMode.kBrake);
     elbow.setClosedLoopRampRate(0.25);
 
     //reset encoders
-    // resetShoulderEncoder();
-    //resetElbowEncoder();
-
-    //encoder = elbow.getAlternateEncoder(, 0);
-
-    //shoulderEncoder = shoulder1.getAlternateEncoder(com.revrobotics.SparkMaxAlternateEncoder.Type.kQuadrature, 0)
-  }
-
-  public static double[] getAngle(double x, double y) {
-    final double a = Constants.ArmConstants.bottomArmLength;
-    final double b = Constants.ArmConstants.topArmLength;
-    double elbow = Math.acos((Math.pow(x, 2) + Math.pow(y,2)-Math.pow(a, 2) - Math.pow(b, 2))/(2*a*b) );
-    double shoulder = Math.atan(y/x) + Math.atan((b*Math.sin(elbow))/(a + b*Math.cos(elbow)));
    
-    double angles[] = {Math.toDegrees(elbow), Math.toDegrees(shoulder)};
-    return angles;
+
+
   }
 
   public static Arm getInstance() {
@@ -139,35 +114,41 @@ public class Arm extends SubsystemBase {
     return _instance;
   }
 
-  // public void setShoulder(double power) {
-  //   shoulder1.set(power * .4);
-
-  // }
+  
+/**
+ * Sets elbow to a power.
+ * @param power power of elbow
+ */
   public void setElbow(double power) {
     elbow.set(power *.7);
   }
 
-  // public void stopShoulder() {
-  //   shoulder1.set(0);
-  // }
-
+/**
+ * Stops elbow.
+ */
   public void stopElbow() {
     elbow.set(0);
   }
-
+/**
+ * 
+ * @return Elbow Encoder in Degrees
+ */
   public double getElbowClicks() {
     return elbowEncoder.getPosition()*360;
   }
 
-  // public double getShoulderClicks() {
-  //   return shoulderEncoder.getPosition()*360.0;
-  // }
-
+  /**
+   * Gets Claw Encoder Position.
+   */
   public double getClawClicks() {
     return clawEncoder.getPosition();
   }
 
   // Claw
+  /**
+   * 
+   * @param power Power of Claw
+   */
   public void moveClaw(double power) {
     claw.set(power);
   }
@@ -176,36 +157,35 @@ public class Arm extends SubsystemBase {
     claw.set(0);
   }
 
-  // public void setStartingPos() {
-  //   clawEncoder.setPosition(Constants.ArmConstants.startingPos);
-  // }
-
+ /**
+  * Uses PID looping to set the claw to a certain position 
+  * @param refrence Position to send claw to 
+  */
   public void clawTo(double refrence) {
     claw_pidController.setReference(refrence, ControlType.kPosition);
     
   }
 
-  
+  /**
+   * Uses PID looping to set the elbow to a certain position 
+   * @param refrence Position to send elbow to 
+   */
   public void elbowTo(double refrence) {
     elbow_pidController.setReference(refrence/360, CANSparkMax.ControlType.kPosition);
   }
 
 
-
-  // public void resetShoulderEncoder(){
-  //   shoulderEncoder.setZeroOffset(0);
-  // }
-
-
-  public void resetElbowEncoder() {
-    elbowEncoder.setZeroOffset(0);
-  }
-
+/**
+ * Sets the PID values for elbow going up
+ */
   public void setUpP() {
     elbow_pidController.setP(Constants.ArmConstants.elbowUpP);
     elbow_pidController.setI(Constants.ArmConstants.elbowI);
     elbow_pidController.setD(Constants.ArmConstants.elbowD);
   }
+  /**
+   * Sets the PID value for the elbow when it goes down
+   */
   public void setDownP() {
     elbow_pidController.setP(Constants.ArmConstants.elbowDownP);
     elbow_pidController.setI(Constants.ArmConstants.elbowI);
@@ -219,23 +199,22 @@ public class Arm extends SubsystemBase {
   public void notReadyToRecieve() {
     isReadyToRecieve = false;
   }
-
+/**
+ * 
+ * @return if the robot is in the ready to recieve position
+ */
   public boolean getReadyToRecieve() {
     return isReadyToRecieve;
   }
-
+/**
+*puts the encoder positions for the elbow and the claw on the smart dashboard
+*/
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("ShoulderEncoder", getShoulderClicks());
     SmartDashboard.putNumber("ElbowEncoder", getElbowClicks());
     SmartDashboard.putNumber("ClawEncoder", getClawClicks());
-    SmartDashboard.putBoolean("Claw Open", Math.abs(getElbowClicks()) < 5);
-    SmartDashboard.putNumber("Backup Claw Encoder", backupencoder.getPosition());
-    //SmartDashboard.putNumber("Elbow Velocity", elbowEncoder.getVelocity());
-    //SmartDashboard.putNumber("Elbow P", elbow_pidController.getP());
     
-
     
   }
 }

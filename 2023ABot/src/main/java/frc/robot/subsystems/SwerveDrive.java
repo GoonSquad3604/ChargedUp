@@ -176,13 +176,13 @@ public class SwerveDrive extends SubsystemBase {
   @Override
   public void periodic() {
     for(GoonSwerveModule mod : swerveMods){
-      SmartDashboard.putNumber(mod.name + " Can Coder Angle", mod.getCanCoder().getDegrees());
-      SmartDashboard.putNumber(mod.name + " talon angle", mod.getAngle().getDegrees());
-      SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
+       SmartDashboard.putNumber(mod.name + " Can Coder Angle", mod.getCanCoder().getDegrees());
+      // SmartDashboard.putNumber(mod.name + " talon angle", mod.getAngle().getDegrees());
+      // SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
 
-      SmartDashboard.putNumber("Roll", getRoll());
-      SmartDashboard.putNumber("Pitch", getGyroPitch());
-      SmartDashboard.putNumber("Yaw", getYaw());
+      // SmartDashboard.putNumber("Roll", getRoll());
+      // SmartDashboard.putNumber("Pitch", getGyroPitch());
+      // SmartDashboard.putNumber("Yaw", getYaw());
     }
 
     swerveDriveOdometry.update(getGyroAngle(), getModulePositions());
@@ -203,10 +203,10 @@ public class SwerveDrive extends SubsystemBase {
 
   public void printclicks(){
     double clicks = swerveMods[0].getEncoderClicks();
-    SmartDashboard.putNumber("clicks before", clicks);
+    // SmartDashboard.putNumber("clicks before", clicks);
     double degrees = Conversions.falconToDegrees(clicks, Constants.Swerve.angleGearRatio);
-    SmartDashboard.putNumber("degrees", degrees);
+    // SmartDashboard.putNumber("degrees", degrees);
     double newclicks = Conversions.degreesToFalcon(degrees, Constants.Swerve.angleGearRatio);
-    SmartDashboard.putNumber("clicks after", newclicks);
+    // SmartDashboard.putNumber("clicks after", newclicks);
   }
 }

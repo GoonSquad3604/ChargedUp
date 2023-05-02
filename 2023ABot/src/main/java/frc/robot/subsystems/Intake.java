@@ -57,7 +57,6 @@ public class Intake extends SubsystemBase {
     rightHinge.setIdleMode(IdleMode.kBrake);
     leftHinge.setIdleMode(IdleMode.kBrake);
 
-    //rightHinge.setInverted(true);
     
     
 
@@ -82,24 +81,7 @@ public class Intake extends SubsystemBase {
     sensor = new DigitalInput(Constants.IntakeConstants.sensorId);
   }
 
-  public void toggle() {
-    if(toggledUp) {
-      toggledUp = false;
-      //SmartDashboard.putString("toggle", "down"); 
-    }
-    else {
-      toggledUp = true;
-      //SmartDashboard.putString("toggle", "up"); 
-    }
-  }
-
-  public boolean getToggle() {
-    return toggledUp;
-  }
-
-  public boolean getNotToggle() {
-    return !toggledUp;
-  }
+ 
 
   public static Intake getInstance() {
     if (_instance == null) {
@@ -107,27 +89,34 @@ public class Intake extends SubsystemBase {
     }
     return _instance;
   }
-
+/**
+ * 
+ * @return hinge encoder position 
+ */
   public double getEncoder() {
     return hingEncoder.getPosition();
   }
 
   public void zeroHinge() {
-    //hingEncoder.setPosition(0);
   }
-
+/**
+ * sets the hinge power of the left and right motor
+ * @param leftPower power of the left hinge motor
+ * @param rightPower power of the right hinge motor
+ */
   public void setHinge(double leftPower, double rightPower) {
     leftHinge.set(leftPower);
-    //rightHinge.set(rightPower);
   }
 
   public void runIntake() {
     intake.set(stateController.getIntakeSpeed());
-    //intake.set(1.0);
   }
+  /**
+   * 
+   * @param speed
+   */
   public void runIntake(double speed) {
     intake.set(speed);
-    //intake.set(1.0);
   }
   public void vomit() {
     intake.set(Constants.IntakeConstants.vomitSpeed);
@@ -147,8 +136,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("leftintake setting", leftHinge.get());
-    //SmartDashboard.putNumber("rightintake setting", rightHinge.get());
+    
     SmartDashboard.putNumber("Hinge Position", getEncoder());
     SmartDashboard.putBoolean("intake sensor", getIntakeSensor());
   }
