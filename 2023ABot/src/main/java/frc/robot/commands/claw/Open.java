@@ -13,8 +13,10 @@ import frc.robot.subsystems.StateController;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Open extends InstantCommand {
+  
   Arm m_Arm;
   StateController m_StateController;
+  /** Creates open state for claw.  */
   public Open() {
     m_Arm = Arm.getInstance();
     m_StateController = StateController.getInstance();

@@ -56,7 +56,7 @@ public class TestAuton extends GoonAutonCommand{
         AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane()),
         new SequentialCommandGroup(
           new HomePosition(),
-          new InstantCommand(() -> m_Intake.runIntake()),
+          new InstantCommand(() -> m_Intake.runIntake())
         )
       ),
       new AutoBalance()

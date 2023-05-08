@@ -15,6 +15,7 @@ import frc.robot.subsystems.StateController;
 public class Close extends InstantCommand {
   Arm m_Arm;
   StateController m_StateController;
+  /** Creates close state for claw. */
   public Close() {
     m_Arm = Arm.getInstance();
     m_StateController = StateController.getInstance();

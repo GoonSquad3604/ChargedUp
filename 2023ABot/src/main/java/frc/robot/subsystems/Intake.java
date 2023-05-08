@@ -90,8 +90,7 @@ public class Intake extends SubsystemBase {
     return _instance;
   }
 /**
- * 
- * @return hinge encoder position 
+ * @return Hinge encoder position. 
  */
   public double getEncoder() {
     return hingEncoder.getPosition();
@@ -100,9 +99,9 @@ public class Intake extends SubsystemBase {
   public void zeroHinge() {
   }
 /**
- * sets the hinge power of the left and right motor
- * @param leftPower power of the left hinge motor
- * @param rightPower power of the right hinge motor
+ * Sets the hinge power of the left and right motor.
+ * @param leftPower Power of the left hinge motor.
+ * @param rightPower Power of the right hinge motor.
  */
   public void setHinge(double leftPower, double rightPower) {
     leftHinge.set(leftPower);
@@ -111,28 +110,30 @@ public class Intake extends SubsystemBase {
   public void runIntake() {
     intake.set(stateController.getIntakeSpeed());
   }
-  /**
-   * 
-   * @param speed
-   */
+  /** Sets speed of the intake. */
   public void runIntake(double speed) {
     intake.set(speed);
   }
+  /** Vomits the game pieces out. */
   public void vomit() {
     intake.set(Constants.IntakeConstants.vomitSpeed);
   }
+  /** Stops intake. */
   public void stopIntake() {
     intake.set(0);
   }
-
+  /** Sets hinge to a position with PID looping. */
   public void hingeTo(double position) {
     hingePIDController.setReference(position, CANSparkMax.ControlType.kPosition);
   }
-
+  /** gets the state for the intake sensor. */
   public boolean getIntakeSensor() {
     return !sensor.get();
   }
-
+  /**
+   * Puts hinge encoder positions on smartdashboard.
+   * Puts intake sensor state on smartdashboard.
+   */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
