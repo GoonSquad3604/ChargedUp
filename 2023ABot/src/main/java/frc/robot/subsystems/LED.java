@@ -25,7 +25,11 @@ public class LED extends SubsystemBase {
     m_led.start();
 
   }
-
+  /** Sets Color.
+   * @param r r value [0-255]
+   * @param g g value [0-255]
+   * @param b b value [0-255]
+   */
   public void setColor(int r, int g, int b) {
     for(int i = 0; i < m_length; i++) {
       m_ledBuffer.setRGB(i, r, g, b);

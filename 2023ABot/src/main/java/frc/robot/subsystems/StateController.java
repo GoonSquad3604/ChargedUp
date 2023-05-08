@@ -32,7 +32,7 @@ public class StateController extends SubsystemBase {
   public StateController() {
     setNeutral();
   }
-
+  /** Sets the robot to cube mode. */
   public void setCube() {
     m_Mode = RobotMode.CUBE;
     intakeSpeed = Constants.IntakeConstants.cubeSpeed;
@@ -43,6 +43,7 @@ public class StateController extends SubsystemBase {
     closedClawPos = Constants.ArmConstants.closedCube;
 
   }
+  /** Sets robot to cone mode. */
   public void setCone() {
     m_Mode = RobotMode.CONE;
     intakeSpeed = Constants.IntakeConstants.coneSpeed;
@@ -53,6 +54,7 @@ public class StateController extends SubsystemBase {
     closedClawPos = Constants.ArmConstants.closedCone;
 
   }
+  /** Sets robot to neutral. */
   public void setNeutral() {
     m_Mode = RobotMode.NEUTRAL;
     intakeSpeed = 0;

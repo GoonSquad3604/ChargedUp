@@ -50,7 +50,6 @@ public class SwerveDrive extends SubsystemBase {
     Timer.delay(1);
     resetModulesToAbsolute();
     swerveDriveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics,getGyroAngle(), getModulePositions());
-    // SmartDashboard.putData(m_Field2d);
     
   }
 
@@ -60,7 +59,7 @@ public class SwerveDrive extends SubsystemBase {
     }
     return _instance;
   }
-
+  
   //frontleftRotation is used to changed the center of rotation to the frontleft module instead.
   public void drive(Translation2d translation, double rotation, boolean isOpenLoop, boolean frontleftRotation, boolean backrightRotation) {
     SwerveModuleState[] swerveModuleStates;
@@ -177,17 +176,11 @@ public class SwerveDrive extends SubsystemBase {
   public void periodic() {
     for(GoonSwerveModule mod : swerveMods){
        SmartDashboard.putNumber(mod.name + " Can Coder Angle", mod.getCanCoder().getDegrees());
-      // SmartDashboard.putNumber(mod.name + " talon angle", mod.getAngle().getDegrees());
-      // SmartDashboard.putNumber(mod.name + " Encoder clicks", mod.getEncoderClicks());
-
-      // SmartDashboard.putNumber("Roll", getRoll());
-      // SmartDashboard.putNumber("Pitch", getGyroPitch());
-      // SmartDashboard.putNumber("Yaw", getYaw());
+      
     }
 
     swerveDriveOdometry.update(getGyroAngle(), getModulePositions());
 
-    //printclicks();
     m_Field2d.setRobotPose(swerveDriveOdometry.getPoseMeters());
     SmartDashboard.putNumber("gyro angle", getGyroAngle().getDegrees());
 
@@ -203,10 +196,7 @@ public class SwerveDrive extends SubsystemBase {
 
   public void printclicks(){
     double clicks = swerveMods[0].getEncoderClicks();
-    // SmartDashboard.putNumber("clicks before", clicks);
     double degrees = Conversions.falconToDegrees(clicks, Constants.Swerve.angleGearRatio);
-    // SmartDashboard.putNumber("degrees", degrees);
     double newclicks = Conversions.degreesToFalcon(degrees, Constants.Swerve.angleGearRatio);
-    // SmartDashboard.putNumber("clicks after", newclicks);
   }
 }

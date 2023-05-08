@@ -56,10 +56,9 @@ public class Robot extends TimedRobot {
     camera.setResolution(320, 240);
     
     server.getProperty("fps").set(5);
-    //server.setFPS(10);
+   
     
-    //camera.setExposureAuto();
-    //camera.setFPS(10);
+    
     
   }
 

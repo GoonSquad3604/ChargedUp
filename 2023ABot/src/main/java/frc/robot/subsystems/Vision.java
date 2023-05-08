@@ -47,27 +47,27 @@ public class Vision extends SubsystemBase {
     return _instance;
 
   }
-
+  /** @return Returns the boolean if the vision has the target or not. */
   public boolean getHasTarget(){
     return hasTarget;
   }
+  /** @return Returns the x position of the target on the vision. */
   public double getTx(){
     return tx;
   }
-
+  /** @return Returns the y position of the target on the vision */
   public double getTy(){
     return ty;
   }
-
+  /** @return The angle of the target. */
   public double getTa(){
     return ta;
   }
-
+  /** Approximates the distance from the bot to the target using a line of best fit and prints out the distance on smart dashboard. */
   public void getDistance() {
 
     distance = Math.pow(3.3, -(ty/16.5)+0.27);
     
-    //distance = PhotonUtils.calculateDistanceToTargetMeters(cameraHeight, targetLowerHeight, cameraAngle, Units.degreesToRadians(ty));
     SmartDashboard.putNumber("Distance", distance);
   }
 

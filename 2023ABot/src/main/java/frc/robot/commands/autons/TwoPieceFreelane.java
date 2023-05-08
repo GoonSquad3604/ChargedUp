@@ -40,24 +40,9 @@ public class TwoPieceFreelane extends GoonAutonCommand{
       m_Intake = intake;
       m_Arm = Arm.getInstance();
       super.addCommands(
-        // new InstantCommand(() -> m_Arm.setStartingPos()),
-        // new SetConeMode(m_Led),
-        // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
-        // new Wait(.25),
-        // new ArmHigh(),
         AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
         new Wait(2),
-        // new InstantCommand(() -> m_Arm.clawTo(0)),
-        // new Wait(0.4),
-        // new HomePosition(),
-        // //new ParallelCommandGroup(
-        //   //new SequentialCommandGroup(
-        // new Wait(.5),
         AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane())
-          //new SequentialCommandGroup(
-            
-        // new SetCubeMode(m_Led),
-        // new Stop()
     );
        super.setInitialPose(Trajectories.freeLaneMeterBack());
       

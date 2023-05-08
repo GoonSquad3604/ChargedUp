@@ -17,6 +17,10 @@ public class ShoulderTo extends InstantCommand {
   Shoulder m_Shoulder;
   double m_refrence;
 
+  /**
+   * Gets instance of shoulder
+   * @param refrence a reference position to set the shoulder
+   */
   public ShoulderTo(double refrence) {
     // Use addRequirements() here to declare subsystem dependencies.
 
@@ -30,7 +34,6 @@ public class ShoulderTo extends InstantCommand {
   public void initialize() {
     //determine direction
     //use direction to set high or low p. you need to call shoulder.setupP should.setdownP
-    //SmartDashboard.putString("Shoulder to status", "moving to: " + m_refrence);
     if(m_Shoulder.getShoulderClicks() > m_refrence) {
       m_Shoulder.setDownP();
     }

@@ -130,7 +130,6 @@ public class Arm extends SubsystemBase {
     elbow.set(0);
   }
 /**
- * 
  * @return Elbow Encoder in Degrees
  */
   public double getElbowClicks() {
@@ -145,8 +144,8 @@ public class Arm extends SubsystemBase {
   }
 
   // Claw
+
   /**
-   * 
    * @param power Power of Claw
    */
   public void moveClaw(double power) {
@@ -200,7 +199,6 @@ public class Arm extends SubsystemBase {
     isReadyToRecieve = false;
   }
 /**
- * 
  * @return if the robot is in the ready to recieve position
  */
   public boolean getReadyToRecieve() {

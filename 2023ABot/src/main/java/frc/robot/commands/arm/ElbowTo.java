@@ -16,7 +16,9 @@ public class ElbowTo extends CommandBase {
   double m_refrence;
   boolean goodToMove = false;
   boolean ended = false;
-
+/** Creates a new ElbowTo
+ * @param reference set position to put the elbow to
+ */
   public ElbowTo(double refrence) {
     m_Arm = Arm.getInstance();
     m_Shoulder = Shoulder.getInstance();
@@ -32,7 +34,6 @@ public class ElbowTo extends CommandBase {
   @Override
   public void initialize() {
     goodToMove = false;
-    //SmartDashboard.putNumber("Elbow refrence", m_refrence);
     if(m_Arm.getElbowClicks() > m_refrence) {
       m_Arm.setUpP();
     }
@@ -45,10 +46,7 @@ public class ElbowTo extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //SmartDashboard.putString("Elbow to status", "running " + m_refrence);
-   // SmartDashboard.putString("Shoulder is over 280", "no");
     if(m_Shoulder.getShoulderClicks() > 0.0) {
-     // SmartDashboard.putString("Shoulder is over 280", "yep");
       goodToMove = true;
     }
     
@@ -63,14 +61,12 @@ public class ElbowTo extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   // SmartDashboard.putString("Elbow to status", "ended");
     
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //SmartDashboard.putString("Elbow to status", "running " + m_refrence);
     return (Math.abs(m_Arm.getElbowClicks()-m_refrence) < 10);
   }
 }

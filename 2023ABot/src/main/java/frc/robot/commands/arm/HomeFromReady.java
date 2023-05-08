@@ -24,6 +24,5 @@ public class HomeFromReady extends InstantCommand {
   public void initialize() {
     m_Arm.elbowTo(Constants.ArmConstants.homeElbow);
     m_Shoulder.shoulderTo(Constants.ArmConstants.homeShoulder);
-    //m_Arm.setReadyToRecieve();
   }
 }

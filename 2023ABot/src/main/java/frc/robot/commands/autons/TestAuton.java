@@ -19,8 +19,6 @@ import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.arm.ShoulderTo;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.Stop;
-import frc.robot.commands.intake.ToggleHinge;
-import frc.robot.commands.intake.ToggleHingeDown;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
 import frc.robot.commands.utils.Wait;
@@ -46,7 +44,6 @@ public class TestAuton extends GoonAutonCommand{
       new SetConeMode(m_Led),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
       new ArmHigh(),
-      //new Wait(0.25),
       AutonUtils.getSwerveControllerCommand(Trajectories.freeLaneMeterBack()),
       new Wait(0.5),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
@@ -60,23 +57,8 @@ public class TestAuton extends GoonAutonCommand{
         new SequentialCommandGroup(
           new HomePosition(),
           new InstantCommand(() -> m_Intake.runIntake()),
-          new ToggleHinge(m_Intake)
         )
       ),
-      // new ToggleHinge(m_Intake),
-      // new InstantCommand(() -> m_Intake.toggle()),
-      // new Wait(.5),
-      // new InstantCommand(() -> m_Intake.runIntake()),
-      // AutonUtils.getSwerveControllerCommand(Trajectories.twoPieceFreeLane()),
-      // new Wait(1.0),
-      // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
-      // new Wait(1.0),
-      // new ArmHighCube(),
-      // new Wait(1.0),
-
-
-      // new Wait(.5),
-      // AutonUtils.getSwerveControllerCommand(Trajectories.ontoPlatformFromCube()),
       new AutoBalance()
       
   );

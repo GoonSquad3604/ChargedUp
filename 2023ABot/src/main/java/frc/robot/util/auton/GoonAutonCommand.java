@@ -17,7 +17,6 @@ public class GoonAutonCommand extends SequentialCommandGroup {
 
   public GoonAutonCommand() {
     // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     
   }
 

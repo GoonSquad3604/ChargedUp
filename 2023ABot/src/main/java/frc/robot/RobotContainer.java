@@ -53,8 +53,6 @@ import frc.robot.commands.drive.CenterPole;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.FastAutoBalance;
 import frc.robot.commands.drive.SwerveDefaultDrive;
-import frc.robot.commands.intake.ToggleHinge;
-import frc.robot.commands.intake.ToggleHingeDown;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
 import frc.robot.commands.utils.Wait;
@@ -80,7 +78,7 @@ public class RobotContainer {
   private Joystick operatorJoystick = new Joystick(2);
  
 
-  //Declare Certain Buttons NICEEEEE
+  //Declare Certain Buttons 
   private JoystickButton driverLeftBumber = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private JoystickButton driverRightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private JoystickButton operatorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
@@ -90,7 +88,6 @@ public class RobotContainer {
   private Intake s_Intake = Intake.getInstance();
   private StateController s_StateController = StateController.getInstance();
   
-  //private Vision s_Vision = new Vision();
 
   private Arm s_Arm = Arm.getInstance();
   private Shoulder s_Shoulder = Shoulder.getInstance();
@@ -131,17 +128,15 @@ public class RobotContainer {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
     JoystickButton driverB = new JoystickButton(driver, XboxController.Button.kB.value);
     JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
-    JoystickButton driverX = new JoystickButton(driver, XboxController.Button.kX.value);
     JoystickButton driverStart = new JoystickButton(driver, XboxController.Button.kStart.value);
     JoystickButton driverStop = new JoystickButton(driver, XboxController.Button.kBack.value);
 
-    // Operator
+    // Operator conttollor
     JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
     JoystickButton operatorX = new JoystickButton(operatorController, XboxController.Button.kX.value);
     JoystickButton operatorA = new JoystickButton(operatorController, XboxController.Button.kA.value);
-    JoystickButton operatorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
-    JoystickButton operatorRightBumper = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     
+    // Operator button box
     JoystickButton operator1 = new JoystickButton(operatorJoystick, 1);
     JoystickButton operator2 = new JoystickButton(operatorJoystick, 2);
     JoystickButton operator3 = new JoystickButton(operatorJoystick, 3);
@@ -156,46 +151,30 @@ public class RobotContainer {
     JoystickButton operator12 = new JoystickButton(operatorJoystick, 12);
 
     //custom triggers
-    Trigger toggleTrigger = new Trigger(s_Intake::getToggle);
-    Trigger notToggleTrigger = new Trigger(s_Intake::getNotToggle);
-
     Trigger coneTrigger = new Trigger(s_StateController::isConeMode);
     Trigger cubeTrigger = new Trigger(s_StateController::isCubeMode);
-
     Trigger intakeSensorTrigger = new Trigger(s_Intake::getIntakeSensor);
-
     Trigger driverRightTrigger = new Trigger(()->driver.getRightTriggerAxis() > 0.8);
 
     // MANUAL STUFF
 
     // Claw
-    // operatorY.onTrue(new InstantCommand(() -> s_Arm.moveClaw(0.2)));
-    // operatorY.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
-    // operatorX.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-0.2)));
-    // operatorX.onFalse(new InstantCommand(() -> s_Arm.moveClaw(0)));
     operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(-.2, 0)));
     operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
     operatorX.onTrue(new InstantCommand(() -> s_Intake.setHinge(.2, 0)));
     operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
-    // operator2.onTrue(new ToggleHinge());
-
-    //driverX.onTrue(new FastAutoBalance());
-
-    // Hinge
-    // operator3.onTrue(new InstantCommand(() -> s_Intake.setHinge(0.2, 0.2)));
-    // operator3.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
-    // operator4.onTrue(new InstantCommand(() -> s_Intake.setHinge(-0.15, -0.15)));
-    // operator4.onFalse(new InstantCommand(() -> s_Intake.setHinge(0, 0)));
+    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.autonReady)));
+    
 
     // Intake
     operator1.onTrue(new InstantCommand(() -> s_Intake.runIntake()));
     operator1.and(intakeSensorTrigger).onTrue(new InstantCommand(() -> s_Intake.stopIntake()));
-
     operator1.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
     operator2.onTrue(new InstantCommand(() -> s_Intake.hingeTo(Constants.IntakeConstants.hingeDown)));
     operator3.onTrue(new InstantCommand(() -> s_Intake.vomit()));
     operator3.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
 
+    // Change Mode
     operator7.onTrue(new SetCubeMode(s_LED));
     operator8.onTrue(new SetConeMode(s_LED));
 
@@ -205,13 +184,10 @@ public class RobotContainer {
    
 
 
-    // SMART STUFF
+    // AUTO STUFF
 
-    // HOLY MYOJ OAJGJ A J STOOOP
+    // KILL SWITCH
     driverStart.and(driverStop).onTrue(new StopAll());
-
-    // Drive Train
-    
 
     // Arm
     operator9.and(coneTrigger).onTrue(new HomePositionCone());
@@ -219,6 +195,7 @@ public class RobotContainer {
     operator11.and(coneTrigger).onTrue(new ArmMedium());
     operator12.and(coneTrigger).onTrue(new ArmLow());
 
+    // Adjust arm
     driverRightTrigger.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()+5)));
     driverA.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()-5)));
 
@@ -231,7 +208,6 @@ public class RobotContainer {
       new InstantCommand(() -> s_Arm.stopClaw())
     ));
 
-    //operator4.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 255, 0)));
 
     operator5.onTrue(new SequentialCommandGroup(
       new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)),
@@ -239,8 +215,6 @@ public class RobotContainer {
       new InstantCommand(() -> s_Arm.stopClaw())
     ));
 
-    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.autonReady)));
- 
 
     operator6.and(coneTrigger).onTrue(new ArmShelf());
     operator6.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 0, 0)));
@@ -248,7 +222,7 @@ public class RobotContainer {
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));
 
-    // PURPLE CANNON!!!
+    // PURPLE CANNON!!! [cube shooter]
     operator9.and(cubeTrigger).onTrue(new InstantCommand(() -> s_Intake.hingeTo(Constants.IntakeConstants.hingeUp)));
     operator10.and(cubeTrigger).onTrue(new InstantCommand(() -> s_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)));
     operator11.and(cubeTrigger).onTrue(new InstantCommand(() -> s_Intake.runIntake(Constants.IntakeConstants.midCubeSpeed)));
@@ -267,13 +241,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    //GoonAutonCommand auton = new TestAuton(s_LED, s_Intake);
+    
     GoonAutonCommand auton = m_chooser.getSelected();
-    // GoonAutonCommand auton = new AutonTest(s_LED, s_Intake);
-
-     //GoonAutonCommand auton = new OnePieceMidBalance(s_LED, s_Intake);
-    //GoonAutonCommand auton = new TwoPieceFreelaneBalance(s_LED, s_Intake);
-    //GoonAutonCommand auton = new ThreePieceAuton(s_LED, s_Intake);
+    
     
     s_SwerveDrive.resetOdometry(auton.getInitialPose());
     return auton;

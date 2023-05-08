@@ -19,8 +19,6 @@ import frc.robot.commands.arm.ReadyToRecieve;
 import frc.robot.commands.arm.ShoulderTo;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.Stop;
-import frc.robot.commands.intake.ToggleHinge;
-import frc.robot.commands.intake.ToggleHingeDown;
 import frc.robot.commands.states.SetConeMode;
 import frc.robot.commands.states.SetCubeMode;
 import frc.robot.commands.utils.Wait;

@@ -39,9 +39,10 @@ public class ArmDefaultCommand extends CommandBase {
     addRequirements(s_Arm);
   
   }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
+
     public void execute() {
       if(joystickEnabled.getAsBoolean()) {
         s_Shoulder.setShoulder(MathUtil.applyDeadband(shoulderSupplier.getAsDouble(), Constants.General.deadband));

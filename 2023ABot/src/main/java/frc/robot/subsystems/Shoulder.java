@@ -63,12 +63,15 @@ public class Shoulder extends SubsystemBase {
     }
     return _instance;
   }
-
+  /**
+   * sets the shoulder to a certain refrence position with PID looping
+   * @param refrence reference position for the PID looping 
+   */
   public void shoulderTo(double refrence) {
     pidController.setReference(refrence/360.0, CANSparkMax.ControlType.kPosition);
     refrenceSet = true;
   }
-
+  /** @param power Power of the shoulder motors. */
   public void setShoulder(double power) {
       shoulder1.set(power * .4);
       refrenceSet = false;
@@ -77,9 +80,11 @@ public class Shoulder extends SubsystemBase {
     shoulder1.set(0);
     refrenceSet = false;
   }
+  /** @return Shoulder encoder position in degrees. */
   public double getShoulderClicks() {
     return shoulderEncoder.getPosition()*360.0;
   }
+  /** Resets the shoulder encoder to 0. */
   public void resetShoulderEncoder(){
     shoulderEncoder.setZeroOffset(0);
   }
@@ -87,18 +92,22 @@ public class Shoulder extends SubsystemBase {
   public void setReferenceBoolean(boolean input){
     refrenceSet = true;
   }
-
+  /**
+   * Sets the PID values for going up on the shoulder
+   */
   public void setUpP() {
     pidController.setP(Constants.ArmConstants.shoulderUpP);
     pidController.setI(Constants.ArmConstants.shoulderI);
     pidController.setD(Constants.ArmConstants.shoulderD);
   }
+  /** Sets the PID values for going down. */
   public void setDownP() {
     pidController.setP(Constants.ArmConstants.shoulderDownP);
     pidController.setI(Constants.ArmConstants.shoulderI);
     pidController.setD(Constants.ArmConstants.shoulderD);
   }
 
+  /** puts the shoulder encoder position on the smart dashboard. */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -38,7 +38,6 @@ public class OnePieceMidBalanceCube extends GoonAutonCommand{
       new SetCubeMode(m_Led),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCube)),
       new ArmHighCube(),
-      //new Wait(0.25),
       AutonUtils.getSwerveControllerCommand(Trajectories.midMeterBack()),
       new Wait(0.5),
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),

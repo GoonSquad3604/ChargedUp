@@ -51,7 +51,6 @@ public class GoonSwerveModule {
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
         /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
 
-        //desiredState = SwerveModuleState.optimize(desiredState, getAngle());
         desiredState = SwerveOptimizer.optimize(desiredState, getAngle());
         setAngle(desiredState);
         setSpeed(desiredState, isOpenLoop);

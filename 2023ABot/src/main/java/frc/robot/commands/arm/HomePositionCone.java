@@ -20,7 +20,7 @@ public class HomePositionCone extends ParallelCommandGroup {
   Shoulder shoulder;
   Arm m_Arm;
 
-  /** Creates a new ReadyToRecieve. */
+  /** Creates a new HomePositionCone. */
   public HomePositionCone() {
     shoulder = Shoulder.getInstance();
     shoulderClicks = shoulder.getShoulderClicks();

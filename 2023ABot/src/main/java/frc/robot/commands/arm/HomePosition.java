@@ -20,7 +20,7 @@ public class HomePosition extends ParallelCommandGroup {
   Shoulder shoulder;
   Arm m_Arm;
 
-  /** Creates a new ReadyToRecieve. */
+  /** Creates a new HomePosition. */
   public HomePosition() {
     shoulder = Shoulder.getInstance();
     shoulderClicks = shoulder.getShoulderClicks();

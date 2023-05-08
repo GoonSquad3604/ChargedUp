@@ -34,7 +34,7 @@ public class ThreePieceRed extends GoonAutonCommand{
   Intake m_Intake;
 
   HashMap<String, Command> eventMap;
-  
+
   public ThreePieceRed(LED led, Intake intake){
     eventMap = new HashMap<String, Command>();
 
@@ -55,12 +55,7 @@ public class ThreePieceRed extends GoonAutonCommand{
       new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.closedCone)),
       new Wait(0.3),
       new ArmHigh(),
-      //new Wait(.5),
       AutonUtils.getPathWithEvents(Trajectories.freeLaneMeterBack(), eventMap),
-      // new Wait(.5),
-      // new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos)),
-      //new Wait(.5),
-      //new InstantCommand(() -> m_Arm.stopClaw()),
       new SetCubeMode(m_Led),
       AutonUtils.getPathWithEvents(Trajectories.ThreeCubePurpleCannon_1Fast(), eventMap),
       new InstantCommand(() -> m_Intake.runIntake(Constants.IntakeConstants.topCubeSpeed)),
