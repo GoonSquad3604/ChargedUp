@@ -4,14 +4,102 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.util.RobotMode;
 
 public class StateController extends SubsystemBase {
-  /** Creates a new StateController. */
-  public StateController() {}
+
+  private static StateController _instance;
+  private RobotMode m_Mode;
+  private double intakeSpeed;
+  private double closedClawPos;
+  private double highposElbow;
+  private double midposElbow;
+  private double highposShoulder;
+  private double midposShoulder;
+
+
+  public static StateController getInstance() {
+    // SmartDashboard.putString("test", "this");
+    if(_instance == null) {
+      _instance = new StateController();
+    }
+    return _instance;
+  }
+
+  public StateController() {
+    setNeutral();
+  }
+  /** Sets the robot to cube mode. */
+  public void setCube() {
+    m_Mode = RobotMode.CUBE;
+    intakeSpeed = Constants.IntakeConstants.cubeSpeed;
+    highposShoulder = Constants.ArmConstants.highCubeShoulder;
+    highposElbow = Constants.ArmConstants.highCubeElbow;
+    midposShoulder = Constants.ArmConstants.midCubeShoulder;
+    midposElbow = Constants.ArmConstants.midCubeElbow;
+    closedClawPos = Constants.ArmConstants.closedCube;
+
+  }
+  /** Sets robot to cone mode. */
+  public void setCone() {
+    m_Mode = RobotMode.CONE;
+    intakeSpeed = Constants.IntakeConstants.coneSpeed;
+    highposShoulder = Constants.ArmConstants.highConeShoulder;
+    highposElbow = Constants.ArmConstants.highConeElbow;
+    midposShoulder = Constants.ArmConstants.midConeShoulder;
+    midposElbow = Constants.ArmConstants.midConeElbow;
+    closedClawPos = Constants.ArmConstants.closedCone;
+
+  }
+  /** Sets robot to neutral. */
+  public void setNeutral() {
+    m_Mode = RobotMode.NEUTRAL;
+    intakeSpeed = 0;
+   
+    highposShoulder = Constants.ArmConstants.highConeShoulder;
+    highposElbow = Constants.ArmConstants.highConeElbow;
+    midposShoulder = Constants.ArmConstants.midConeShoulder;
+    midposElbow = Constants.ArmConstants.midConeElbow;
+    closedClawPos = Constants.ArmConstants.closedCone;
+  }
+  public RobotMode getMode() {
+    return m_Mode;
+  }
+
+  public double getIntakeSpeed() {
+    return intakeSpeed;
+  }
+
+  public double getHighPosElbow() {
+    return highposElbow;
+  }
+  public double getHighPosShoulder() {
+    return highposShoulder;
+  }
+  public double getMidPosElbow() {
+    return midposElbow;
+  }
+  public double getMidPosShoulder() {
+    return midposShoulder;
+  }
+  public double getClosedClawPos() {
+    return closedClawPos;
+  }
+
+  public boolean isConeMode(){
+    return m_Mode == RobotMode.CONE;
+  }
+
+  public boolean isCubeMode(){
+    return m_Mode == RobotMode.CUBE;
+  }
 
   @Override
   public void periodic() {
+    
     // This method will be called once per scheduler run
   }
 }
