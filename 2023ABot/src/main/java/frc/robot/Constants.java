@@ -247,7 +247,7 @@ public final class Constants {
 
         public static final double hingeUp = 0.51;
         public static final double hingeShoot = 0.572668;
-        public static final double hingeDown = 0.808;
+        public static final double hingeDown = 0.803; //0.808;
 
 
         // Spaghetti
@@ -261,7 +261,7 @@ public final class Constants {
         public static final int sensorId = 9;
 
         // Shooter speeds
-        public static final double topCubeSpeed = -0.95;
+        public static final double topCubeSpeed = -1.0;
         public static final double midCubeSpeed = -0.55;
         public static final double lowCubeSpeed = -0.4;
 
