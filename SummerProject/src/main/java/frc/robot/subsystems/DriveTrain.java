@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,6 +29,16 @@ public class DriveTrain extends SubsystemBase {
   CANSparkMax leftDrive2;
   CANSparkMax rightDrive1;
   CANSparkMax rightDrive2;
+
+  DifferentialDrive diffDrive;
+  MotorControllerGroup leftGroup;
+  MotorControllerGroup rightGroup;
+
+  double powerInput; 
+  double rotInput;
+
+  
+
   private static DriveTrain _instance;
 
   public DriveTrain() {
@@ -41,17 +53,11 @@ public class DriveTrain extends SubsystemBase {
     leftDrive2.restoreFactoryDefaults();
     rightDrive1.restoreFactoryDefaults();
     rightDrive2.restoreFactoryDefaults();
-
-    leftDrive1.setInverted(true);
-    leftDrive2.follow(leftDrive1, true);
-
-    rightDrive1.setInverted(true);
-    rightDrive2.follow(rightDrive1, true);
-
-    leftDrive1.setIdleMode(IdleMode.kBrake);
-    leftDrive2.setIdleMode(IdleMode.kBrake);
-    rightDrive1.setIdleMode(IdleMode.kBrake);
-    rightDrive2.setIdleMode(IdleMode.kBrake);
+    
+    leftGroup = new MotorControllerGroup(leftDrive1, leftDrive2);
+    rightGroup = new MotorControllerGroup(rightDrive1, rightDrive2);
+    leftGroup.setInverted(true);
+    diffDrive = new DifferentialDrive(leftGroup, rightGroup);
 
   } 
 
@@ -64,15 +70,14 @@ public class DriveTrain extends SubsystemBase {
 
   }
 
-  public void setLeftDrivepower(double power){
-    leftDrive1.set(power);
-  }
-  public void setRightDrivepower(double power){
-  
-    rightDrive1.set(power);
+  public void drive(double power, double rotation) {
+    diffDrive.arcadeDrive(power, rotation);
+    powerInput = power;
+    rotInput = rotation;
   }
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Power", powerInput);
+    SmartDashboard.putNumber("rotation", rotInput);
   }
 }

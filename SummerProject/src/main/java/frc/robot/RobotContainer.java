@@ -8,6 +8,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -26,7 +28,9 @@ public class RobotContainer {
   private XboxController driver = new XboxController(0);
   Autos auton = new Autos();
 
+  private static Shooter s_Shooter = Shooter.getInstance();
   private DriveTrain s_DriveTrain = DriveTrain.getInstance();
+  private static Indexer s_Indexer = Indexer.getInstance();
 
   
 
@@ -34,7 +38,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
 
-    s_DriveTrain.setDefaultCommand(new DefaultDrive(() -> driver.getLeftY(), () -> driver.getRightY()));
+    s_DriveTrain.setDefaultCommand(new DefaultDrive(() -> driver.getLeftY(), () -> driver.getRightX()));
     configureBindings();
   }
 
@@ -48,15 +52,28 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-   
-    JoystickButton driverX = new JoystickButton(driver, XboxController.Button.kX.value);
+    JoystickButton driverB = new JoystickButton(driver, XboxController.Button.kB.value);
+    JoystickButton driverA = new JoystickButton(driver, XboxController.Button.kA.value);
+    JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
+    JoystickButton driverLB = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    JoystickButton driverRB = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+    driverB.onTrue(new InstantCommand(()-> s_Shooter.setPower(1)));
+    driverB.onFalse(new InstantCommand(()-> s_Shooter.setPower(0)));
+    driverA.onTrue(new InstantCommand(()-> s_Shooter.setTurretTo(.3)));
+    driverA.onFalse(new InstantCommand(()->s_Shooter.setTurretTo(0)));
+    driverY.onTrue(new InstantCommand(()->s_Shooter.turretReverse(.3)));
+    driverY.onFalse(new InstantCommand(()-> s_Shooter.setTurretTo(0)));
+    driverLB.onTrue(new InstantCommand(()->s_Indexer.moveIndex1(1)));
+    driverLB.onFalse(new InstantCommand(()->s_Indexer.moveIndex1(0)));
+    driverRB.onTrue(new InstantCommand(()->s_Indexer.moveIndex2(1)));
+    driverRB.onFalse(new InstantCommand(()->s_Indexer.moveIndex2(0)));
 
-     driverX.onTrue(new InstantCommand(()-> s_DriveTrain.setLeftDrivepower(1)));
 
   }
+
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

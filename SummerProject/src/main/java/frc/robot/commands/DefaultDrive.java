@@ -39,16 +39,14 @@ public class DefaultDrive extends CommandBase {
   //     speed = 0.25;
   //   }
   //   else speed = 1;
-  //   double leftVal = MathUtil.applyDeadband(leftDriveSupplier.getAsDouble(), Constants.General.deadband)*speed;
+    double leftVal = MathUtil.applyDeadband(leftDriveSupplier.getAsDouble(), Constants.General.deadband)*speed;
   
-  //   double rightVal = MathUtil.applyDeadband(rightDriveSupplier.getAsDouble(), Constants.General.deadband)*speed;
+    double rightVal = MathUtil.applyDeadband(rightDriveSupplier.getAsDouble(), Constants.General.deadband)*speed;
   
   // s_DriveTrain.setLeftDrivepower(leftVal);
 
   // s_DriveTrain.setRightDrivepower(rightVal);
-    s_DriveTrain.setLeftDrivepower(MathUtil.applyDeadband(leftDriveSupplier.getAsDouble(), Constants.General.deadband));
-
-    s_DriveTrain.setRightDrivepower(MathUtil.applyDeadband(rightDriveSupplier.getAsDouble(), Constants.General.deadband));
+    s_DriveTrain.drive(leftVal, rightVal);
   
   }
   

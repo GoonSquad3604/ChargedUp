@@ -25,6 +25,17 @@ public final class Constants {
     public static final int rightDrive2Id = 1;
     public static final int rightDrive1Id = 30; 
   }
+ 
+  public static final class ShooterConstants {
+    public static final int shootID = 2;
+    public static final int turretId = 4;
+
+  }
+  public static final class IndexerConstants {
+    public static final int indexer1ID = 5;
+    public static final int indexer2ID = 7;
+
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
