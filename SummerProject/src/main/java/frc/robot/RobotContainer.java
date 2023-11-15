@@ -9,6 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,11 +27,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   private XboxController driver = new XboxController(0);
+  private XboxController operator = new XboxController(3);
   Autos auton = new Autos();
 
   private static Shooter s_Shooter = Shooter.getInstance();
   private DriveTrain s_DriveTrain = DriveTrain.getInstance();
   private static Indexer s_Indexer = Indexer.getInstance();
+  private static Intake mainIntake = Intake.getInstance();
 
   
 
@@ -57,19 +60,23 @@ public class RobotContainer {
     JoystickButton driverY = new JoystickButton(driver, XboxController.Button.kY.value);
     JoystickButton driverLB = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     JoystickButton driverRB = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-
+    JoystickButton operatorJoystickForward = new JoystickButton(operator, XboxController.Button.kY.value);
+    JoystickButton operatorJoystickBack = new JoystickButton(operator, XboxController.Button.kX.value);
     driverB.onTrue(new InstantCommand(()-> s_Shooter.setPower(1)));
     driverB.onFalse(new InstantCommand(()-> s_Shooter.setPower(0)));
-    driverA.onTrue(new InstantCommand(()-> s_Shooter.setTurretTo(.3)));
-    driverA.onFalse(new InstantCommand(()->s_Shooter.setTurretTo(0)));
-    driverY.onTrue(new InstantCommand(()->s_Shooter.turretReverse(.3)));
-    driverY.onFalse(new InstantCommand(()-> s_Shooter.setTurretTo(0)));
+
+    //driverA.onTrue(new InstantCommand(()-> s_Shooter.setTurretTo(.3)));
+    //driverA.onFalse(new InstantCommand(()->s_Shooter.setTurretTo(0)));
+    //driverY.onTrue(new InstantCommand(()->s_Shooter.turretReverse(.3)));
+    //driverY.onFalse(new InstantCommand(()-> s_Shooter.setTurretTo(0)));
     driverLB.onTrue(new InstantCommand(()->s_Indexer.moveIndex1(1)));
     driverLB.onFalse(new InstantCommand(()->s_Indexer.moveIndex1(0)));
     driverRB.onTrue(new InstantCommand(()->s_Indexer.moveIndex2(1)));
     driverRB.onFalse(new InstantCommand(()->s_Indexer.moveIndex2(0)));
-
-
+    operatorJoystickForward.onTrue(new InstantCommand(()->mainIntake.runIntake(0.6)));
+    operatorJoystickForward.onFalse(new InstantCommand(()->mainIntake.stopIntake(0)));
+    operatorJoystickBack.onTrue(new InstantCommand(()->mainIntake.runIntake(-0.6)));
+    operatorJoystickBack.onFalse(new InstantCommand(()->mainIntake.stopIntake(0)));
   }
 
 

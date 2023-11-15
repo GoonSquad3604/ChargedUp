@@ -39,4 +39,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static final class IntakeConstants {
+    public static final int mainIntakeID = 11;
+    public static final int hingeID = 10;
+    public static final int bigWheelID = 6;
+  }
+  
 }

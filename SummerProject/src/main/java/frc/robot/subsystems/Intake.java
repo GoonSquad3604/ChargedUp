@@ -36,6 +36,14 @@ public class Intake extends SubsystemBase {
     }
     return _instance;
   }
+  public void runIntake(double power) {
+    hinge.set(power);
+    //bigWheel.set(power);
+  }
+  public void stopIntake(double power){
+    hinge.set(power);
+    //bigWheel.set(power);
+  }
 
   @Override
   public void periodic() {
