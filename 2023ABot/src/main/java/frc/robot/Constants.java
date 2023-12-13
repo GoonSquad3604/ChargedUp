@@ -199,7 +199,7 @@ public final class Constants {
         public static final double highConeShoulder = 205.73;
         public static final double highConeElbow = 163.3;
 
-        public static final double midConeShoulder = 196.3;
+        public static final double midConeShoulder = 193.3;
         public static final double midConeElbow = 177;
 
         // Shelf

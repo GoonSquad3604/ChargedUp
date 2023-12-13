@@ -14,9 +14,9 @@ public class TestAuton extends GoonAutonCommand{
 
   public TestAuton(){
     super.addCommands(
-      AutonUtils.getSwerveControllerCommand(Trajectories.twoConeFreelane())
+      // AutonUtils.getSwerveControllerCommand(Trajectories.twoConeFreelane())
   );
-    super.setInitialPose(Trajectories.twoConeFreelane());
+    // super.setInitialPose(Trajectories.twoConeFreelane());
     new Stop();
   }
 }

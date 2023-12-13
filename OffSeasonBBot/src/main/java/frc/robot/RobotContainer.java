@@ -23,9 +23,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.StopAll;
-import frc.robot.commands.LEDS.SetLedsPurple;
-import frc.robot.commands.LEDS.SetLedsWhite;
-import frc.robot.commands.LEDS.SetLedsYellow;
+import frc.robot.commands.LEDs.SetLedsPurple;
+import frc.robot.commands.LEDs.SetLedsWhite;
+import frc.robot.commands.LEDs.SetLedsYellow;
 import frc.robot.commands.arm.ArmDefaultCommand;
 import frc.robot.commands.arm.ArmLow;
 import frc.robot.commands.arm.ArmMedium;
@@ -33,7 +33,17 @@ import frc.robot.commands.arm.ArmShelf;
 import frc.robot.commands.arm.HomePosition;
 import frc.robot.commands.arm.HomePositionCone;
 import frc.robot.commands.arm.ReadyToRecieve;
-
+import frc.robot.commands.autons.AutonTest;
+import frc.robot.commands.autons.Forward;
+import frc.robot.commands.autons.ForwardAndBack;
+import frc.robot.commands.autons.OnePieceMid;
+import frc.robot.commands.autons.OnePieceMidBalance;
+import frc.robot.commands.autons.OnePieceOfflane;
+import frc.robot.commands.autons.TestAuton;
+import frc.robot.commands.autons.ThreeCubeAuton;
+import frc.robot.commands.autons.ThreePieceAuton;
+import frc.robot.commands.autons.TwoPieceFreelane;
+import frc.robot.commands.autons.TwoPieceFreelaneBalance;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.DefaultAngle;
 import frc.robot.commands.drive.FastAutoBalance;
@@ -48,6 +58,7 @@ import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.StateController;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.util.auton.GoonAutonCommand;
+
 
 
 /**
@@ -74,9 +85,9 @@ public class RobotContainer {
   private StateController s_StateController = StateController.getInstance();
   
 
-  private Arm s_Arm = Arm.getInstance();
-  private Shoulder s_Shoulder = Shoulder.getInstance();
-  private LED s_LED = new LED(Constants.LEDConstants.led1, 24);
+  // private Arm s_Arm = Arm.getInstance();
+  // private Shoulder s_Shoulder = Shoulder.getInstance();
+  //private LED s_LED = new LED(Constants.LEDConstants.led1, 14);
 
 
   //Declare Autons and chooser
@@ -89,19 +100,19 @@ public class RobotContainer {
     s_SwerveDrive.setDefaultCommand(
             new SwerveDefaultDrive(() -> driver.getLeftY(), () -> driver.getLeftX(), () -> driver.getRightX(), driverLeftBumber, driverRightBumper, () -> driver.getLeftTriggerAxis()));
 
-    s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY(), operatorLeftBumper));
+    //s_Arm.setDefaultCommand(new ArmDefaultCommand(() -> operatorController.getLeftY(), () -> operatorController.getRightY(), operatorLeftBumper));
 
     //Build Auton Chooser
-    m_chooser = new SendableChooser<>();
-    m_chooser.setDefaultOption("Mid Single Cone", new OnePieceMid(s_LED, s_Intake));
-    m_chooser.addOption("Mid Cone Balance", new OnePieceMidBalance(s_LED, s_Intake));
-    m_chooser.addOption("GODTON", new TwoPieceFreelaneBalance(s_LED, s_Intake));
-    m_chooser.addOption("Three Piece Free Lane", new ThreePieceAuton(s_LED, s_Intake));
-    m_chooser.addOption("Off Lane Single Cone Back Up", new OnePieceOfflane(s_LED, s_Intake));
+     m_chooser = new SendableChooser<>();
+     m_chooser.setDefaultOption("Forward", new Forward(s_Intake));
+    // m_chooser.addOption("Mid Cone Balance", new OnePieceMidBalance(s_LED, s_Intake));
+    // m_chooser.addOption("GODTON", new TwoPieceFreelaneBalance(s_LED, s_Intake));
+    // m_chooser.addOption("Three Piece Free Lane", new ThreePieceAuton(s_LED, s_Intake));
+    // m_chooser.addOption("Off Lane Single Cone Back Up", new OnePieceOfflane(s_LED, s_Intake));
     
     SmartDashboard.putData("chooser", m_chooser);
 
-    s_LED.setColor(255, 255, 255);
+    // s_LED.setColor(255, 255, 255);
 
     configureBindings();
 
@@ -116,7 +127,7 @@ public class RobotContainer {
     JoystickButton driverStart = new JoystickButton(driver, XboxController.Button.kStart.value);
     JoystickButton driverStop = new JoystickButton(driver, XboxController.Button.kBack.value);
 
-    // Operator conttollor
+    // Operator controllor
     JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
     JoystickButton operatorX = new JoystickButton(operatorController, XboxController.Button.kX.value);
     JoystickButton operatorA = new JoystickButton(operatorController, XboxController.Button.kA.value);
@@ -136,19 +147,20 @@ public class RobotContainer {
     JoystickButton operator12 = new JoystickButton(operatorJoystick, 12);
 
     //custom triggers
-    Trigger coneTrigger = new Trigger(s_StateController::isConeMode);
+    // Trigger coneTrigger = new Trigger(s_StateController::isConeMode);
     Trigger cubeTrigger = new Trigger(s_StateController::isCubeMode);
     Trigger intakeSensorTrigger = new Trigger(s_Intake::getIntakeSensor);
     Trigger driverRightTrigger = new Trigger(()->driver.getRightTriggerAxis() > 0.8);
 
+    //Trigger currentLimitTrigger = new Trigger(s_Arm::getCurrentFlag);
+
     // MANUAL STUFF
 
-    // Claw
+    // 
     operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(-.2, 0)));
     operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
     operatorX.onTrue(new InstantCommand(() -> s_Intake.setHinge(.2, 0)));
     operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
-    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.autonReady)));
     
 
     // Intake
@@ -160,8 +172,8 @@ public class RobotContainer {
     operator3.onFalse(new InstantCommand(() -> s_Intake.stopIntake()));
 
     // Change Mode
-    operator7.onTrue(new SetCubeMode(s_LED));
-    operator8.onTrue(new SetConeMode(s_LED));
+    operator7.onTrue(new SetCubeMode());
+    //operator8.onTrue(new SetConeMode(s_LED));
 
     // HINGE ZERO
     driverB.onTrue(new InstantCommand(() -> s_Intake.setHinge(-.2, -0.15)));
@@ -172,37 +184,30 @@ public class RobotContainer {
     // AUTO STUFF
 
     // KILL SWITCH
-    driverStart.and(driverStop).onTrue(new StopAll());
+    // driverStart.and(driverStop).onTrue(new StopAll());
 
     // Arm
-    operator9.and(coneTrigger).onTrue(new HomePositionCone());
-    operator11.and(coneTrigger).onTrue(new ArmMedium());
-    operator12.and(coneTrigger).onTrue(new ArmLow());
+    // operator9.and(coneTrigger).onTrue(new HomePositionCone());
+    // operator11.and(coneTrigger).onTrue(new ArmMedium());
+    //operator12.and(coneTrigger).onTrue(new ArmLow());
 
     // Adjust arm
-    driverRightTrigger.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()+5)));
-    driverA.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()-5)));
+    //driverRightTrigger.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()+5)));
+    //driverA.and(coneTrigger).onTrue(new InstantCommand(()-> s_Shoulder.shoulderTo(s_Shoulder.getShoulderClicks()-5)));
 
-    // // Claw
-    // operator4.and(coneTrigger).onTrue(new SequentialCommandGroup(
-    //   new InstantCommand(() -> s_Arm.clawTo(s_StateController.getClosedClawPos())),
-    //   new Wait(0.5),
-    //   new InstantCommand(() -> s_LED.setColor(255, 255, 0)),
-    //   new Wait(0.5),
-    //   new InstantCommand(() -> s_Arm.stopClaw())
-    // ));
+  
 
+    // Roller
 
-    // operator5.onTrue(new SequentialCommandGroup(
-    //   new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.startingPos)),
-    //   new Wait(1.0),
-    //   new InstantCommand(() -> s_Arm.stopClaw())
-    // ));
-    operator4.onTrue(new InstantCommand(() -> s_Arm.spinRollers(1) ));
+    // operator4.onTrue(new InstantCommand(() -> s_Arm.spinRollers(1) ));
+    // operator4.onFalse(new InstantCommand(()-> s_Arm.spinRollers(0) ));
+
+    // operator5.onTrue(new InstantCommand(() -> s_Arm.reverseRollers(1) ));
+    // operator5.onFalse(new InstantCommand(() -> s_Arm.reverseRollers(0) ));
 
 
-    operator6.and(coneTrigger).onTrue(new ArmShelf());
-    operator6.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 0, 0)));
+   // operator6.and(coneTrigger).onTrue(new ArmShelf());
+    //operator6.and(coneTrigger).onTrue(new InstantCommand(() -> s_LED.setColor(255, 0, 0)));
     operator6.and(cubeTrigger).onTrue(new InstantCommand(() -> s_Intake.hingeTo(Constants.IntakeConstants.hingeShoot)));
   
     driverY.onTrue(new InstantCommand(() -> s_SwerveDrive.zeroGyro()));

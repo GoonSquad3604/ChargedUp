@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.revrobotics.AbsoluteEncoder;
@@ -32,7 +33,7 @@ public class Arm extends SubsystemBase {
   private boolean isReadyToRecieve = false;
 
   private CANSparkMax elbow;
-  private CANSparkMax roller;
+  WPI_TalonSRX roller;
 
   private static Arm _instance;
   private AbsoluteEncoder elbowEncoder;
@@ -40,13 +41,16 @@ public class Arm extends SubsystemBase {
   private SparkMaxPIDController elbow_pidController;
 
   private static final int kCPR = 8192;
+  private boolean currFlag = false;
+
+  private static double rollercurrent = 0;
   /** Makes a new Arm */
   public Arm() {
     elbow = new CANSparkMax(Constants.ArmConstants.elbowID, MotorType.kBrushless);
-    // roller = 
+    roller =  new WPI_TalonSRX(Constants.ArmConstants.rollerID);
     elbow.restoreFactoryDefaults();
    
-    roller.restoreFactoryDefaults();
+    
 
     
     elbow.setInverted(true);
@@ -55,7 +59,7 @@ public class Arm extends SubsystemBase {
      elbowEncoder = elbow.getAbsoluteEncoder(Type.kDutyCycle);
      elbowEncoder.setInverted(false);
 
-     elbowEncoder.setZeroOffset(45/360);
+     //elbowEncoder.setZeroOffset(45/360);
 
       // Elbow PID
     elbow_pidController = elbow.getPIDController();
@@ -81,7 +85,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void setElbow(double power) {
-    elbow.set(power * .7);
+    elbow.set(power*0.5);
   }
   
   public void stopElbow() {
@@ -93,11 +97,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void spinRollers(double power) {
-    roller.set(power);
+    roller.set(-power);
   }
 
   public void reverseRollers(double power) {
-    roller.set(-power);
+    roller.set(power);
   }
   
   public void stopClaw(){
@@ -132,8 +136,18 @@ public class Arm extends SubsystemBase {
     return isReadyToRecieve;
   }
 
+  public boolean getCurrentFlag() {
+    return currFlag;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("elbowEncoder", getElbowClicks());
+    rollercurrent = roller.getStatorCurrent();
+    currFlag = (rollercurrent > Constants.ArmConstants.rollerCurrentLimit);
+
+    
+    SmartDashboard.putNumber("roller current", rollercurrent);
+
   }
 }

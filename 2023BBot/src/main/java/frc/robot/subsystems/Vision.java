@@ -5,12 +5,21 @@
 package frc.robot.subsystems;
 
 import java.net.Proxy.Type;
+import java.util.List;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,15 +37,29 @@ public class Vision extends SubsystemBase {
   private double ty;
   private double ta;
 
+  private double[] pose;
+  Transform3d bestCameraToTarget;
+  private int targetID;
+
   private final double cameraHeight = 0.17;
   private final double cameraAngle = Units.degreesToRadians(20);
   private final double targetLowerHeight = 0.59;
   private double distance;
+  AprilTagFieldLayout aprilTagFieldLayout;
 
   /** Creates a new Vision. */
   public Vision() {
     camera = new PhotonCamera("photonvision");
+    try{
+      AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+    }
+    catch(Exception e) {
+      AprilTagFieldLayout aprilTagFieldLayout = null;
+    }
+    Transform3d robotToCam = new Transform3d(new Translation3d(.5,0,.5),new Rotation3d(0,0,0));
 
+
+   PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
   }
 
   public static Vision getInstance(){
@@ -65,7 +88,7 @@ public class Vision extends SubsystemBase {
 
   public void getDistance() {
 
-    distance = Math.pow(3.3, -(ty/16.5)+0.27);
+    //distance = Math.pow(3.3, -(ty/16.5)+0.27);
     
     //distance = PhotonUtils.calculateDistanceToTargetMeters(cameraHeight, targetLowerHeight, cameraAngle, Units.degreesToRadians(ty));
     SmartDashboard.putNumber("Distance", distance);
@@ -76,18 +99,21 @@ public class Vision extends SubsystemBase {
     
     result = camera.getLatestResult();
     hasTarget = result.hasTargets();
+    List<PhotonTrackedTarget> targets = result.getTargets();
 
     if(hasTarget){
       tx = result.getBestTarget().getYaw();
       ty = result.getBestTarget().getPitch();
       ta = result.getBestTarget().getArea();
+      targetID = result.getBestTarget().getFiducialId();
+      bestCameraToTarget = result.getBestTarget().getBestCameraToTarget();
     }
 
     getDistance();
     SmartDashboard.putBoolean("hastarget", hasTarget);
-
     SmartDashboard.putNumber("tx", tx);
     SmartDashboard.putNumber("ty", ty);
     SmartDashboard.putNumber("ta", ta);
+    SmartDashboard.putNumber("targetID",targetID);
   }
 }

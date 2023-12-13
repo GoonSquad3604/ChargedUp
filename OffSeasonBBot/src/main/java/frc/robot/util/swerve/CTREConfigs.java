@@ -40,7 +40,7 @@ public class CTREConfigs {
         SupplyCurrentLimitConfiguration driveSupplyLimit = new SupplyCurrentLimitConfiguration(
             Constants.Swerve.driveEnableCurrentLimit,
             Constants.Swerve.driveContinuousCurrentLimit,
-            Constants.Swerve.drivePEakCurrentLimit,
+            Constants.Swerve.drivePeakCurrentLimit,
             Constants.Swerve.drivePeakCurrentDuration
         );
         

@@ -110,4 +110,10 @@ public final class Trajectories {
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     }
+    public static PathPlannerTrajectory Forward() {
+        return PathPlanner.loadPath(
+                "Forward",
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    }
 }

@@ -22,7 +22,7 @@ public class ArmShelf extends SequentialCommandGroup {
   public ArmShelf() {
     m_Arm = Arm.getInstance();
     addCommands(new ParallelCommandGroup(
-      new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.shelfPos)), 
+      // 
       new InstantCommand(() -> m_Arm.notReadyToRecieve()), 
       new ShoulderTo(Constants.ArmConstants.shoulderShelf), 
       new ElbowTo(Constants.ArmConstants.elbowShelf)

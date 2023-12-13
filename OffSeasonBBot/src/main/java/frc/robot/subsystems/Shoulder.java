@@ -32,7 +32,7 @@ public class Shoulder extends SubsystemBase {
     shoulder1.restoreFactoryDefaults();
     shoulder2.restoreFactoryDefaults();
 
-    shoulder1.setInverted(true);
+    shoulder1.setInverted(false);
     shoulder2.follow(shoulder1, true);
 
     shoulderEncoder = shoulder1.getAbsoluteEncoder(Type.kDutyCycle);

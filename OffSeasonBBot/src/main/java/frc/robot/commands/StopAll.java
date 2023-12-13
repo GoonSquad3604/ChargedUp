@@ -30,7 +30,6 @@ public class StopAll extends InstantCommand {
     m_Intake.setHinge(0, 0);
     m_Intake.stopIntake();
     m_Arm.setElbow(0);
-    m_Arm.moveClaw(0);
     m_Shoulder.stopShoulder();
   }
 }

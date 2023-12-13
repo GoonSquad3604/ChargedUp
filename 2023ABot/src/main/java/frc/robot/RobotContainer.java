@@ -161,9 +161,14 @@ public class RobotContainer {
     // Claw
     operatorY.onTrue(new InstantCommand(() -> s_Intake.setHinge(-.2, 0)));
     operatorY.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
-    operatorX.onTrue(new InstantCommand(() -> s_Intake.setHinge(.2, 0)));
-    operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
-    operatorA.onTrue(new InstantCommand(() -> s_Arm.clawTo(Constants.ArmConstants.autonReady)));
+    //operatorX.onTrue(new InstantCommand(() -> s_Intake.setHinge(.2, 0)));
+    //operatorX.onFalse(new InstantCommand(() -> s_Intake.setHinge(0,0)));
+    operatorX.onTrue(new InstantCommand(() -> s_Arm.moveClaw(-1)));
+    operatorX.onFalse(new InstantCommand(() -> s_Arm.stopClaw()));
+
+    //operatorA.onTrue(new InstantCommand(() -> s_Arm.moveClaw(1)));
+    //operatorA.onFalse(new InstantCommand(() -> s_Arm.stopClaw()));
+
     
 
     // Intake

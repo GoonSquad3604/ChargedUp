@@ -44,13 +44,13 @@ public class Intake extends SubsystemBase {
     stateController = StateController.getInstance();
     toggledUp = true;
     // Hinges
-    leftHinge = new CANSparkMax(Constants.IntakeConstants.leftHingeId, MotorType.kBrushless);
-    rightHinge = new CANSparkMax(Constants.IntakeConstants.rightHingeId, MotorType.kBrushless);
+    rightHinge = new CANSparkMax(Constants.IntakeConstants.leftHingeId, MotorType.kBrushless);
+    leftHinge = new CANSparkMax(Constants.IntakeConstants.rightHingeId, MotorType.kBrushless);
     
     
     leftHinge.restoreFactoryDefaults();
     rightHinge.restoreFactoryDefaults();
-    leftHinge.setInverted(true);
+    leftHinge.setInverted(false);
     
     rightHinge.follow(leftHinge, true);
 
@@ -70,8 +70,8 @@ public class Intake extends SubsystemBase {
     hingePIDController.setI(Constants.IntakeConstants.hingeI);
     hingePIDController.setD(Constants.IntakeConstants.hingeD);
     hingePIDController.setOutputRange(-1.0, 1.0);
-    leftHinge.setClosedLoopRampRate(0.5);
-    rightHinge.setClosedLoopRampRate(0.5);
+    leftHinge.setClosedLoopRampRate(0.9);
+    rightHinge.setClosedLoopRampRate(0.9);
 
 
     intake = new WPI_TalonSRX(Constants.IntakeConstants.intakeId);

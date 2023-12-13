@@ -4,7 +4,7 @@
 
 package frc.robot.util.auton;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
+// import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -21,10 +21,10 @@ public class GoonAutonCommand extends SequentialCommandGroup {
     
   }
 
-  protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
-    this.initialPose = new Pose2d(initialTrajectory.getInitialPose().getTranslation(),
-            initialTrajectory.getInitialState().holonomicRotation);
-  }
+  // protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
+  //   this.initialPose = new Pose2d(initialTrajectory.getInitialPose().getTranslation(),
+  //           initialTrajectory.getInitialState().holonomicRotation);
+  // }
 
   public Pose2d getInitialPose() {
       return initialPose;

@@ -26,7 +26,7 @@ import frc.robot.util.swerve.CTREConfigs;
 public class Robot extends TimedRobot {
 
   private Command m_autonomousCommand;
-  private static CTREConfigs ctreConfigs;
+  public static CTREConfigs ctreConfigs;
 
   private RobotContainer m_robotContainer;
 
@@ -38,16 +38,19 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    ctreConfigs = new CTREConfigs();
+    
     m_robotContainer = new RobotContainer();
 
-    UsbCamera camera = CameraServer.startAutomaticCapture(0);
+
+    //UsbCamera camera = CameraServer.startAutomaticCapture(0);
 
 
-    MjpegServer server = new MjpegServer("serve_USB Camera", 1181);
-    server.setSource(camera);
-    server.setCompression(80);
-    camera.setResolution(320, 240);
-    server.getProperty("fps").set(5);
+    // MjpegServer server = new MjpegServer("serve_USB Camera", 1181);
+    // server.setSource(camera);
+    // server.setCompression(80);
+    // camera.setResolution(320, 240);
+    // server.getProperty("fps").set(5);
     
   }
 

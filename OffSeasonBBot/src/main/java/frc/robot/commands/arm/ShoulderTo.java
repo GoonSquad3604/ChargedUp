@@ -6,7 +6,7 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.LEDS.SetLedsYellow;
+import frc.robot.commands.LEDs.SetLedsYellow;
 import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

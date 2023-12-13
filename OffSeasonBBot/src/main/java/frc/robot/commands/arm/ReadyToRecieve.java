@@ -26,8 +26,7 @@ public class ReadyToRecieve extends SequentialCommandGroup {
     m_Arm = Arm.getInstance();
       addCommands(
         new ShoulderTo(119),
-        new InstantCommand(() -> m_Arm.elbowTo((Constants.ArmConstants.readyElbow))),
-        new InstantCommand(() -> m_Arm.clawTo(Constants.ArmConstants.startingPos))
+        new InstantCommand(() -> m_Arm.elbowTo((Constants.ArmConstants.readyElbow)))
       );
   }
 }

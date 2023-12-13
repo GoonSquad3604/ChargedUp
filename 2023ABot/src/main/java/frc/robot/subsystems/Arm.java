@@ -212,6 +212,7 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("ElbowEncoder", getElbowClicks());
     SmartDashboard.putNumber("ClawEncoder", getClawClicks());
+    SmartDashboard.putNumber("claw current", claw.getOutputCurrent());
     
     
   }
